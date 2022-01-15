@@ -104,11 +104,15 @@ Temporary Items
 .apdisk
 
 ### VisualStudioCode ###
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+### Glass ###
+.Glass
 
 ### Windows ###
 # Windows thumbnail cache files
