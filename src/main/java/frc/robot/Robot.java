@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.drivetrain.DriveTrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -17,13 +18,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
 
-  public static XboxController driverController = new XboxController(0);
-  public static XboxController operatorController = new XboxController(1);
+  public static XboxController driverController;
+  public static XboxController operatorController;
 
+  public static DriveTrain dt;
+ // public static Climb climb;
 
 
   @Override
   public void robotInit() {
+    driverController = new XboxController(0);
+    operatorController = new XboxController(1);
+
+    dt = new DriveTrain();
+//    climb = new Climb();
+
 
 
   }
@@ -65,15 +74,22 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    dt.run();
+
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    System.out.println("Disabled Start");
+  }
 
   /** This function is called periodically when disabled. */
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    System.out.println("Disabled Running");
+  }
 
   /** This function is called once when test mode is enabled. */
   @Override
