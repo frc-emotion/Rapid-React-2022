@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically when disabled. */
   @Override
   public void disabledPeriodic() {
-    System.out.println("Disabled Running");
+ //   System.out.println("Disabled Running");
   }
 
   /** This function is called once when test mode is enabled. */
