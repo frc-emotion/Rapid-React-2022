@@ -1,7 +1,6 @@
 package frc.robot;
 
 import javax.swing.Action;
-/*
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
@@ -16,7 +15,6 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
-/*
 public class Climb {
     // Integrated Falcon 500 TalonFX
     MotorControllerGroup FalconClimb;
@@ -63,11 +61,6 @@ public class Climb {
         else if (lJoystickPos < -Constants.CLIMB_THRESHOLD){
             RetractClimb();
         }
-        /*
-        else{
-            FalconClimb.set(0);
-        }*/
-/*
     }
 
     public void PneumaticModes(){
