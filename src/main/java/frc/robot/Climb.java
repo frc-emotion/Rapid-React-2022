@@ -97,16 +97,13 @@ public class Climb {
     public void RetractClimb() {
         FalconClimb.set(-Constants.CLIMB_MOTOR_SPEED);
     }
-
-*/
-  //  public void ClampSpoolPos() {
-        /*
+    /*  public void ClampSpoolPos() {
+   
             Get Encoder Pos
             Test Postition Control
             Shuffleboard
 
-        */
-/*
+
     }
 
     public void Shuffleboard(){
