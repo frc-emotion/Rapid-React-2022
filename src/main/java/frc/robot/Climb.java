@@ -44,6 +44,9 @@ public class Climb {
         TalonB.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
         Hooked = false;
+        
+        //During Robot Init
+        Contract();
     }
 
     // Mainloop
@@ -64,7 +67,7 @@ public class Climb {
     }
 
     public void PneumaticModes(){
-        Contract();
+    
 
         if (Robot.operatorController.getLeftBumper() && !Hooked){
             toggleStates();
