@@ -8,6 +8,10 @@ import java.sql.Driver;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DriveCommand;
+import frc.robot.subsystems.Drive;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -17,7 +21,11 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class Robot extends TimedRobot {
 
-  public static XboxController driveController;
+  public static XboxController driverController;
+  public static RobotContainer container;
+
+  Command teleopCommand;
+  Command autoCommand;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -25,7 +33,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    driveController = new XboxController(0);
+    driverController = new XboxController(0);
+    container = new RobotContainer();
+    
+
   }
 
   /**
@@ -36,7 +47,10 @@ public class Robot extends TimedRobot {
    * SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+    CommandScheduler.getInstance().run();
+
+  }
 
   /**
    * This autonomous (along with the chooser code above) shows how to select between different
@@ -50,6 +64,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    /**
+     * autoCommand = container.getAutonomousCommand();
+     * 
+     * if(autoCommand != null){
+     *    autoCommand.schedule();
+     * }
+     */
+
+    
   }
 
   /** This function is called periodically during autonomous. */
@@ -60,7 +83,18 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    teleopCommand = container.getTeleopCommand();
+    /**
+     *  if (autoCommand != null){
+     *    autoCommand.cancel();
+     *    teleopCommand.schedule();
+     *  }
+     */
+
+    teleopCommand.schedule();
+
+  }
 
   /** This function is called periodically during operator control. */
   @Override

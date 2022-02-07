@@ -14,11 +14,13 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import frc.robot.subsystem.Drive;
+import frc.robot.commands.DriveCommand;
+import frc.robot.subsystems.Drive;
 
 public class RobotContainer {
 
   private final Drive drive = new Drive();
+  DriveCommand drivetrain = new DriveCommand(drive);
 
   public RobotContainer() {
     // Configure the button bindings
@@ -27,6 +29,11 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
   }
+
+  public Command getTeleopCommand(){
+    return drivetrain;
+  }
+
 
 /**
   public Command getAutonomousCommand() {
