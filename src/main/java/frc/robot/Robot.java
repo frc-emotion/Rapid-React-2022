@@ -24,7 +24,7 @@ public class Robot extends TimedRobot {
   public static XboxController operatorController;
 
   public static DriveTrain dt;
- // public static Climb climb;
+  public static Climb climb;
 
 
   @Override
@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
     driverController = new XboxController(0);
     operatorController = new XboxController(1);
     dt = new DriveTrain();
-//    climb = new Climb();
+    climb = new Climb();
 
 
 
@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     dt.run();
-
+    climb.run();
   }
 
   /** This function is called once when the robot is disabled. */

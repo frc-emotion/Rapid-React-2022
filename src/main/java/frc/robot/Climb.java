@@ -55,6 +55,9 @@ public class Climb {
 
         //
         Hooked = false;
+        
+        //During Robot Init
+        Contract();
     }
 
     // Mainloop
