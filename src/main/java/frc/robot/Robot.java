@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -29,7 +31,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     driverController = new XboxController(0);
     operatorController = new XboxController(1);
-
     dt = new DriveTrain();
 //    climb = new Climb();
 
