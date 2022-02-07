@@ -56,8 +56,8 @@ public class Climb {
         //
         Hooked = false;
         
-        //During Robot Init
         Contract();
+        //During Robot Init
     }
 
     // Mainloop
@@ -106,6 +106,10 @@ public class Climb {
         Actuator.set(Value.kForward);
     }
 
+    public void Contract(){
+        ActuatorR.set(Value.kReverse);
+        ActuatorL.set(Value.kReverse);
+    }
     public void Contract(DoubleSolenoid Actuator) {
         Actuator.set(Value.kReverse);
     }

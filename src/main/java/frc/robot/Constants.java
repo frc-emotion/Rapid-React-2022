@@ -3,6 +3,7 @@ package frc.robot;
 public class Constants {
    
     //USB ports 
+    public static final int DRIVER_PORT = 0;
     public static int OPERATOR_PORT = 1;
 
     //controller constants
@@ -19,8 +20,7 @@ public class Constants {
     
     //intake constants 
     public static double INTAKE_SPEED = 0.8; //from IRC 
-    public static final int DRIVER_PORT = 0;
-    public static final int OPERATOR_PORT = 1;
+    
 
     public static final int[] DRIVE_RIGHT_PORTS = {1, 2 ,3};
     public static final int[] DRIVE_LEFT_PORTS = {4, 5, 6};
