@@ -4,9 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.drivetrain.DriveTrain;
 
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -19,19 +23,24 @@ import edu.wpi.first.wpilibj.XboxController;
 public class Robot extends TimedRobot {
 
   public static XboxController operatorController;
-
+  public static XboxController driverController;
   public static Intake intake;
 
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
+  public static DriveTrain dt;
+  public static Climb climb;
+
+
   @Override
   public void robotInit() {
   
     operatorController = new XboxController(Constants.OPERATOR_PORT);
-
+    driverController = new XboxController(0);
     intake = new Intake();
+    dt = new DriveTrain();
+    climb = new Climb();
+
+
+
   }
 
   /**
@@ -56,11 +65,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+
   }
 
   /** This function is called once when teleop is enabled. */
@@ -71,15 +82,21 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     intake.run();
+    dt.run();
+    climb.run();
   }
 
   /** This function is called once when the robot is disabled. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    System.out.println("Disabled Start");
+  }
 
   /** This function is called periodically when disabled. */
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+ //   System.out.println("Disabled Running");
+  }
 
   /** This function is called once when test mode is enabled. */
   @Override
