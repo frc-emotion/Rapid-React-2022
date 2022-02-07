@@ -84,7 +84,10 @@ public class Drive extends SubsystemBase {
                 leftEncoder.getPosition(),
                 rightEncoder.getPosition());
 
-        System.out.println(getPose());
+    }
+
+    public void updatedField(){
+        //Used Field 2D on shuffleboard when/if basic odometry works
     }
 
     public Pose2d getPose() {

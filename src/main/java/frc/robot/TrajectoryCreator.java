@@ -20,14 +20,17 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
  * Abstracted Trajectory generation for for ease of use in
  * Robot class
  * 
- * <p> Need to Add RamseteCommand and OdometryReset<p>
+ * <p>
+ * TODO: Need to Add RamseteCommand and OdometryReset
+ * <p>
  */
 public class TrajectoryCreator {
     public TrajectoryCreator() {
     }
 
     /**
-     * Create Trajectories to be run using Ramsete Command.(Use during robot initialization)
+     * Create Trajectories to be run using Ramsete Command.(Use during robot
+     * initialization)
      * 
      * @param filename       Input a file name Ex: "ExampleTrajectory.wpilib.json"
      * @param TrajectoryName Input a name for the Trajectory (Can be different than
@@ -51,29 +54,31 @@ public class TrajectoryCreator {
         return trajectory;
 
     }
+
     /**
      * Create Trajectory config
-     * @param startVelocity Input starting velocity in MPS
-     * @param endVelocity Input ending velocity in MPS
-     * @param reversed Reverse Trajectory?
-     * @param kMaxMPS     Input this Constant
-     * @param kMaxAccelMPSsquared   Input this Constant
-     * @param kinematics Input DiffDrive Kinematics Constant
-     * @param voltageConstraint Input Voltage Constraint
+     * 
+     * @param startVelocity       Input starting velocity in MPS
+     * @param endVelocity         Input ending velocity in MPS
+     * @param reversed            Reverse Trajectory?
+     * @param kMaxMPS             Input this Constant
+     * @param kMaxAccelMPSsquared Input this Constant
+     * @param kinematics          Input DiffDrive Kinematics Constant
+     * @param voltageConstraint   Input Voltage Constraint
      * @return A trajectoryConfig for manual trajectory generation.
      */
 
     public TrajectoryConfig configTrajectory(
-        double startVelocity, double endVelocity, boolean reversed, double kMaxMPS, double kMaxAccelMPSsquared, 
-        DifferentialDriveKinematics kinematics, DifferentialDriveVoltageConstraint voltageConstraint){
+            double startVelocity, double endVelocity, boolean reversed, double kMaxMPS, double kMaxAccelMPSsquared,
+            DifferentialDriveKinematics kinematics, DifferentialDriveVoltageConstraint voltageConstraint) {
         TrajectoryConfig config = new TrajectoryConfig(
-            kMaxMPS, kMaxAccelMPSsquared)
-            .setKinematics(kinematics)
-            .setReversed(reversed)
-            .setStartVelocity(startVelocity)
-            .setEndVelocity(endVelocity)
-            .addConstraint(voltageConstraint);
-        
+                kMaxMPS, kMaxAccelMPSsquared)
+                        .setKinematics(kinematics)
+                        .setReversed(reversed)
+                        .setStartVelocity(startVelocity)
+                        .setEndVelocity(endVelocity)
+                        .addConstraint(voltageConstraint);
+
         return config;
     }
 
