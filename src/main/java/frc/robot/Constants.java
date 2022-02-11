@@ -51,5 +51,6 @@ public class Constants {
     public static final int BOTTOMSENSOR = 0;
     public static final int TOPSENSOR = 1;
     public static final double INDEXINGSPEED = 0.5;
+    public static final double SHOOTINDEXINGSPEED = 0.75;
     
 }

@@ -34,12 +34,14 @@ public class Indexer {
     }
 
     public void run() {
-        if(!topsensor.get()) {
+        if(Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
+            indexerUp(Constants.SHOOTINDEXSPEED);
+        } else if(!topsensor.get()) {
             indexerStop();
         } else if(Robot.operatorController.getBButtonPressed()) {
-            indexerUp();
+            indexerUp(Constants.INDEXINGSPEED);
         } else if(!bottomsensor.get()) {
-            indexerUp();
+            indexerUp(Constants.INDEXINGSPEED);
         } else {
             indexerStop();
         }
@@ -48,12 +50,12 @@ public class Indexer {
 
     }
 
-    public void indexerUp() {
-        TalonA.set(Constants.INDEXINGSPEED);
+    public void indexerUp(double speed) {
+        TalonA.set(speed);
     }
 
     public void indexerStop() {
-        TalonA.set(Constants.INDEXINGSPEED);
+        TalonA.set(0);
     }
 
     public void updateSmartDashboard() {
