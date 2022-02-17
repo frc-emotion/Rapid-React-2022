@@ -4,8 +4,8 @@ import com.team2568.frc2022.Registers;
 
 /**
  * Subsystems should have one instance and be registered to the SubsystemManager
- * instance. Outputs (Motors) should not be set until the setOutput call to
- * avoid glitches during computation.
+ * instance. Outputs (motors and pneumatics) should not be set until the
+ * setOutput call to avoid glitches during computation.
  * 
  * @author Ryan Chaiyakul
  */
@@ -29,18 +29,6 @@ public abstract class Subsystem {
      */
     public Runnable getRunnable() {
         return mRunnable;
-    }
-
-    /**
-     * Helper function to limit speed inputs from [-1, 1]
-     */
-    public double applyLimit(double speed) {
-        if (speed > 1) {
-            return 1;
-        } else if (speed < -1) {
-            return -1;
-        }
-        return speed;
     }
 
     /**

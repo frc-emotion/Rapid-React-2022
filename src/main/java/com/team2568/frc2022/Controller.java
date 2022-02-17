@@ -42,6 +42,12 @@ public class Controller extends XboxController {
         return Constants.kTriggerThreshold <= Math.abs(triggerAxis);
     }
 
+    /**
+     * Private method that removes joystick noise around 0
+     * 
+     * @param deadzone
+     * @return
+     */
     private double getDeadzone(double deadzone) {
         if (Math.abs(deadzone) < Constants.kJoystickDeadzone) {
             return 0;

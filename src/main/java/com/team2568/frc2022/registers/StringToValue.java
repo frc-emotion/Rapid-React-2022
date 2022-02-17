@@ -3,9 +3,7 @@ package com.team2568.frc2022.registers;
 import com.team2568.frc2022.states.ClimbState;
 import com.team2568.frc2022.states.DriveState;
 import com.team2568.frc2022.states.IntakeState;
-import com.team2568.frc2022.states.PivotState;
 import com.team2568.frc2022.states.ShooterState;
-import com.team2568.frc2022.states.TubeState;
 
 public interface StringToValue<T> {
     public T convert(String s);
@@ -49,20 +47,6 @@ public interface StringToValue<T> {
         @Override
         public IntakeState convert(String s) {
             return IntakeState.valueOf(s);
-        }
-    };
-
-    public static StringToValue<TubeState> kTubeState = new StringToValue<TubeState>() {
-        @Override
-        public TubeState convert(String s) {
-            return TubeState.valueOf(s);
-        }
-    };
-
-    public static StringToValue<PivotState> kPivotState = new StringToValue<PivotState>() {
-        @Override
-        public PivotState convert(String s) {
-            return PivotState.valueOf(s);
         }
     };
 
