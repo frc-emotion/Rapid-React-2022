@@ -1,10 +1,11 @@
 package com.team2568.frc2022;
 
 /**
- * Static collection of constants. Check the google spreadsheet below for a more
- * readable version
+ * Static collection of constants. Check the <a href=
+ * "https://docs.google.com/spreadsheets/d/1i3ux4MvYPfBhqnBxSJhU4P-CUI5KfEUIO1yJBmXWYIk/edit?usp=sharing">
+ * Google spreadsheet </a> for readable version.
  * 
- * https://docs.google.com/spreadsheets/d/1i3ux4MvYPfBhqnBxSJhU4P-CUI5KfEUIO1yJBmXWYIk/edit?usp=sharing
+ * @author Ryan Chaiyakul
  */
 public class Constants {
 	// Runnable Constants
@@ -21,10 +22,19 @@ public class Constants {
 	// Motor Constants
 
 	// SparkMax Constants
-	public static final int kSparkCurrentLimit = 40;
+	public static final int kSparkSmartCurrentLimit = 35;
+	public static final int kSparkSecondaryCurrentLimit = 40;
 
-	// TalonSRX Constants
-	public static final int kTalonSRXCurrentLimit = 60;
+	// CTRE Constants
+
+	// TalonFX Constants
+	public static final double kTalonSupplyCurrentLimit = 60;
+	public static final double kTalonSupplyTriggerCurrent = 50;
+	public static final double kTalonSupplyTriggerTime = 0.1;
+
+	public static final double kTalonStatorCurrentLimit = 55;
+	public static final double kTalonStatorTriggerCurrent = 45;
+	public static final double kTalonStatorTriggerTime = 0.1;
 
 	// CAN Ports
 
@@ -33,14 +43,13 @@ public class Constants {
 	public static final int[] kDriveRightPorts = { 4, 5, 6 };
 
 	public static final int kIntakePort = 7;
-
+	public static final int kShooterHoodPort = 8;
 	// TalonFXs
-	public static final int kClimbLeftPort = 8;
-	public static final int kClimbRightPort = 9;
+	public static final int kShooterLeftPort = 9;
+	public static final int kShooterRightPort = 10;
 
-	public static final int kShooterLeftPort = 10;
-	public static final int kShooterRightPort = 11;
-	public static final int kShooterHoodPort = 12;
+	public static final int kClimbLeftPort = 11;
+	public static final int kClimbRightPort = 12;
 
 	public static final int kIndexerPort = 13;
 

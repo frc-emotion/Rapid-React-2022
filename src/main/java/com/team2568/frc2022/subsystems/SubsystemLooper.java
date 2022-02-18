@@ -17,7 +17,7 @@ public class SubsystemLooper extends ILooper {
 
     private SubsystemLooper() {
         super("Subsystem");
-        registerRunnables();
+        registerRunnables(Shooter.getInstance().getRunnable());
 
         registerUpdateRegisters();
     }

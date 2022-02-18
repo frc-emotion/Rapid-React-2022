@@ -3,9 +3,10 @@ package com.team2568.frc2022;
 import edu.wpi.first.wpilibj.XboxController;
 
 /**
- * Cleans up the API to the XboxController by applying a deadzones (Hand fixing
- * fixed on WPILIB 2022). In the future, inputs may be buffered so that race
- * conditions will not occur during the compute phase of the subsystems.
+ * Cleans up the API to the {@link edu.wpi.first.wpilibj.XboxController} by
+ * applying a deadzones (Hand fixing fixed on WPILIB 2022). In the future,
+ * inputs may be buffered so that race conditions will not occur during the
+ * compute phase of the subsystems.
  * 
  * @author Ryan Chaiyakul
  */
@@ -19,14 +20,18 @@ public class Controller extends XboxController {
     }
 
     /**
-     * Returns whether the left trigger is pressed beyond the deadzone
+     * Returns whether the left trigger is pressed beyond the deadzone. Converts
+     * {@link edu.wpi.first.wpilibj.XboxController#getLeftTriggerAxis()} to a
+     * boolean.
      */
     public boolean getLeftTrigger() {
         return getTriggerDeadzone(getLeftTriggerAxis());
     }
 
     /**
-     * Returns whether the right trigger is pressed beyond the deadzone
+     * Returns whether the left trigger is pressed beyond the deadzone. Converts
+     * {@link edu.wpi.first.wpilibj.XboxController#getRightTriggerAxis()} to a
+     * boolean.
      */
     public boolean getRightTrigger() {
         return getTriggerDeadzone(getRightTriggerAxis());
