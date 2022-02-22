@@ -44,6 +44,7 @@ public class Constants {
 
     public static final int CLIMB_PNEUMATICS[]= {0, 1, 2, 3, 4, 5, 6, 7};
 
+    
     //Indexer Constants
     public static final double PULLEYDIAMETER = 1.504; //inches
     public static final double PULLEYCIRCUMFRENCE = 4.724955351; //inches
