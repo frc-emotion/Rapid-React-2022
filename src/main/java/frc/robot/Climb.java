@@ -12,6 +12,13 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
+/**
+ * 
+ * 
+ * 
+ * @author Karan Thakkar
+ */
+
 public class Climb {
     // Declare Integrated Falcon 500 TalonFX
     MotorControllerGroup FalconClimb;
@@ -56,19 +63,13 @@ public class Climb {
         //
         Hooked = false;
         
-        Contract();
+        ActuatorR.set(Value.kReverse);
+        ActuatorL.set(Value.kReverse);
         //During Robot Init
     }
 
     // Mainloop
     public void run() {
-        Telescop();
-        PneumaticModes();
-        RunShuffleboard();
-    }
-
-    // Climb Loop
-    public void Telescop() {
         double lJoystickPos = Robot.operatorController.getLeftY();
 
         if (lJoystickPos > Constants.CLIMB_THRESHOLD) {
@@ -78,24 +79,20 @@ public class Climb {
         } else {
             PauseClimb(Constants.CLIMB_TARGET_POS);
         }
-    }
-
-    // Solenoid Loop
-    public void PneumaticModes() {
-        Contract(ActuatorL);
-        Contract(ActuatorR);
-
+        
         if (Robot.operatorController.getLeftBumper() && !Hooked) {
             toggleStates(ActuatorL);
             toggleStates(ActuatorR);
         }
-
         // for testing purposes
         else if (Robot.operatorController.getRightBumper()) {
             Release(ActuatorR);
             Release(ActuatorL);
         }
+
+        RunShuffleboard();
     }
+
 
     // Methods for Motors/Pneumatics
     private void toggleStates(DoubleSolenoid Actuator) {
@@ -106,10 +103,6 @@ public class Climb {
         Actuator.set(Value.kForward);
     }
 
-    public void Contract(){
-        ActuatorR.set(Value.kReverse);
-        ActuatorL.set(Value.kReverse);
-    }
     public void Contract(DoubleSolenoid Actuator) {
         Actuator.set(Value.kReverse);
     }
@@ -148,6 +141,14 @@ public class Climb {
         else if(Hooked && getPosition() < Constants.CLIMB_ZERO_POS){
             ZeroEncoders();
         }
+    }
+
+    public void returnRevs(){
+
+    }
+
+    public void setRev(){
+
     }
 
     private void ZeroEncoders(){

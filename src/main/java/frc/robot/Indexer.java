@@ -3,7 +3,7 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.DigitalSource.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 **/
 public class Indexer {
 
-    WPI_TalonFX Falcon;
+    WPI_TalonFX TalonA;
     DigitalInput bottomsensor, topsensor;
 
     public Indexer() {
@@ -35,7 +35,7 @@ public class Indexer {
 
     public void run() {
         if(Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
-            indexerUp(Constants.SHOOTINDEXSPEED);
+            indexerUp(Constants.SHOOTINDEXINGSPEED);
         } else if(!topsensor.get()) {
             indexerStop();
         } else if(Robot.operatorController.getBButtonPressed()) {
