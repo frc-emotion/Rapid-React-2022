@@ -73,8 +73,7 @@ public class Climb {
         ActuatorL.set(Value.kReverse);
         //During Robot Init
 
-       // Contract();
-        // During Robot Init
+        ZeroEncoders();
     }
 
     // Mainloop
@@ -100,6 +99,7 @@ public class Climb {
         }
 
         RunShuffleboard();
+      
     }
 
 
@@ -153,12 +153,20 @@ public class Climb {
         }
     }
 
-    public void returnRevs(){
+    public double returnRevs(){
+        //TalonFx Units Per Rev (NON QUADRATURE) = 2048 
+        return getPosition() / 2048;
+
 
     }
 
-    public void setRev(){
+    public void setRev(double revs){
+        double setPoint = revs * 2048;
 
+        //get pos once
+        double currentPos = getPosition();
+
+        TalonA.set(ControlMode.Position, currentPos + setPoint);
     }
 
     private void ZeroEncoders(){

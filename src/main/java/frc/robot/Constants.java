@@ -38,7 +38,7 @@ public class Constants {
     public static final double CLIMB_MOTOR_SPEED = 0.85;
     public static final double CLIMB_TARGET_POS = 30; //In revolutions
     public static final double CLIMB_ZERO_POS = 0;
-    public static final double CLIMB_kP = 0;
+    public static final double CLIMB_kP = 1;
     public static final double CLIMB_kI = 0;
     public static final double CLIMB_kD = 0;
 
