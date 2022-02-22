@@ -42,8 +42,7 @@ public class Constants {
     public static final double CLIMB_kI = 0;
     public static final double CLIMB_kD = 0;
 
-<<<<<<< Updated upstream
-    public static final int CLIMB_PNEUMATICS[]= {0, 1, 2, 3};
+    public static final int CLIMB_PNEUMATICS[]= {0, 1, 2, 3, 4, 5, 6, 7};
 
     //Indexer Constants
     public static final double PULLEYDIAMETER = 1.504; //inches
@@ -53,8 +52,6 @@ public class Constants {
     public static final int TOPSENSOR = 1;
     public static final double INDEXINGSPEED = 0.5;
     public static final double SHOOTINDEXINGSPEED = 0.75;
-=======
-    public static final int CLIMB_PNEUMATICS[]= {0, 1, 2, 3, 4, 5, 6, 7};
->>>>>>> Stashed changes
+    
     
 }

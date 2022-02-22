@@ -23,8 +23,8 @@ public class Climb {
     // Declare Integrated Falcon 500 TalonFX
     MotorControllerGroup FalconClimb;
     WPI_TalonFX TalonA, TalonB;
-    DoubleSolenoid ActuatorL;
-    DoubleSolenoid ActuatorR;
+    DoubleSolenoid ActuatorL, ActuatorR;
+    //
 
     // Once Hooked, release pressure, and zero encoderPos
     private boolean Hooked;
@@ -32,11 +32,16 @@ public class Climb {
     public Climb() {
 
         // Init Double Solenoids, Falcons
-        ActuatorL = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PNEUMATICS[0],
-                Constants.CLIMB_PNEUMATICS[1]);
+        ActuatorL = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0,1);
+              
         ActuatorR = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PNEUMATICS[2],
                 Constants.CLIMB_PNEUMATICS[3]);
-
+    /** 
+        ActuatorF = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PNEUMATICS[4],
+                Constants.CLIMB_PNEUMATICS[5]);
+        ActuatorG = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PNEUMATICS[6],
+                Constants.CLIMB_PNEUMATICS[7]);
+    */
         TalonA = new WPI_TalonFX(Constants.CLIMB_MOTORS_ID[0]);
         TalonB = new WPI_TalonFX(Constants.CLIMB_MOTORS_ID[1]);
 
@@ -44,8 +49,8 @@ public class Climb {
         TalonB.setNeutralMode(NeutralMode.Brake);
 
         // Remove and Add Factort Default Settings
-        TalonA.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 55, 10, 0.5));
-        TalonB.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 55, 10, 0.5));
+        TalonA.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 10, 0.5));
+        TalonB.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 10, 0.5));
 
         TalonB.follow(TalonA);
 
@@ -57,8 +62,9 @@ public class Climb {
         TalonA.config_kI(0, Constants.CLIMB_kI);
         TalonA.config_kD(0, Constants.CLIMB_kD);
 
-        //Output Encoder Values
+        // Output Encoder Values
         SmartDashboard.putNumber("Climb-Encoder Rev", 0);
+        SmartDashboard.putNumber("Climb-Encoder VELO", 0);
 
         //
         Hooked = false;
@@ -66,6 +72,9 @@ public class Climb {
         ActuatorR.set(Value.kReverse);
         ActuatorL.set(Value.kReverse);
         //During Robot Init
+
+       // Contract();
+        // During Robot Init
     }
 
     // Mainloop
@@ -100,7 +109,7 @@ public class Climb {
     }
 
     private void Extend(DoubleSolenoid Actuator) {
-        Actuator.set(Value.kForward);
+        Actuator.set(Value.kReverse);
     }
 
     public void Contract(DoubleSolenoid Actuator) {
@@ -114,15 +123,14 @@ public class Climb {
     private void ExtendClimb(double target) {
         TalonA.set(ControlMode.Position, target);
         PauseClimb(target);
-        //TalonA.set(Constants.CLIMB_MOTOR_SPEED);
+        // TalonA.set(Constants.CLIMB_MOTOR_SPEED);
 
-        
     }
 
     private void RetractClimb(double target) {
         TalonA.set(ControlMode.Position, -target);
         PauseClimb(target);
-       // TalonA.set(-Constants.CLIMB_MOTOR_SPEED);
+        // TalonA.set(-Constants.CLIMB_MOTOR_SPEED);
     }
 
     private void stopClimb() {
@@ -133,12 +141,14 @@ public class Climb {
     public double getPosition() {
         return TalonA.getSelectedSensorPosition();
     }
+    public double getVel() {
+        return TalonA.getSelectedSensorVelocity();
+    }
 
     public void PauseClimb(double targetPos) {
         if (getPosition() > targetPos && !Hooked) {
             stopClimb();
-        }
-        else if(Hooked && getPosition() < Constants.CLIMB_ZERO_POS){
+        } else if (Hooked && getPosition() < Constants.CLIMB_ZERO_POS) {
             ZeroEncoders();
         }
     }
@@ -158,6 +168,7 @@ public class Climb {
 
     public void RunShuffleboard() {
         SmartDashboard.putNumber("Climb-Encoder Rev", getPosition());
+        SmartDashboard.putNumber("Climb-Encoder VELO", getVel());
     }
 
 }
