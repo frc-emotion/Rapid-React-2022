@@ -60,6 +60,10 @@ public class Drive extends SubsystemBase {
             spark.setIdleMode(IdleMode.kBrake);
         }
 
+        rsparkA.setInverted(true);
+        rsparkB.setInverted(true);
+        rsparkC.setInverted(true);
+
         // Velocity Conversions
         leftEncoder.setVelocityConversionFactor((1/Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
         rightEncoder.setVelocityConversionFactor((1/Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
@@ -123,7 +127,7 @@ public class Drive extends SubsystemBase {
 
     public void tankDriveVolts(double leftVolts, double rightVolts) {
         leftGroup.setVoltage(leftVolts);
-        rightGroup.setVoltage(-rightVolts);
+        rightGroup.setVoltage(rightVolts);
         drive.feed();
     }
 
@@ -140,7 +144,7 @@ public class Drive extends SubsystemBase {
     }
 
     public double getTurnRate() {
-        return -gyro.getRate();
+        return gyro.getRate();
     }
 
     public void teleopTank() {
