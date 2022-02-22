@@ -79,7 +79,7 @@ public class Climb {
     // Mainloop
     public void run() {
         double lJoystickPos = Robot.operatorController.getLeftY();
-
+        
         if (lJoystickPos > Constants.CLIMB_THRESHOLD) {
             ExtendClimb(Constants.CLIMB_TARGET_POS);
         } else if (lJoystickPos < -Constants.CLIMB_THRESHOLD) {
