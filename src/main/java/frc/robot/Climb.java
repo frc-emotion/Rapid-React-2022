@@ -64,7 +64,7 @@ public class Climb {
 
         // Output Encoder Values
         SmartDashboard.putNumber("Climb-Encoder Rev", 0);
-        SmartDashboard.putNumber("Climb-Encoder VELO", 0);
+        SmartDashboard.putNumber("Climb-Encoder Velocity", 0);
 
         //
         Hooked = false;
@@ -98,7 +98,7 @@ public class Climb {
             Release(ActuatorL);
         }
 
-        RunShuffleboard();
+        RunSmartDash();
       
     }
 
@@ -174,7 +174,7 @@ public class Climb {
         TalonB.setSelectedSensorPosition(0);
     }
 
-    public void RunShuffleboard() {
+    public void RunSmartDash() {
         SmartDashboard.putNumber("Climb-Encoder Rev", getPosition());
         SmartDashboard.putNumber("Climb-Encoder VELO", getVel());
     }

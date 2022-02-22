@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
 
   public static DriveTrain dt;
   public static Climb climb;
+  public static Indexer indexer;
 
 
   @Override
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
     operatorController = new XboxController(Constants.OPERATOR_PORT);
     driverController = new XboxController(0);
     intake = new Intake();
+    indexer = new Indexer();
     dt = new DriveTrain();
     climb = new Climb();
 
@@ -84,6 +86,7 @@ public class Robot extends TimedRobot {
     intake.run();
     dt.run();
     climb.run();
+    indexer.run();
   }
 
   /** This function is called once when the robot is disabled. */
