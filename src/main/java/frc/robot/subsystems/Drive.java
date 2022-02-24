@@ -147,6 +147,13 @@ public class Drive extends SubsystemBase {
         return gyro.getRate();
     }
 
+    public void run(){
+        if(Robot.driverController.getRightStickButton()){
+            invert = !invert;
+        }
+        teleopTank();
+    }
+
     public void teleopTank() {
         // constants to easily configure if drive is opposite
         int constR = 1, constL = 1;

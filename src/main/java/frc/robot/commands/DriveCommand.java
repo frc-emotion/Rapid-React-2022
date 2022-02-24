@@ -21,7 +21,7 @@ public class DriveCommand extends CommandBase{
 
     @Override 
     public void execute(){
-        drivetrain.teleopTank();
+        drivetrain.run();
     }
 
     @Override
