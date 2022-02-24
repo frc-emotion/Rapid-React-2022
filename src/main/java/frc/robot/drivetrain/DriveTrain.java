@@ -53,6 +53,10 @@ public class DriveTrain {
 
         drive = new DifferentialDrive(leftGroup, rightGroup);
 
+        rsparkA.setInverted(true);
+        rsparkB.setInverted(true);
+        rsparkC.setInverted(true);
+
         this.invert = false;
     }
 
