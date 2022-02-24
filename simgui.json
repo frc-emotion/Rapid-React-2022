@@ -11,6 +11,7 @@
     },
     "windows": {
       "/SmartDashboard/Field": {
+        "image": "C:\\Users\\Karan\\Downloads\\2022-field.png",
         "window": {
           "visible": true
         }

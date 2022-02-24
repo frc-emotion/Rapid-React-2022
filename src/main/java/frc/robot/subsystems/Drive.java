@@ -5,18 +5,25 @@ import edu.wpi.first.wpilibj2.command.Command;
 import com.revrobotics.RelativeEncoder;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVPhysicsSim;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import java.util.ArrayList;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.simulation.ADXRS450_GyroSim;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.SimDeviceSim;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,19 +43,46 @@ public class Drive extends SubsystemBase {
 
     private final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
 
+    private final DifferentialDrivetrainSim driveSim = new DifferentialDrivetrainSim(
+        DCMotor.getNEO(3),    
+        Constants.kDriveGearRatio,    
+        5.17,                     
+        55.9,                   
+        Units.inchesToMeters(3), 
+        0.69,                 
+      
+        // The standard deviations for measurement noise:
+        // x and y:          0.001 m
+        // heading:          0.001 rad
+        // l and r velocity: 0.1   m/s
+        // l and r position: 0.005 m
+        VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005)
+    );
+
     private final RelativeEncoder leftEncoder = lsparkA.getEncoder();
     private final RelativeEncoder rightEncoder = rsparkA.getEncoder();
+    
 
-     double lEnconder = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+    //Custom Devices Include CANSparkMax Integrated Encoders
+    int m1 = SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [3]");
 
-     
+    SimDouble m1_encoderPos = new SimDouble(SimDeviceDataJNI.getSimValueHandle(m1, "Position"));
+    SimDouble m1_encoderVel = new SimDouble(SimDeviceDataJNI.getSimValueHandle(m1, "Velocity"));
 
+    int m2 = SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [6]");
+
+    SimDouble m2_encoderPos = new SimDouble(SimDeviceDataJNI.getSimValueHandle(m1, "Position"));
+    SimDouble m2_encoderVel = new SimDouble(SimDeviceDataJNI.getSimValueHandle(m1, "Velocity"));
 
     //For inital sim testing
-    //private final AHRS gyro = new AHRS();
+    private final AHRS gyro = new AHRS();
 
-    private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-    private ADXRS450_GyroSim gyroSim = new ADXRS450_GyroSim(gyro);
+    int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+    SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
+    
+
+   // private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+   // private ADXRS450_GyroSim gyroSim = new ADXRS450_GyroSim(gyro);
 
     private final DifferentialDriveOdometry odometry;
 
@@ -165,7 +199,15 @@ public class Drive extends SubsystemBase {
     }
 
     public double getTurnRate() {
-        return gyro.getRate();
+        return -gyro.getRate();
+    }
+
+    public void run(){
+        if (Robot.driverController.getXButton()){
+            invert = !invert;
+        }
+
+        teleopTank();
     }
 
     public void teleopTank() {
@@ -191,7 +233,7 @@ public class Drive extends SubsystemBase {
         }
 
         // LB and RB are used to change the drivePower during the match
-        double drivePower = 0.6;
+        double drivePower = 0.75;
         if (Robot.driverController.getLeftBumper())
             drivePower = 0.3;
         else if (Robot.driverController.getRightBumper())
@@ -213,6 +255,22 @@ public class Drive extends SubsystemBase {
             drive.tankDrive(driveL, driveR);
         
         }
+    }
+
+    public void simPeriodic(){
+
+        driveSim.setInputs(lsparkA.get() * RobotController.getInputVoltage(), rsparkA.get() * RobotController.getInputVoltage());
+
+
+        driveSim.update(0.02);
+
+        m1_encoderPos.set(driveSim.getLeftPositionMeters());
+        m1_encoderVel.set(driveSim.getLeftVelocityMetersPerSecond());
+        m2_encoderPos.set(driveSim.getRightPositionMeters());
+        m2_encoderVel.set(driveSim.getRightVelocityMetersPerSecond());
+
+        angle.set(-driveSim.getHeading().getDegrees());
+
     }
 
 }
