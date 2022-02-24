@@ -4,26 +4,26 @@ public class Constants {
    
     //USB ports 
     public static final int DRIVER_PORT = 0;
-    public static int OPERATOR_PORT = 1;
+    public static final int OPERATOR_PORT = 1;
 
     //controller constants
-    public static double TRIGGER_THRESHOLD = 0.3; //from IRC
+    public static final double TRIGGER_THRESHOLD = 0.3; //from IRC
 
     //CANbus ports 
-    public static int INTAKE_PORT = 0; //CHANGE AFTER ELECTRICAL  
+    public static final int INTAKE_PORT = 0; //CHANGE AFTER ELECTRICAL  
 
     //PH ports 
-    public static int[] PNEUMATIC_INTAKE_PORTS = {0,0,0,0}; //CHANGE ELECTRICAL
+    public static final int[] PNEUMATIC_INTAKE_PORTS = {0,0,0,0}; //CHANGE ELECTRICAL
 
     //current limits 
-    public static int INTAKE_LIMIT = 35; //from IRC
+    public static final int INTAKE_LIMIT = 35; //from IRC
     
     //intake constants 
-    public static double INTAKE_SPEED = 0.8; //from IRC 
+    public static final double INTAKE_SPEED = 0.8; //from IRC 
     
 
-    public static final int[] DRIVE_RIGHT_PORTS = {1, 2 ,3};
-    public static final int[] DRIVE_LEFT_PORTS = {4, 5, 6};
+    public static final int[] DRIVE_RIGHT_PORTS = {18, 15, 10};
+    public static final int[] DRIVE_LEFT_PORTS = {0, 1, 2};
 
     public static final int NEO_MAX_LIMIT = 45;
     public static final double DRIVE_FORWARD_SPEED = 0.9;
