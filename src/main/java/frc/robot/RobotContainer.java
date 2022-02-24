@@ -22,6 +22,7 @@ public class RobotContainer {
   private final Drive drive = new Drive();
   DriveCommand drivetrain = new DriveCommand(drive);
 
+  Trajectory autoPick;
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
@@ -35,10 +36,10 @@ public class RobotContainer {
   }
 
 
-/**
+
   public Command getAutonomousCommand() {
 
-     
+     /**
     var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
         new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSeconds, Constants.kaVoltSecondsSquaredPerMeter),
         Constants.DRIVE_KINEMATICS, 10);
@@ -52,9 +53,11 @@ public class RobotContainer {
      * ), new Pose2d(3,0, new Rotation2d(0)), config
      * 
      * );
-    
+    */
+    autoPick = Robot.test;
 
-    RamseteCommand ramseteCommand = new RamseteCommand(testTrajectory, drive::getPose,
+
+    RamseteCommand ramseteCommand = new RamseteCommand(autoPick, drive::getPose,
         new RamseteController(Constants.RamseteB, Constants.RamseteZeta),
         new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSeconds, Constants.kaVoltSecondsSquaredPerMeter),
         Constants.DRIVE_KINEMATICS, drive::getWheelSpeeds, new PIDController(Constants.kPDriveVel, 0, 0),
@@ -62,12 +65,12 @@ public class RobotContainer {
 
     );
 
-    drive.resetOdometry(testTrajectory.getInitialPose());
+    drive.resetOdometry(autoPick.getInitialPose());
     
     return ramseteCommand.andThen(() -> drive.tankDriveVolts(0, 0));
 
     
 
   }
-*/
+
 }

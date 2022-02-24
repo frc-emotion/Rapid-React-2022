@@ -22,8 +22,7 @@ public class DriveCommand extends CommandBase{
     @Override 
     public void execute(){
         drivetrain.run();
-
-        drivetrain.simPeriodic();
+       
     }
 
     @Override

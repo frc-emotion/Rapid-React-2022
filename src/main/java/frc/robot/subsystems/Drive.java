@@ -143,6 +143,7 @@ public class Drive extends SubsystemBase {
                 leftEncoder.getPosition(),
                 rightEncoder.getPosition());
 
+        simPeriodic();
     }
 
     public void updatedField(){

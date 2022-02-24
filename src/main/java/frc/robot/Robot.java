@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,6 +23,9 @@ public class Robot extends TimedRobot {
   Command teleopCommand;
   Command autoCommand;
 
+  public static Trajectory test;
+  TrajectoryCreator creator;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -30,6 +34,10 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     driverController = new XboxController(0);
     container = new RobotContainer();
+
+    creator = new TrajectoryCreator();
+
+    test = creator.generateTrajectory("AutoPick.wpilib.json", "AutoPickTest");
     
 
   }
@@ -59,13 +67,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    /**
-     * autoCommand = container.getAutonomousCommand();
-     * 
-     * if(autoCommand != null){
-     *    autoCommand.schedule();
-     * }
-     */
+ 
+     autoCommand = container.getAutonomousCommand();
+     
+     if(autoCommand != null){
+        autoCommand.schedule();
+        
+     }
 
     
   }
@@ -80,12 +88,12 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     teleopCommand = container.getTeleopCommand();
-    /**
-     *  if (autoCommand != null){
-     *    autoCommand.cancel();
-     *    teleopCommand.schedule();
-     *  }
-     */
+    
+     if (autoCommand != null){
+       autoCommand.cancel();
+       teleopCommand.schedule();
+     }
+    
 
     teleopCommand.schedule();
 
