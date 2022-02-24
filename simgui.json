@@ -15,14 +15,27 @@
     },
     "windows": {
       "/SmartDashboard/Field": {
+        "Robot": {
+          "arrowColor": [
+            255.0,
+            251.77215576171875,
+            0.0,
+            255.0
+          ],
+          "arrowSize": 40,
+          "arrowWeight": 12.0,
+          "length": 0.800000011920929,
+          "style": "Box/Image",
+          "width": 0.800000011920929
+        },
         "image": "C:\\Users\\Karan\\Downloads\\2022-field.png",
         "traj": {
           "arrowSize": 0,
           "arrowWeight": 0.0,
           "color": [
-            255.0,
-            245.3164520263672,
-            0.0,
+            0.5172964930534363,
+            0.9156118035316467,
+            0.2163471132516861,
             255.0
           ],
           "length": 1.0,
@@ -31,6 +44,7 @@
           "width": 0.0
         },
         "window": {
+          "name": "Rapid React Field",
           "visible": true
         }
       }
