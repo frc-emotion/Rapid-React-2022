@@ -88,7 +88,7 @@ public class Drive extends SubsystemBase {
 
     private boolean invert;
 
-    private final Field2d m_field = new Field2d();
+    public static final Field2d m_field = new Field2d();
 
     public Drive() {
 
@@ -128,6 +128,7 @@ public class Drive extends SubsystemBase {
         odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
 
         SmartDashboard.putData("Field", m_field);
+        
 
         this.invert = false;
     }
@@ -136,6 +137,8 @@ public class Drive extends SubsystemBase {
 
     @Override
     public void periodic() {
+
+       
         m_field.setRobotPose(odometry.getPoseMeters());
 
 
@@ -153,6 +156,7 @@ public class Drive extends SubsystemBase {
     public Pose2d getPose() {
         return odometry.getPoseMeters();
     }
+
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         // returns in RPM, divide by gear ratio multiply by circumference and /60 to get
