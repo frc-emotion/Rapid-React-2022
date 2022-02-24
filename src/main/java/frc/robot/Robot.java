@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
 
     creator = new TrajectoryCreator();
 
-    test = creator.generateTrajectory("AutoPick2.wpilib.json", "AutoPickTest#2");
+    test = creator.generateTrajectory("AutoPick.wpilib.json", "AutoPickTest#2");
 
     Drive.m_field.getObject("traj").setTrajectory(test);
     
@@ -76,6 +76,7 @@ public class Robot extends TimedRobot {
      
      if(autoCommand != null){
         autoCommand.schedule();
+        teleopCommand.cancel();
         
      }
 
@@ -97,9 +98,7 @@ public class Robot extends TimedRobot {
        autoCommand.cancel();
        teleopCommand.schedule();
      }
-    
-
-    teleopCommand.schedule();
+  
 
   }
 

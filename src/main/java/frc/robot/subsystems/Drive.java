@@ -43,6 +43,9 @@ public class Drive extends SubsystemBase {
 
     private final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
 
+    
+
+    //USEFUL FOR NEW ROBOT (IF NOT CHARACTERIZED)
     private final DifferentialDrivetrainSim driveSim = new DifferentialDrivetrainSim(
         DCMotor.getNEO(3),    
         Constants.kDriveGearRatio,    
