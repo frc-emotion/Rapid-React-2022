@@ -3,17 +3,22 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.revrobotics.RelativeEncoder;
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import java.util.ArrayList;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.simulation.ADXRS450_GyroSim;
+import edu.wpi.first.wpilibj.simulation.SimDeviceSim;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -34,11 +39,22 @@ public class Drive extends SubsystemBase {
     private final RelativeEncoder leftEncoder = lsparkA.getEncoder();
     private final RelativeEncoder rightEncoder = rsparkA.getEncoder();
 
+     double lEnconder = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+
+     
+
+
+    //For inital sim testing
+    //private final AHRS gyro = new AHRS();
+
     private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    private ADXRS450_GyroSim gyroSim = new ADXRS450_GyroSim(gyro);
 
     private final DifferentialDriveOdometry odometry;
 
     private boolean invert;
+
+    private final Field2d m_field = new Field2d();
 
     public Drive() {
 
@@ -77,6 +93,8 @@ public class Drive extends SubsystemBase {
         // Sets the robot Position in a 2D Space
         odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
 
+        SmartDashboard.putData("Field", m_field);
+
         this.invert = false;
     }
 
@@ -84,6 +102,9 @@ public class Drive extends SubsystemBase {
 
     @Override
     public void periodic() {
+        m_field.setRobotPose(odometry.getPoseMeters());
+
+
         odometry.update(gyro.getRotation2d(),
                 leftEncoder.getPosition(),
                 rightEncoder.getPosition());
