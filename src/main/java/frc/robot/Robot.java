@@ -29,6 +29,7 @@ public class Robot extends TimedRobot {
   public static DriveTrain dt;
   public static Climb climb;
   public static Indexer indexer;
+  public static Shooter shooter;
 
 
   @Override
@@ -40,6 +41,7 @@ public class Robot extends TimedRobot {
     indexer = new Indexer();
     dt = new DriveTrain();
     climb = new Climb();
+    shooter = new Shooter();
   }
 
   /**
@@ -84,6 +86,7 @@ public class Robot extends TimedRobot {
     dt.run();
     climb.run();
     indexer.run();
+    shooter.run();
   }
 
   /** This function is called once when the robot is disabled. */
