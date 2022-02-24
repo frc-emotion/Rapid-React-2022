@@ -4,13 +4,18 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 public class Constants {
 
     
+    //TODO: Get Constants from Driver Station, push to seperate branch on github or merge
+
+
+
+    //Using Torpedo constants for now
     public static final double ksVolts = 0.164;
     public static final double kvVoltSeconds = 2.71;
     public static final double kaVoltSecondsSquaredPerMeter= 0.335;
 
+
     //Tuned kP valeue for Torpedo
     public static final double kPDriveVel = 2.3;
-
 
     //Kinematics
     public static final double TrackWidthMeters = 0.5369051588705906;

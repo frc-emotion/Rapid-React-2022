@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,6 +23,9 @@ public class Robot extends TimedRobot {
   Command teleopCommand;
   Command autoCommand;
 
+  TrajectoryCreator Creator;
+  Trajectory path1;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -31,6 +35,9 @@ public class Robot extends TimedRobot {
     driverController = new XboxController(0);
     container = new RobotContainer();
     
+    Creator = new TrajectoryCreator();
+
+    path1 = Creator.generateTrajectory("String", "Path1?");
 
   }
 

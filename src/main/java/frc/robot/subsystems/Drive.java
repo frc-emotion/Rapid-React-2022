@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.revrobotics.RelativeEncoder;
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -34,7 +35,7 @@ public class Drive extends SubsystemBase {
     private final RelativeEncoder leftEncoder = lsparkA.getEncoder();
     private final RelativeEncoder rightEncoder = rsparkA.getEncoder();
 
-    private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    private final AHRS gyro = new AHRS();
 
     private final DifferentialDriveOdometry odometry;
 
