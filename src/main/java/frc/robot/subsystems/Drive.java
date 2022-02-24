@@ -260,8 +260,6 @@ public class Drive extends SubsystemBase {
     public void simPeriodic(){
 
         driveSim.setInputs(lsparkA.get() * RobotController.getInputVoltage(), rsparkA.get() * RobotController.getInputVoltage());
-
-
         driveSim.update(0.02);
 
         m1_encoderPos.set(driveSim.getLeftPositionMeters());
