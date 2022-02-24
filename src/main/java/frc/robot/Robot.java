@@ -40,9 +40,6 @@ public class Robot extends TimedRobot {
     indexer = new Indexer();
     dt = new DriveTrain();
     climb = new Climb();
-
-
-
   }
 
   /**
