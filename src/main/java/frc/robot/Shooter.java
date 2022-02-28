@@ -36,7 +36,7 @@ public class Shooter {
      * Start PID feedback loop
      */
     public void spin() {
-        mL.set(TalonFXControlMode.Velocity, Constants.SHOOTER_TARGET_RPM);
+        mL.set(TalonFXControlMode.Velocity, toTicks(Constants.SHOOTER_TARGET_RPM));
     }
 
     /**
@@ -101,17 +101,40 @@ public class Shooter {
     }
 
     /**
-     * Converts encoder returned value (ticks/100ms) to a more standard
-     * (revolutions/min)
+     * Returns the RPM of the encoder
+     * 
+     * @return
+     */
+    public double getRPM() {
+        return toRPM(mL.getSelectedSensorVelocity());
+    }
+
+    /**
+     * Converts (ticks/100ms) to a more standard (revolutions/min)
      * 
      * 2048 TalonFX ticks = 1 Revolution
      * 100 ms = 0.100 seconds
      * 0.1 seconds = 0.00167 minutes
      * 
+     * @param ticks
      * @return
      */
-    public double getRPM() {
-        return mL.getSelectedSensorVelocity() / 2048 / 1000 / 60;
+    private double toRPM(double ticks) {
+        return ticks / 2048 / 1000 / 60;
+    }
+
+    /**
+     * Converts (revolutions/min) to (ticks/100ms)
+     * 
+     * 2048 TalonFX ticks = 1 Revolution
+     * 100 ms = 0.100 seconds
+     * 0.1 seconds = 0.00167 minutes
+     * 
+     * @param rpm
+     * @return
+     */
+    private double toTicks(double rpm) {
+        return rpm * 2048 * 1000 * 60;
     }
 
     public void updateDashboard() {
