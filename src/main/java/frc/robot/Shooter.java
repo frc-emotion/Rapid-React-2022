@@ -1,7 +1,7 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -17,7 +17,9 @@ public class Shooter {
     public Shooter() {
         mHood = new CANSparkMax(Constants.SHOOTER_HOOD_PORT, MotorType.kBrushless);
         mL = new WPI_TalonFX(Constants.SHOOTER_LEFT_PORT);
+        mL.setInverted(InvertType.InvertMotorOutput);
         mR = new WPI_TalonFX(Constants.SHOOTER_RIGHT_PORT);
+        mR.setInverted(InvertType.None);
 
         mL.setNeutralMode(NeutralMode.Coast);
         mR.setNeutralMode(NeutralMode.Coast);
@@ -36,7 +38,9 @@ public class Shooter {
      * Start PID feedback loop
      */
     public void spin() {
-        mL.set(TalonFXControlMode.Velocity, toTicks(Constants.SHOOTER_TARGET_RPM));
+        // mL.set(TalonFXControlMode.Velocity, toTicks(Constants.SHOOTER_TARGET_RPM));
+        mL.set(0.55);
+
     }
 
     /**
@@ -120,7 +124,7 @@ public class Shooter {
      * @return
      */
     private double toRPM(double ticks) {
-        return ticks / 2048 / 1000 / 60;
+        return ticks / 2048 * 600;
     }
 
     /**
@@ -134,11 +138,12 @@ public class Shooter {
      * @return
      */
     private double toTicks(double rpm) {
-        return rpm * 2048 * 1000 * 60;
+        return rpm * 2048 / 600;
     }
 
     public void updateDashboard() {
         SmartDashboard.putNumber("ShooterRPM", getRPM());
         SmartDashboard.putNumber("HoodEncoder", mHood.getEncoder().getPosition() / 4096);
+        SmartDashboard.putBoolean("ShooterSwitch", mLimit.get());
     }
 }

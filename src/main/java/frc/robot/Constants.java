@@ -55,8 +55,8 @@ public class Constants {
     public static final int SHOOTER_HOOD_PORT = 8;
     public static final int SHOOTER_LEFT_PORT = 9;
     public static final int SHOOTER_RIGHT_PORT = 10;
-    public static final int SHOOTER_LIMIT_PORT = 0;
-    public static final double SHOOTER_TARGET_RPM = 5000;
+    public static final int SHOOTER_LIMIT_PORT = 2;
+    public static final double SHOOTER_TARGET_RPM = 3000;
     public static final double SHOOTER_THRESHOLD_RPM = 200;
     public static final double SHOOTER_KP = 0;
     public static final double SHOOTER_KI = 0;
