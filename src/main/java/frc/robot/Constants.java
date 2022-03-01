@@ -34,7 +34,7 @@ public class Constants {
     public static final int[] CLIMB_MOTORS_ID = { 11, 12 };
     public static final double CLIMB_THRESHOLD = 0.2;
     public static final double CLIMB_MOTOR_SPEED = 0.85;
-    public static final double CLIMB_TARGET_POS = 30*2048; // In revolutions
+    public static final double CLIMB_TARGET_POS = 30 * 2048; // In revolutions
     public static final double CLIMB_ZERO_POS = 0;
     public static final double CLIMB_kP = 1;
     public static final double CLIMB_kI = 0;
@@ -55,14 +55,23 @@ public class Constants {
     public static final int SHOOTER_HOOD_PORT = 8;
     public static final int SHOOTER_LEFT_PORT = 9;
     public static final int SHOOTER_RIGHT_PORT = 10;
+
     public static final int SHOOTER_LIMIT_PORT = 2;
+
     public static final double SHOOTER_TARGET_RPM = 3000;
     public static final double SHOOTER_THRESHOLD_RPM = 200;
+
     public static final double SHOOTER_KP = 0;
     public static final double SHOOTER_KI = 0;
     public static final double SHOOTER_KD = 0;
     public static final double SHOOTER_KF = 0;
 
-    public static final double SHOOTER_TELEOP_SPEED = 0.2;
+    public static final double SHOOTER_HOOD_KP = 0;
+    public static final double SHOOTER_HOOD_KI = 0;
+    public static final double SHOOTER_HOOD_KD = 0;
 
+    public static final double SHOOTER_HOOD_MIN = 5;
+    public static final double SHOOTER_HOOD_MAX = 35;
+
+    public static final double SHOOTER_TELEOP_SPEED = 0.3;
 }

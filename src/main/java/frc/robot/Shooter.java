@@ -4,8 +4,11 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -13,6 +16,8 @@ public class Shooter {
     private CANSparkMax mHood;
     private WPI_TalonFX mL, mR;
     private DigitalInput mLimit;
+
+    private double speed = 0.35;
 
     public Shooter() {
         mHood = new CANSparkMax(Constants.SHOOTER_HOOD_PORT, MotorType.kBrushless);
@@ -31,7 +36,14 @@ public class Shooter {
         mL.config_kD(0, Constants.SHOOTER_KD);
         mL.config_kF(0, Constants.SHOOTER_KF);
 
+        SparkMaxPIDController controller = mHood.getPIDController();
+
+        controller.setP(Constants.SHOOTER_HOOD_KP);
+        controller.setP(Constants.SHOOTER_HOOD_KI);
+        controller.setP(Constants.SHOOTER_HOOD_KD);
+
         mLimit = new DigitalInput(Constants.SHOOTER_LIMIT_PORT);
+        SmartDashboard.putNumber("ShooterSpeed", speed);
     }
 
     /**
@@ -39,7 +51,7 @@ public class Shooter {
      */
     public void spin() {
         // mL.set(TalonFXControlMode.Velocity, toTicks(Constants.SHOOTER_TARGET_RPM));
-        mL.set(0.35);
+        mL.set(speed);
 
     }
 
@@ -47,6 +59,10 @@ public class Shooter {
      * Stop all motors
      */
     public void stop() {
+        if (atLimit()) {
+            callibrate();
+        }
+
         mHood.stopMotor();
         mL.stopMotor();
     }
@@ -58,10 +74,18 @@ public class Shooter {
      * tested yet
      */
     public void teleopHood() {
-        mHood.set(Constants.SHOOTER_TELEOP_SPEED * Robot.operatorController.getLeftY());
+        double joystick = Robot.operatorController.getLeftY();
+
+        if (joystick > 0 && atLimit()) {
+            callibrate();
+        } else {
+            mHood.set(joystick);
+        }
+
     }
 
     public void run() {
+        System.out.println(Robot.operatorController.getLeftY());
         if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
             spin();
         } else if (Math.abs(Robot.operatorController.getLeftY()) >= Constants.TRIGGER_THRESHOLD) {
@@ -77,22 +101,42 @@ public class Shooter {
      * Set the hood to output the velocity at a specified angle in degrees
      * 
      * 
-     * TODO: Need to find relationship between encoder position and output angle
-     * 
      * @param angle
      */
     public void setHoodAngle(double angle) {
+        mHood.getPIDController().setReference(
+                hoodAngletoTick(-MathUtil.clamp(angle, Constants.SHOOTER_HOOD_MIN, Constants.SHOOTER_HOOD_MAX)),
+                ControlType.kPosition);
     }
 
     /**
      * Get the current hood angle in terms of output angle
      * 
-     * TODO: Look above
      * 
      * @return
      */
     public double getHoodAngle() {
-        return 0;
+        return tickToHoodAngle(-mHood.getEncoder().getPosition());
+    }
+
+    private double tickToHoodAngle(double ticks) {
+        return ticks * 0.416;
+    }
+
+    private double hoodAngletoTick(double angle) {
+        return angle / 0.416;
+    }
+
+    /**
+     * Stop hood and zero encoder
+     */
+    private void callibrate() {
+        mHood.stopMotor();
+        mHood.getEncoder().setPosition(0);
+    }
+
+    public boolean atLimit() {
+        return !mLimit.get();
     }
 
     /**
@@ -100,7 +144,7 @@ public class Shooter {
      * 
      * @return
      */
-    public boolean atTarget() {
+    public boolean atRPM() {
         return Math.abs(Constants.SHOOTER_TARGET_RPM - getRPM()) < Constants.SHOOTER_THRESHOLD_RPM;
     }
 
@@ -123,27 +167,13 @@ public class Shooter {
      * @param ticks
      * @return
      */
-    private double toRPM(double ticks) {
-        return ticks / 2048 * 600;
-    }
-
-    /**
-     * Converts (revolutions/min) to (ticks/100ms)
-     * 
-     * 2048 TalonFX ticks = 1 Revolution
-     * 100 ms = 0.100 seconds
-     * 0.1 seconds = 0.00167 minutes
-     * 
-     * @param rpm
-     * @return
-     */
-    private double toTicks(double rpm) {
-        return rpm * 2048 / 600;
+    private double toRPM(double ticks_per_time) {
+        return ticks_per_time / 2048 * 600;
     }
 
     public void updateDashboard() {
+        speed = SmartDashboard.getNumber("ShooterSpeed", 0.35);
         SmartDashboard.putNumber("ShooterRPM", getRPM());
-        SmartDashboard.putNumber("HoodEncoder", mHood.getEncoder().getPosition() / 4096);
-        SmartDashboard.putBoolean("ShooterSwitch", mLimit.get());
+        SmartDashboard.putNumber("HoodAngle", getHoodAngle());
     }
 }
