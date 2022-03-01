@@ -79,7 +79,7 @@ public class Shooter {
         if (joystick > 0 && atLimit()) {
             callibrate();
         } else {
-            mHood.set(joystick);
+            mHood.set(Constants.SHOOTER_TELEOP_SPEED * joystick);
         }
 
     }
