@@ -92,11 +92,6 @@ public class Climb {
             toggleStates(ActuatorL);
             toggleStates(ActuatorR);
         }
-        // for testing purposes
-        else if (Robot.operatorController.getRightBumper()) {
-            Release(ActuatorR);
-            Release(ActuatorL);
-        }
 
         RunSmartDash();
       

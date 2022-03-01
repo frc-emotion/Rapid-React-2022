@@ -11,23 +11,23 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 public class Intake {
     
    private CANSparkMax intakeSpark; 
-   private DoubleSolenoid solenoidA, solenoidB;
+ //  private DoubleSolenoid solenoidA, solenoidB;
 
    public Intake() {
       
       intakeSpark = new CANSparkMax(Constants.INTAKE_PORT, MotorType.kBrushless); 
-      intakeSpark.setSmartCurrentLimit(Constants.INTAKE_LIMIT);
-      intakeSpark.setSecondaryCurrentLimit(Constants.INTAKE_LIMIT);
+      intakeSpark.setSmartCurrentLimit(Constants.NEO_MAX_CURRENT);
+      intakeSpark.setSecondaryCurrentLimit(Constants.NEO_MAX_CURRENT);
       intakeSpark.setIdleMode(IdleMode.kBrake);
 
-      solenoidA = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PNEUMATIC_INTAKE_PORTS[0], Constants.PNEUMATIC_INTAKE_PORTS[1]); //check module type w/Bart
-      solenoidB = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PNEUMATIC_INTAKE_PORTS[2], Constants.PNEUMATIC_INTAKE_PORTS[3]);
+   //   solenoidA = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PNEUMATIC_INTAKE_PORTS[0], Constants.PNEUMATIC_INTAKE_PORTS[1]); //check module type w/Bart
+     // solenoidB = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PNEUMATIC_INTAKE_PORTS[2], Constants.PNEUMATIC_INTAKE_PORTS[3]);
    }
 
    public void run(){
-      if (Robot.operatorController.getYButtonPressed()) {
+   /*   if (Robot.operatorController.getYButtonPressed()) {
          intakeToggle();
-      }
+      } */
 
       if (Robot.operatorController.getRightTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
          intakeRoller();
@@ -39,10 +39,10 @@ public class Intake {
 
    }
 
-   public void intakeToggle() {
+/*   public void intakeToggle() {
       solenoidA.toggle();;
       solenoidB.toggle();
-   }
+   } 
    
    public void intakeDown() {
       solenoidA.set(Value.kForward);
@@ -53,13 +53,13 @@ public class Intake {
       solenoidA.set(Value.kReverse);
       solenoidB.set(Value.kReverse);
    }
-
+*/
    public void intakeRoller() {
-      intakeSpark.set(Constants.INTAKE_SPEED);
+      intakeSpark.set(-Constants.INTAKE_SPEED);
    }   
 
    public void intakeRollerReverse() {
-      intakeSpark.set(-Constants.INTAKE_SPEED);
+      intakeSpark.set(Constants.INTAKE_SPEED);
    }
 
    public void intakeRollerOff() {

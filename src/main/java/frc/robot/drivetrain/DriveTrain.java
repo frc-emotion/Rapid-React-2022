@@ -42,8 +42,8 @@ public class DriveTrain {
         };
 
         for (CANSparkMax spark : sparkList) {
-            spark.setSmartCurrentLimit(Constants.NEO_MAX_LIMIT);
-            spark.setSecondaryCurrentLimit(Constants.NEO_MAX_LIMIT);
+            spark.setSmartCurrentLimit(Constants.NEO_MAX_CURRENT);
+            spark.setSecondaryCurrentLimit(Constants.NEO_MAX_CURRENT);
             spark.setIdleMode(IdleMode.kBrake); // IdleMode will always be kBrake for driveTrain motors
 
         }
