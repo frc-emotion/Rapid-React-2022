@@ -36,11 +36,11 @@ public class Robot extends TimedRobot {
   public void robotInit() {
   
     operatorController = new XboxController(Constants.OPERATOR_PORT);
-    //driverController = new XboxController(Constants.DRIVER_PORT);
-    //intake = new Intake();
-    //indexer = new Indexer();
-    //dt = new DriveTrain();
-    //climb = new Climb();
+    driverController = new XboxController(Constants.DRIVER_PORT);
+    intake = new Intake();
+    indexer = new Indexer();
+    dt = new DriveTrain();
+    climb = new Climb();
     shooter = new Shooter();
   }
 
@@ -82,10 +82,10 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    //intake.run();
-    //dt.run();
-    //climb.run();
-    //indexer.run();
+    intake.run();
+    dt.run();
+    climb.run();
+    indexer.run();
     shooter.run();
   }
 

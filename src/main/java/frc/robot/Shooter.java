@@ -39,7 +39,7 @@ public class Shooter {
      */
     public void spin() {
         // mL.set(TalonFXControlMode.Velocity, toTicks(Constants.SHOOTER_TARGET_RPM));
-        mL.set(0.55);
+        mL.set(0.35);
 
     }
 

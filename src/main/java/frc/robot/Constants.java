@@ -10,7 +10,7 @@ public class Constants {
     public static double TRIGGER_THRESHOLD = 0.3; // from IRC
 
     // CANbus ports
-    public static int INTAKE_PORT = 0; // CHANGE AFTER ELECTRICAL
+    public static int INTAKE_PORT = 7; // CHANGE AFTER ELECTRICAL
 
     // PH ports
     public static int[] PNEUMATIC_INTAKE_PORTS = { 0, 0, 0, 0 }; // CHANGE ELECTRICAL
@@ -19,7 +19,7 @@ public class Constants {
     public static int INTAKE_LIMIT = 35; // from IRC
 
     // intake constants
-    public static double INTAKE_SPEED = 0.8; // from IRC
+    public static double INTAKE_SPEED = 0.4; // from IRC
 
     public static final int[] DRIVE_RIGHT_PORTS = { 1, 2, 3 };
     public static final int[] DRIVE_LEFT_PORTS = { 4, 5, 6 };
@@ -31,10 +31,10 @@ public class Constants {
     public static final double DRIVE_TURBO_POWER = 0.9;
 
     // Climb Constants
-    public static final int[] CLIMB_MOTORS_ID = { 1, 2 };
+    public static final int[] CLIMB_MOTORS_ID = { 11, 12 };
     public static final double CLIMB_THRESHOLD = 0.2;
     public static final double CLIMB_MOTOR_SPEED = 0.85;
-    public static final double CLIMB_TARGET_POS = 30; // In revolutions
+    public static final double CLIMB_TARGET_POS = 30*2048; // In revolutions
     public static final double CLIMB_ZERO_POS = 0;
     public static final double CLIMB_kP = 1;
     public static final double CLIMB_kI = 0;
@@ -45,11 +45,11 @@ public class Constants {
     // Indexer Constants
     public static final double PULLEYDIAMETER = 1.504; // inches
     public static final double PULLEYCIRCUMFRENCE = 4.724955351; // inches
-    public static final int INDEXERFALCON = 7;
+    public static final int INDEXERFALCON = 13;
     public static final int BOTTOMSENSOR = 0;
     public static final int TOPSENSOR = 1;
-    public static final double INDEXINGSPEED = 0.5;
-    public static final double SHOOTINDEXINGSPEED = 0.75;
+    public static final double INDEXINGSPEED = 0.2;
+    public static final double SHOOTINDEXINGSPEED = 0.4;
 
     // Shooter Constants
     public static final int SHOOTER_HOOD_PORT = 8;

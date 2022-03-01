@@ -36,12 +36,10 @@ public class Indexer {
     public void run() {
         if(Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
             indexerUp(Constants.SHOOTINDEXINGSPEED);
-        } else if(!topsensor.get()) {
-            indexerStop();
-        } else if(Robot.operatorController.getBButtonPressed()) {
+        } else if(Robot.operatorController.getBButton()) {
             indexerUp(Constants.INDEXINGSPEED);
-        } else if(!bottomsensor.get()) {
-            indexerUp(Constants.INDEXINGSPEED);
+        } else if (Robot.operatorController.getAButton()) {
+            indexerUp(-Constants.INDEXINGSPEED);
         } else {
             indexerStop();
         }
