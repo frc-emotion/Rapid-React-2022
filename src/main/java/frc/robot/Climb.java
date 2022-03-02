@@ -32,10 +32,9 @@ public class Climb {
     public Climb() {
 
         // Init Double Solenoids, Falcons
-        ActuatorL = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0,1);
+        ActuatorL = new DoubleSolenoid(PneumaticsModuleType.REVPH, 10 , 5);
               
-        ActuatorR = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PNEUMATICS[2],
-                Constants.CLIMB_PNEUMATICS[3]);
+        ActuatorR = new DoubleSolenoid(PneumaticsModuleType.REVPH, 13, 2 );
     /** 
         ActuatorF = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PNEUMATICS[4],
                 Constants.CLIMB_PNEUMATICS[5]);
@@ -90,7 +89,10 @@ public class Climb {
         
         if (Robot.operatorController.getLeftBumper() && !Hooked) {
             toggleStates(ActuatorL);
-            toggleStates(ActuatorR);
+            //toggleStates(ActuatorR);
+
+            //ActuatorL.toggle();
+            //ActuatorR.toggle();
         }
 
         RunSmartDash();
