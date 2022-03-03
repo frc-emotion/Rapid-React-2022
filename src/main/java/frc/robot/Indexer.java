@@ -11,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/** @author Sachitt Arora
+/** @author Sachitt Arora 
  * 
  * 
  * 
@@ -19,24 +19,45 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Indexer {
 
     WPI_TalonFX TalonA;
-    DigitalInput bottomsensor, topsensor;
+    DigitalInput bottomsensor, topsensor; // sensor = true means no block 
+    boolean indexerStat; //true is enabled, false is disabled  
+    boolean ball; 
+    //int ballcount;
 
     public Indexer() {
-        bottomsensor = new DigitalInput(Constants.BOTTOMSENSOR);
-        topsensor = new DigitalInput(Constants.TOPSENSOR);
-
         TalonA = new WPI_TalonFX(Constants.INDEXERFALCON);
         TalonA.setNeutralMode(NeutralMode.Brake);
         TalonA.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 30, 10, 0.5));
 
+        bottomsensor = new DigitalInput(Constants.BOTTOMSENSOR);
+        topsensor = new DigitalInput(Constants.TOPSENSOR);
+
+        indexerStat = true;
+       // ballcount = 0;
+        ball = false;
+
         SmartDashboard.putBoolean("Top Sensor Triggered", false);
         SmartDashboard.putBoolean("Bottom Sensor Triggered", false);
+        SmartDashboard.putBoolean("Indexer Status", indexerStat);
+        SmartDashboard.putBoolean("Ball?", ball);
+      //  SmartDashboard.putNumber("Ball Count", ballcount); 
     }
 
     public void run() {
+       
+        if (Robot.operatorController.getXButtonPressed()) {
+            indexerStat = !indexerStat;
+        }
+
         if(Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
             indexerUp(Constants.SHOOTINDEXINGSPEED);
-        } else if(Robot.operatorController.getBButton()) {
+          //  ballcount = 0; 
+            indexerStat = true; 
+            ball = false; 
+        } else if (Robot.operatorController.getRightTriggerAxis() >= Constants.TRIGGER_THRESHOLD && indexerStat == true) {
+            indexerUp(Constants.INDEXINGSPEED);
+        }
+        else if(Robot.operatorController.getBButton()) {
             indexerUp(Constants.INDEXINGSPEED);
         } else if (Robot.operatorController.getAButton()) {
             indexerUp(-Constants.INDEXINGSPEED);
@@ -44,6 +65,28 @@ public class Indexer {
             indexerStop();
         }
 
+       /* if (ballcount == 0 && !bottomsensor.get()) { 
+            ballcount = 1;
+            indexerStat = false; 
+        } 
+        else if (ballcount == 1 && bottomsensor.get()) { 
+            ballcount = 2;
+        }
+        else if (!topsensor.get()) { 
+            indexerStat = false;
+        }
+            */ 
+    
+        if (ball == false && !bottomsensor.get()) {    
+    /*can't just be based on bottomsensor here because then it might stop 
+    when bottom is triggered before top is when intaking 2nd ball */
+            ball = true; 
+            indexerStat = false; 
+        } 
+        else if (!topsensor.get()) { 
+            indexerStat = false;
+        }
+  
         updateSmartDashboard();
 
     }
@@ -59,7 +102,9 @@ public class Indexer {
     public void updateSmartDashboard() {
         SmartDashboard.putBoolean("Top Sensor Triggered", !topsensor.get());
         SmartDashboard.putBoolean("Bottom Sensor Triggered", !bottomsensor.get());
-
+        SmartDashboard.putBoolean("Indexer Status", indexerStat);
+        SmartDashboard.putBoolean("Ball?", ball);
+       // SmartDashboard.putNumber("Ball Count", ballcount);
     }
 
 }

@@ -2,24 +2,16 @@ package frc.robot;
 
 public class Constants {
 
-    // USB ports
+    // controller 
     public static final int DRIVER_PORT = 0;
     public static int OPERATOR_PORT = 1;
+    public static double TRIGGER_THRESHOLD = 0.3; 
 
-    // controller constants
-    public static double TRIGGER_THRESHOLD = 0.3; // from IRC
-
-    // CANbus ports
-    public static int INTAKE_PORT = 7; // CHANGE AFTER ELECTRICAL
-
-    // PH ports
+    // intake 
+    public static double INTAKE_SPEED = 0.4; 
+    public static int INTAKE_PORT = 7; 
     public static int[] PNEUMATIC_INTAKE_PORTS = { 0, 0, 0, 0 }; // CHANGE ELECTRICAL
-
-    // current limits
-    public static int INTAKE_LIMIT = 35; // from IRC
-
-    // intake constants
-    public static double INTAKE_SPEED = 0.4; // from IRC
+    public static int INTAKE_LIMIT = 35; 
 
     public static final int[] DRIVE_RIGHT_PORTS = { 1, 2, 3 };
     public static final int[] DRIVE_LEFT_PORTS = { 4, 5, 6 };

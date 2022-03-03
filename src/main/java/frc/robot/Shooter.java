@@ -17,7 +17,7 @@ public class Shooter {
     private WPI_TalonFX mL, mR;
     private DigitalInput mLimit;
 
-    private double speed = 0.35;
+    private double speed = 0.35; 
 
     public Shooter() {
         mHood = new CANSparkMax(Constants.SHOOTER_HOOD_PORT, MotorType.kBrushless);

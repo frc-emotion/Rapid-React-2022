@@ -8,6 +8,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
+/** @author Shreya Singh  
+ * 
+ * 
+ * 
+**/
+
 public class Intake {
     
    private CANSparkMax intakeSpark; 
