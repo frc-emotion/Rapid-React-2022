@@ -11,43 +11,75 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/** @author Sachitt Arora
- * 
- * 
- * 
-**/
+//i blame keshav for how bad this code is 
 public class Indexer {
 
     WPI_TalonFX TalonA;
-    DigitalInput bottomsensor, topsensor;
+    DigitalInput bottomsensor, topsensor; // sensor = true means no block 
+    boolean firstBall; //used to track whether there is a preexisting first ball
+    boolean active;
+    boolean released;
 
     public Indexer() {
-        bottomsensor = new DigitalInput(Constants.BOTTOMSENSOR);
-        topsensor = new DigitalInput(Constants.TOPSENSOR);
-
         TalonA = new WPI_TalonFX(Constants.INDEXERFALCON);
         TalonA.setNeutralMode(NeutralMode.Brake);
         TalonA.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 30, 10, 0.5));
 
+        bottomsensor = new DigitalInput(Constants.BOTTOMSENSOR);
+        topsensor = new DigitalInput(Constants.TOPSENSOR);
+        containsFirstBall = false;
+        active = false;
+        released = false;
+
         SmartDashboard.putBoolean("Top Sensor Triggered", false);
         SmartDashboard.putBoolean("Bottom Sensor Triggered", false);
+        SmartDashboard.putBoolean("First Ball", false);
     }
 
     public void run() {
         if(Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
-            indexerUp(Constants.SHOOTINDEXINGSPEED);
-        } else if(!topsensor.get()) {
+            indexerUp(Constants.SHOOTINDEXSPEED);
+        } else if (!topsensor.get()) {
             indexerStop();
-        } else if(Robot.operatorController.getBButtonPressed()) {
+        }else if(Robot.operatorController.getBButton()) {
             indexerUp(Constants.INDEXINGSPEED);
-        } else if(!bottomsensor.get()) {
-            indexerUp(Constants.INDEXINGSPEED);
+        } else if (Robot.operatorController.getAButton()) {
+            indexerUp(-Constants.INDEXINGSPEED);
+        } else if(Robot.operatorContoller.getXButtonPressed) {
+            released = true; //only for rare situations in which operator needs to change this again, otherwise indexing should run in conjunction with intake mechanism and just the intaking button
+        } else if (Robot.operatorController.getRightTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
+            active = true;
+            if(!bottomsensor.get()) {
+                containsFirstBall = true;
+            }
+
+            if(containsFirstBall) {
+                if(topsensor.get() && released) {//run while unobstructed
+                    indexerUp(Constants.INDEXINGSPEED);
+                } else {
+                    indexerStop();
+                }
+
+            } else if (!containsFirstBall) {
+                if(bottomsensor.get()) {//redundant
+                    indexerUp(Constants.INDEXINGSPEED);
+                } else {
+                    indexerStop();
+                    containsFirstBall = true;
+                }
+            }
         } else {
+            if(active == true && released == false) { //essentially means that if the person released the trigger after initially activating it, then released will become true
+                released = true;
+                active = false;
+            } else if (active == true && released == true) { //lol this is so confusing
+                active = false;
+                released = false;
+            }
             indexerStop();
         }
 
         updateSmartDashboard();
-
     }
 
     public void indexerUp(double speed) {
@@ -61,7 +93,7 @@ public class Indexer {
     public void updateSmartDashboard() {
         SmartDashboard.putBoolean("Top Sensor Triggered", !topsensor.get());
         SmartDashboard.putBoolean("Bottom Sensor Triggered", !bottomsensor.get());
-
+        SmartDashboard.putBoolean("First Ball", containsFirstBall);
     }
 
 }
