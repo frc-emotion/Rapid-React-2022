@@ -16,7 +16,7 @@ public class Indexer {
 
     WPI_TalonFX TalonA;
     DigitalInput bottomsensor, topsensor; // sensor = true means no block 
-    boolean firstBall; //used to track whether there is a preexisting first ball
+    boolean containsFirstBall; //used to track whether there is a preexisting first ball
     boolean active;
     boolean released;
 
@@ -38,14 +38,14 @@ public class Indexer {
 
     public void run() {
         if(Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
-            indexerUp(Constants.SHOOTINDEXSPEED);
+            indexerUp(Constants.SHOOTINDEXINGSPEED);
         } else if (!topsensor.get()) {
             indexerStop();
         }else if(Robot.operatorController.getBButton()) {
             indexerUp(Constants.INDEXINGSPEED);
         } else if (Robot.operatorController.getAButton()) {
             indexerUp(-Constants.INDEXINGSPEED);
-        } else if(Robot.operatorContoller.getXButtonPressed) {
+        } else if(Robot.operatorController.getXButtonPressed()) {
             released = true; //only for rare situations in which operator needs to change this again, otherwise indexing should run in conjunction with intake mechanism and just the intaking button
         } else if (Robot.operatorController.getRightTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
             active = true;
