@@ -30,8 +30,11 @@ public class Constants {
     public static final int[] CLIMB_MOTORS_ID = {11, 12};
     public static final double CLIMB_THRESHOLD = 0.2;
     public static final double CLIMB_MOTOR_SPEED = 0.85;
-    public static final double CLIMB_TARGET_POS = 30; //In revolutions
+    public static final double CLIMB_TARGET_POS = 30 * 2048; //In revolutions
     public static final double CLIMB_ZERO_POS = 0;
+    public static final double CLIMB_MAX_POS = 46;
+    public static final double CLIMB_MIN_POS = 5;
+
     public static final double CLIMB_kP = 1;
     public static final double CLIMB_kI = 0;
     public static final double CLIMB_kD = 0;

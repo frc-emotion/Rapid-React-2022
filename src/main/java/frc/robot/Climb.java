@@ -7,10 +7,14 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 
 /**
  * 
@@ -23,24 +27,34 @@ public class Climb {
     // Declare Integrated Falcon 500 TalonFX
     MotorControllerGroup FalconClimb;
     WPI_TalonFX TalonA, TalonB;
-    DoubleSolenoid ActuatorL, ActuatorR;
-    //
+    Compressor Com;
+    DoubleSolenoid ActuatorR, ActuatorL;
+
+
+    AnalogPotentiometer pressure;
+    double scale = 250, offset = -25;    //
+
+    private double targetRev;
 
     // Once Hooked, release pressure, and zero encoderPos
     private boolean Hooked;
+    private boolean forward;
 
     public Climb() {
 
         // Init Double Solenoids, Falcons
         ActuatorL = new DoubleSolenoid(PneumaticsModuleType.REVPH, 10 , 5);
               
-        ActuatorR = new DoubleSolenoid(PneumaticsModuleType.REVPH, 13, 2 );
-    /** 
+        ActuatorR = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 13 );
+
+        pressure = new AnalogPotentiometer(0, scale, offset);
+        Com = new Compressor(PneumaticsModuleType.REVPH);
+        /** 
         ActuatorF = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PNEUMATICS[4],
                 Constants.CLIMB_PNEUMATICS[5]);
         ActuatorG = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PNEUMATICS[6],
                 Constants.CLIMB_PNEUMATICS[7]);
-    */
+        */
         TalonA = new WPI_TalonFX(Constants.CLIMB_MOTORS_ID[0]);
         TalonB = new WPI_TalonFX(Constants.CLIMB_MOTORS_ID[1]);
 
@@ -48,8 +62,8 @@ public class Climb {
         TalonB.setNeutralMode(NeutralMode.Brake);
 
         // Remove and Add Factort Default Settings
-        TalonA.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 10, 0.5));
-        TalonB.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 10, 0.5));
+        TalonA.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.TALON_MAX_CURRENT, 10, 0.5));
+        TalonB.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.TALON_MAX_CURRENT, 10, 0.5));
 
         TalonB.follow(TalonA);
 
@@ -60,10 +74,10 @@ public class Climb {
         TalonA.config_kP(0, Constants.CLIMB_kP);
         TalonA.config_kI(0, Constants.CLIMB_kI);
         TalonA.config_kD(0, Constants.CLIMB_kD);
-
+        targetRev = Constants.CLIMB_TARGET_POS / 2048;
         // Output Encoder Values
-        SmartDashboard.putNumber("Climb-Encoder Rev", 0);
-        SmartDashboard.putNumber("Climb-Encoder Velocity", 0);
+        SmartDashboard.putNumber("Target Rev", Constants.CLIMB_TARGET_POS / 2048);
+        
 
         //
         Hooked = false;
@@ -72,6 +86,7 @@ public class Climb {
         ActuatorL.set(Value.kReverse);
         //During Robot Init
 
+        Com.enableAnalog(15, 120);
         ZeroEncoders();
     }
 
@@ -79,21 +94,39 @@ public class Climb {
     public void run() {
         double lJoystickPos = Robot.operatorController.getLeftY();
         
+        if(lJoystickPos > Constants.CLIMB_THRESHOLD && getPosition() < -Constants.CLIMB_MAX_POS){
+            TalonA.set(0);
+        }
+
+        if(lJoystickPos > -Constants.CLIMB_THRESHOLD && getPosition() > Constants.CLIMB_MIN_POS){
+            TalonA.set(0);
+        }
+
+
         if (lJoystickPos > Constants.CLIMB_THRESHOLD) {
-            ExtendClimb(Constants.CLIMB_TARGET_POS);
+            TalonA.set(Constants.CLIMB_MOTOR_SPEED);
+           // ExtendClimb(Constants.CLIMB_TARGET_POS);
         } else if (lJoystickPos < -Constants.CLIMB_THRESHOLD) {
-            RetractClimb(Constants.CLIMB_TARGET_POS);
+            TalonA.set(-Constants.CLIMB_MOTOR_SPEED);
+            //RetractClimb(
+           
         } else {
-            PauseClimb(Constants.CLIMB_TARGET_POS);
+            TalonA.set(0);
         }
         
         if (Robot.operatorController.getLeftBumper() && !Hooked) {
-            toggleStates(ActuatorL);
+            //toggleStates(ActuatorL);
             //toggleStates(ActuatorR);
 
-            //ActuatorL.toggle();
+            ActuatorL.toggle();
+            ActuatorR.toggle();
             //ActuatorR.toggle();
         }
+
+        if (Robot.operatorController.getAButton()){
+            ZeroEncoders();
+        }
+     //   System.out.println(pressure.get());
 
         RunSmartDash();
       
@@ -173,7 +206,8 @@ public class Climb {
 
     public void RunSmartDash() {
         SmartDashboard.putNumber("Climb-Encoder Rev", getPosition());
-        SmartDashboard.putNumber("Climb-Encoder VELO", getVel());
+        SmartDashboard.putNumber("Climb-Encoder Veloctiy", getVel());
+        targetRev = SmartDashboard.getNumber("Target Rev", (Constants.CLIMB_TARGET_POS / 2048) * 2048);
     }
 
 }
