@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
-import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 
@@ -31,8 +30,7 @@ public class Climb {
     Compressor Com;
     DoubleSolenoid ActuatorR, ActuatorL;
 
-    PneumaticHub hub = new PneumaticHub(); 
-    double measuredPressure; 
+
     AnalogPotentiometer pressure;
     double scale = 250, offset = -25;    //
 
@@ -48,6 +46,7 @@ public class Climb {
         ActuatorL = new DoubleSolenoid(PneumaticsModuleType.REVPH, 10 , 5);
               
         ActuatorR = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 13 );
+
         pressure = new AnalogPotentiometer(0, scale, offset);
         Com = new Compressor(PneumaticsModuleType.REVPH);
         /** 
@@ -128,7 +127,7 @@ public class Climb {
             ZeroEncoders();
         }
      //   System.out.println(pressure.get());
-        measuredPressure = hub.getPressure(0);
+
         RunSmartDash();
       
     }
@@ -206,7 +205,6 @@ public class Climb {
     }
 
     public void RunSmartDash() {
-        SmartDashboard.putNumber("Measured Pressure", measuredPressure); 
         SmartDashboard.putNumber("Climb-Encoder Rev", getPosition());
         SmartDashboard.putNumber("Climb-Encoder Veloctiy", getVel());
         targetRev = SmartDashboard.getNumber("Target Rev", (Constants.CLIMB_TARGET_POS / 2048) * 2048);
