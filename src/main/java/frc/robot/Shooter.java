@@ -85,7 +85,6 @@ public class Shooter {
     }
 
     public void run() {
-        System.out.println(Robot.operatorController.getLeftY());
         if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
             spin();
         } else if (Math.abs(Robot.operatorController.getLeftY()) >= Constants.TRIGGER_THRESHOLD) {

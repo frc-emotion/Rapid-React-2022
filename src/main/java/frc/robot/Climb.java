@@ -32,10 +32,10 @@ public class Climb {
     public Climb() {
 
         // Init Double Solenoids, Falcons
-        //ActuatorL = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0,1);
+        ActuatorL = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PNEUMATICS[0], Constants.CLIMB_PNEUMATICS[1]);
               
-        //ActuatorR = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PNEUMATICS[2],
-        //        Constants.CLIMB_PNEUMATICS[3]);
+        ActuatorR = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PNEUMATICS[2],
+                Constants.CLIMB_PNEUMATICS[3]);
     /** 
         ActuatorF = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PNEUMATICS[4],
                 Constants.CLIMB_PNEUMATICS[5]);
@@ -69,8 +69,8 @@ public class Climb {
         //
         Hooked = false;
         
-        //ActuatorR.set(Value.kReverse);
-        //ActuatorL.set(Value.kReverse);
+        ActuatorR.set(Value.kReverse);
+        ActuatorL.set(Value.kReverse);
         //During Robot Init
 
         ZeroEncoders();
@@ -107,19 +107,19 @@ public class Climb {
 
     // Methods for Motors/Pneumatics
     private void toggleStates(DoubleSolenoid Actuator) {
-        //Actuator.toggle();
+        Actuator.toggle();
     }
 
     private void Extend(DoubleSolenoid Actuator) {
-        //Actuator.set(Value.kReverse);
+        Actuator.set(Value.kReverse);
     }
 
     public void Contract(DoubleSolenoid Actuator) {
-        //Actuator.set(Value.kReverse);
+        Actuator.set(Value.kReverse);
     }
 
     private void Release(DoubleSolenoid Actuator) {
-        //Actuator.set(Value.kOff);
+        Actuator.set(Value.kOff);
     }
 
     private void ExtendClimb(double target) {

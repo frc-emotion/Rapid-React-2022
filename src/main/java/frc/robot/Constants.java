@@ -10,7 +10,7 @@ public class Constants {
     // intake 
     public static double INTAKE_SPEED = 0.4; 
     public static int INTAKE_PORT = 7; 
-    public static int[] PNEUMATIC_INTAKE_PORTS = { 0, 0, 0, 0 }; // CHANGE ELECTRICAL
+    public static int[] PNEUMATIC_INTAKE_PORTS = { 5, 6, 7, 8 }; // CHANGE ELECTRICAL
     public static int INTAKE_LIMIT = 35; 
 
     public static final int[] DRIVE_RIGHT_PORTS = { 1, 2, 3 };
@@ -32,7 +32,7 @@ public class Constants {
     public static final double CLIMB_kI = 0;
     public static final double CLIMB_kD = 0;
 
-    public static final int CLIMB_PNEUMATICS[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+    public static final int CLIMB_PNEUMATICS[] = { 10, 5, 2, 13};
 
     // Indexer Constants
     public static final double PULLEYDIAMETER = 1.504; // inches
