@@ -34,7 +34,8 @@ public class Shooter {
         UpAgainst(Constants.SHOOTER_RPM_UP_AGAINST, Constants.SHOOTER_ANGLE_UP_AGAINST),
         CargoLine(Constants.SHOOTER_RPM_CARGO_LINE, Constants.SHOOTER_ANGLE_CARGO_LINE),
         ClosePad(Constants.SHOOTER_RPM_CLOSE_PAD, Constants.SHOOTER_ANGLE_CLOSE_PAD),
-        FarPad(Constants.SHOOTER_RPM_FAR_PAD, Constants.SHOOTER_ANGLE_FAR_PAD);
+        FarPad(Constants.SHOOTER_RPM_FAR_PAD, Constants.SHOOTER_ANGLE_FAR_PAD),
+        Testing(0, 0);
 
         public final double target_rpm, target_angle;
 
@@ -86,6 +87,9 @@ public class Shooter {
         mLimit = new DigitalInput(Constants.SHOOTER_LIMIT_PORT);
         mBottom = new DigitalInput(Constants.SHOOTER_BOTTOM_SENSOR_PORT);
         mTop = new DigitalInput(Constants.SHOOTER_TOP_SENSOR_PORT);
+
+        SmartDashboard.putNumber("ShooterTestRPM", 0);
+        SmartDashboard.putNumber("ShooterTestAngle", 0);
     }
 
     /**
@@ -120,6 +124,9 @@ public class Shooter {
                     break;
             }
             goToMacro();
+            // TESTING ONLY COMMENT OUT DURING COMPETITION
+        } else if (Robot.operatorController.getBackButton()) {
+            setMacro(Macro.Testing);
         } else {
             stop();
         }
@@ -209,7 +216,11 @@ public class Shooter {
      * Moves the hood to the angle specified by the local target macro
      */
     public void goToMacro() {
-        setHoodAngle(target_macro.target_angle);
+        if (target_macro == Macro.Testing) {
+            setHoodAngle(SmartDashboard.getNumber("ShooterTestAngle", 0));
+        } else {
+            setHoodAngle(target_macro.target_angle);
+        }
     }
 
     /**
@@ -228,7 +239,12 @@ public class Shooter {
      * Spin up the motor to the locally stored rpm
      */
     public void spinUp() {
-        spinAt(target_macro.target_rpm);
+        if (target_macro == Macro.Testing) {
+            spinAt(SmartDashboard.getNumber("ShooterTestRPM", 0));
+        } else {
+            spinAt(target_macro.target_rpm);
+        }
+
     }
 
     /**
