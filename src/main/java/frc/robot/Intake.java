@@ -29,7 +29,7 @@ public class Intake {
          intakeToggle();
       } */
 
-      if (Robot.operatorController.getRightTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
+      if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
          intakeRoller();
       } else if (Robot.operatorController.getRightBumper()) {
          intakeRollerReverse();

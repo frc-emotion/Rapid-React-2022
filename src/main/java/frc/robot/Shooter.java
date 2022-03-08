@@ -96,11 +96,11 @@ public class Shooter {
      * Teleop function
      */
     public void run() {
-        if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
+        if (Robot.operatorController.getRightTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
             spinUp();
         } else if (Robot.operatorController.getAButton()) {
             shoot();
-        } else if (Robot.operatorController.getRightTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
+        } else if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
             indexUp();
         } else if (Math.abs(Robot.operatorController.getLeftY()) >= Constants.JOYSTICK_THRESHOLD) {
             teleopHood();
@@ -161,7 +161,6 @@ public class Shooter {
      * least once
      */
     public void shoot() {
-        spinUp();
         if (atRPM()) {
             reached_target = true;
         }
@@ -293,7 +292,7 @@ public class Shooter {
      * @return the current hood angle
      */
     public double getHoodAngle() {
-        return mHood.getEncoder().getPosition();
+        return mHood.getEncoder().getPosition() + Constants.SHOOTER_STARTING_ANGLE;
     }
 
     /**

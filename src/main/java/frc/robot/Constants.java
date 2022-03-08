@@ -89,5 +89,6 @@ public class Constants {
     public static final double SHOOTER_INDEX_SPEED = 0.4;
 
     public static final double SHOOTER_REV_TO_ANGLE = 0.416;
+    public static final double SHOOTER_STARTING_ANGLE = 0;
 
 }
