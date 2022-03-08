@@ -14,7 +14,7 @@ public class Constants {
     //intake  
     public static final int INTAKE_PORT = 7; 
     public static final int[] PNEUMATIC_INTAKE_PORTS = {0,0,0,0}; //CHANGE 
-    public static final double INTAKE_SPEED = 0.8; 
+    public static final double INTAKE_SPEED = 0.4; 
     
     //drivetrain 
     public static final int[] DRIVE_RIGHT_PORTS = {1, 2, 3};

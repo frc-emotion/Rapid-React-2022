@@ -25,11 +25,11 @@ public class Robot extends TimedRobot {
   public static Compressor compressor;
   public static XboxController operatorController;
   public static XboxController driverController;
-  //public static Intake intake;
+  public static Intake intake;
 
-  //public static DriveTrain dt;
+  public static DriveTrain dt;
   public static Climb climb;
-  //public static Indexer indexer;
+  public static Indexer indexer;
 
   private double PSIreading;
 
@@ -41,9 +41,9 @@ public class Robot extends TimedRobot {
 
     operatorController = new XboxController(Constants.OPERATOR_PORT);
     driverController = new XboxController(0);
-    //intake = new Intake();
-    //indexer = new Indexer();
-   // dt = new DriveTrain();
+    intake = new Intake();
+    indexer = new Indexer();
+    dt = new DriveTrain();
     climb = new Climb();
   }
 
@@ -58,6 +58,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
 
     PSIreading = compressor.getPressure();
+    SmartDashboard.putNumber("Pressure", PSIreading);
 
   }
 
@@ -89,10 +90,10 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    //intake.run();
-    //dt.run();
+    intake.run();
+    dt.run();
     climb.run();
-    //indexer.run();
+    indexer.run();
   }
 
   /** This function is called once when the robot is disabled. */

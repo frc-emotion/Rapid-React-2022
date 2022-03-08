@@ -21,6 +21,9 @@ public class Indexer {
     WPI_TalonFX TalonA;
     DigitalInput bottomsensor, topsensor;
 
+    //hold ball count ()
+
+
     public Indexer() {
         bottomsensor = new DigitalInput(Constants.BOTTOMSENSOR);
         topsensor = new DigitalInput(Constants.TOPSENSOR);
@@ -29,8 +32,8 @@ public class Indexer {
         TalonA.setNeutralMode(NeutralMode.Brake);
         TalonA.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 30, 10, 0.5));
 
-        SmartDashboard.putBoolean("Top Sensor Triggered", false);
-        SmartDashboard.putBoolean("Bottom Sensor Triggered", false);
+        SmartDashboard.putBoolean("Top Triggered", false);  //sensors 
+        SmartDashboard.putBoolean("Bottom Triggered", false);
     }
 
     public void run() {
