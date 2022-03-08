@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class Robot extends TimedRobot {
 
+  public static Compressor compressor;
   public static XboxController operatorController;
   public static XboxController driverController;
   //public static Intake intake;
@@ -30,11 +31,14 @@ public class Robot extends TimedRobot {
   public static Climb climb;
   //public static Indexer indexer;
 
-  
+  private double PSIreading;
 
   @Override
   public void robotInit() {
   
+    compressor = new Compressor(PneumaticsModuleType.REVPH);
+    compressor.enableAnalog(15, 120);
+
     operatorController = new XboxController(Constants.OPERATOR_PORT);
     driverController = new XboxController(0);
     //intake = new Intake();
@@ -51,7 +55,11 @@ public class Robot extends TimedRobot {
    * SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+
+    PSIreading = compressor.getPressure();
+
+  }
 
   /**
    * This autonomous (along with the chooser code above) shows how to select between different
