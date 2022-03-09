@@ -11,10 +11,9 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 
 /**
  * 
@@ -32,9 +31,13 @@ public class Climb {
     private boolean atMax;
     private boolean atMin;
 
+    private PowerDistribution PDH;
+
     private double targetRev;
 
     public Climb() {
+
+        PDH = new PowerDistribution();
 
         // Init Double Solenoids, Falcons
         ActuatorL = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.CLIMB_PNEUMATICS[0], Constants.CLIMB_PNEUMATICS[1]);
@@ -46,9 +49,11 @@ public class Climb {
         TalonA.setNeutralMode(NeutralMode.Brake);
         TalonB.setNeutralMode(NeutralMode.Brake);
 
-        // Remove and Add Factort Default Settings
-        TalonA.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.TALON_MAX_CURRENT, 10, 0.5));
-        TalonB.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.TALON_MAX_CURRENT, 10, 0.5));
+        // Remove and Add Factory Default Settings
+        TalonA.configFactoryDefault();
+        TalonB.configFactoryDefault();
+        //TalonA.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.TALON_MAX_CURRENT, 10, 0.5));
+        //TalonB.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.TALON_MAX_CURRENT, 10, 0.5));
 
         TalonB.follow(TalonA);
 
@@ -89,13 +94,8 @@ public class Climb {
 
         
         if (Robot.operatorController.getLeftBumper() && !Hooked) {
-
             ActuatorL.toggle();
             ActuatorR.toggle();
-        }
-
-        if (Robot.operatorController.getAButton()){
-            ZeroEncoders();
         }
 
         Bounds();
@@ -152,10 +152,11 @@ public class Climb {
         if (returnRevs() > Constants.CLIMB_MAX_POS){
             stopClimb();
             atMax = true;
-        }
-        else if (returnRevs() < Constants.CLIMB_MIN_POS){
+        } else if (returnRevs() < Constants.CLIMB_MIN_POS){
             stopClimb();
             atMin = true;
+        } else if (getCurrentDraw() > Constants.CLIMB_DRAW_THRESHOLD){
+           // ZeroEncoders();
         }
     }
 
@@ -177,7 +178,8 @@ public class Climb {
         TalonB.setSelectedSensorPosition(0);
     }
     
-    public void currentDraw(){
+    public double getCurrentDraw(){
+        return PDH.getCurrent(Constants.CLIMB_POWER_CHANNEL);
         //Create object of PDH
     }
 
