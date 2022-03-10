@@ -6,7 +6,7 @@ public class Constants {
     public static final int DRIVER_PORT = 0;
     public static final int OPERATOR_PORT = 1;
     public static final double TRIGGER_THRESHOLD = 0.3;
-    public static final double JOYSTICK_THRESHOLD = 0.2;
+    public static final double JOYSTICK_THRESHOLD = 0.02;
 
     // current limits
     public static final int NEO_MAX_CURRENT = 45;
@@ -59,9 +59,9 @@ public class Constants {
     public static final int SHOOTER_LIMIT_PORT = 2;
 
     // NEED TO EXPERIMETNALLY GET
-    public static final double SHOOTER_RPM_UP_AGAINST = 1700;
-    public static final double SHOOTER_RPM_CARGO_LINE = 3000;
-    public static final double SHOOTER_RPM_CLOSE_PAD = 3000;
+    public static final double SHOOTER_RPM_UP_AGAINST = 1500;
+    public static final double SHOOTER_RPM_CARGO_LINE = 2000;
+    public static final double SHOOTER_RPM_CLOSE_PAD = 2500;
     public static final double SHOOTER_RPM_FAR_PAD = 3000;
 
     // NEED TO EXPERIMETNALLY GET
@@ -74,11 +74,11 @@ public class Constants {
 
     public static final double SHOOTER_NOMINAL_VOLTAGE = 7;
 
-    public static final double SHOOTER_KS = 0.70133;
-    public static final double SHOOTER_KV = 0.11419;
-    public static final double SHOOTER_KA = 0.013578;
+    public static final double SHOOTER_KS = 0.74904;    //0.74904
+    public static final double SHOOTER_KV = 0.12235;
+    public static final double SHOOTER_KA = 0.062135;
 
-    public static final double SHOOTER_KP = 0.012615;
+    public static final double SHOOTER_KP = 0.005793;
     public static final double SHOOTER_KD = 0;
 
     // NEED TO GET WITH SYS ID

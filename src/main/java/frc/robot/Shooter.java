@@ -91,8 +91,6 @@ public class Shooter {
      */
     public void run() {
         if (Robot.operatorController.getRightTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
-            spinUp();
-        } else if (Robot.operatorController.getAButton()) {
             shoot();
         } else if (Math.abs(Robot.operatorController.getRightY()) >= Constants.JOYSTICK_THRESHOLD) {
             teleopHood();
@@ -119,6 +117,7 @@ public class Shooter {
             // TESTING ONLY COMMENT OUT DURING COMPETITION
         } else if (Robot.operatorController.getBackButton()) {
             setMacro(Macro.Testing);
+            goToMacro();
         } else {
             stop();
         }
@@ -144,20 +143,21 @@ public class Shooter {
      * Zero hood encoder
      */
     private void callibrate() {
+        mHood.stopMotor();
         mHood.getEncoder().setPosition(0);
     }
 
     /**
      * Unconditionally spin the shooter and indexer once the target is reached at
-     * least once
+     * least once and A button is pressed
      */
     public void shoot() {
-        if (atRPM()) {
-            reached_target = true;
-        }
+        spinUp();
 
-        if (reached_target) {
-        //ADD INDEXER CODE 
+        if (Robot.operatorController.getAButton()) {
+            Robot.indexer.indexForward();
+        } else {
+            reached_target = false;
         }
     }
 
@@ -167,7 +167,6 @@ public class Shooter {
      */
     public void teleopHood() {
         double joystick = -Robot.operatorController.getRightY(); // Up is negative for Y
-
         if (joystick < 0 && atLimit()) {
             callibrate();
         } else {
@@ -212,7 +211,11 @@ public class Shooter {
      * Spin up the motor to the locally stored rpm
      */
     public void spinUp() {
-          spinAt(1700);
+        if (target_macro == Macro.Testing) {
+            spinAt(SmartDashboard.getNumber("ShooterTestRPM", 0));
+        } else {
+            spinAt(target_macro.target_rpm);
+        }
     }
 
     /**
@@ -223,7 +226,7 @@ public class Shooter {
     private void spinAt(double rpm) {
         mL.set(ControlMode.Velocity, toNative(rpm),
                 DemandType.ArbitraryFeedForward,
-                mFeedForward.calculate(rpm) / Constants.SHOOTER_NOMINAL_VOLTAGE);
+                mFeedForward.calculate(rpm / 60) / Constants.SHOOTER_NOMINAL_VOLTAGE);
     }
 
     /**

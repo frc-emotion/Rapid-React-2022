@@ -42,7 +42,6 @@ public class Indexer {
         }
 
         if(Robot.operatorController.getAButton()) {
-            indexForward();
              //  ballcount = 0; 
              indexerStat = true; 
              ball = false; 
