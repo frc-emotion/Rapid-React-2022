@@ -74,8 +74,8 @@ public class Indexer {
         } else {
             indexerStop();
         }
-
-        System.out.println("active: " + active + " released" + released);
+        System.out.println("containsFirstBall " + containsFirstBall);
+        System.out.println("active: " + active + " released: " + released);
 
         updateSmartDashboard();
     }
