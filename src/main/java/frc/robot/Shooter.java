@@ -22,8 +22,6 @@ public class Shooter {
 
     private Macro target_macro = Macro.UpAgainst;
 
-    private boolean reached_target = false; // Flag to determine if the shooter was ever at target rpm
-
     private final SimpleMotorFeedforward mFeedForward = new SimpleMotorFeedforward(Constants.SHOOTER_KS,
             Constants.SHOOTER_KV, Constants.SHOOTER_KA);
 
@@ -70,9 +68,8 @@ public class Shooter {
 
         mHood = new CANSparkMax(Constants.SHOOTER_HOOD_PORT, MotorType.kBrushless);
 
+        mHood.restoreFactoryDefaults();
         mHood.setInverted(true);
-
-        mHood.getEncoder().setPositionConversionFactor(Constants.SHOOTER_REV_TO_ANGLE);
 
         SparkMaxPIDController controller = mHood.getPIDController();
 
@@ -135,8 +132,6 @@ public class Shooter {
 
         mHood.stopMotor();
         mL.stopMotor();
-
-        reached_target = false;
     }
 
     /**
@@ -156,8 +151,6 @@ public class Shooter {
 
         if (Robot.operatorController.getAButton()) {
             Robot.indexer.indexForward();
-        } else {
-            reached_target = false;
         }
     }
 
@@ -203,7 +196,8 @@ public class Shooter {
      */
     private void setHoodAngle(double angle) {
         mHood.getPIDController().setReference(
-                MathUtil.clamp(angle, Constants.SHOOTER_HOOD_MIN, Constants.SHOOTER_HOOD_MAX),
+                MathUtil.clamp(angle, Constants.SHOOTER_HOOD_MIN, Constants.SHOOTER_HOOD_MAX)
+                        / Constants.SHOOTER_REV_TO_ANGLE,
                 ControlType.kPosition);
     }
 
@@ -245,7 +239,7 @@ public class Shooter {
      * @return the current hood angle
      */
     public double getHoodAngle() {
-        return mHood.getEncoder().getPosition() + Constants.SHOOTER_STARTING_ANGLE;
+        return mHood.getEncoder().getPosition() * Constants.SHOOTER_REV_TO_ANGLE + Constants.SHOOTER_STARTING_ANGLE;
     }
 
     /**
@@ -277,7 +271,7 @@ public class Shooter {
      * @return
      */
     private double toRPM(double ticks_per_time) {
-        return ticks_per_time / 2048 * 600;
+        return (ticks_per_time / 2048) * 600;
     }
 
     /**

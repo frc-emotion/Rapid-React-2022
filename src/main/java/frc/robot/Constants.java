@@ -78,7 +78,7 @@ public class Constants {
     public static final double SHOOTER_KV = 0.12235;
     public static final double SHOOTER_KA = 0.062135;
 
-    public static final double SHOOTER_KP = 0.005793;
+    public static final double SHOOTER_KP = 0.003793;
     public static final double SHOOTER_KD = 0;
 
     // NEED TO GET WITH SYS ID
