@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +25,8 @@ public class Shooter {
 
     private final SimpleMotorFeedforward mFeedForward = new SimpleMotorFeedforward(Constants.SHOOTER_KS,
             Constants.SHOOTER_KV, Constants.SHOOTER_KA);
+    private final ArmFeedforward mHoodForward = new ArmFeedforward(Constants.SHOOTER_HOOD_KS,
+            Constants.SHOOTER_HOOD_KCOS, Constants.SHOOTER_HOOD_KV, Constants.SHOOTER_HOOD_KA);
 
     /**
      * Custom enum which stores the corresponding rpm and angle for each position
@@ -68,14 +71,15 @@ public class Shooter {
 
         mHood = new CANSparkMax(Constants.SHOOTER_HOOD_PORT, MotorType.kBrushless);
 
+        mHood.enableVoltageCompensation(Constants.SHOOTER_HOOD_NOMINAL_VOLTAGE);
+
         mHood.restoreFactoryDefaults();
         mHood.setInverted(true);
 
         SparkMaxPIDController controller = mHood.getPIDController();
 
-        controller.setP(Constants.SHOOTER_HOOD_KP);
-        controller.setI(Constants.SHOOTER_HOOD_KI);
-        controller.setD(Constants.SHOOTER_HOOD_KD);
+        controller.setP(Constants.SHOOTER_HOOD_KP, 0);
+        controller.setD(Constants.SHOOTER_HOOD_KD, 0);
 
         mLimit = new DigitalInput(Constants.SHOOTER_LIMIT_PORT);
 
@@ -155,6 +159,28 @@ public class Shooter {
     }
 
     /**
+     * Spin up the motor to the locally stored rpm
+     */
+    public void spinUp() {
+        if (target_macro == Macro.Testing) {
+            spinAt(SmartDashboard.getNumber("ShooterTestRPM", 0));
+        } else {
+            spinAt(target_macro.target_rpm);
+        }
+    }
+
+    /**
+     * Start the shooter with the setpoint provided
+     * 
+     * @param rpm target rpm
+     */
+    private void spinAt(double rpm) {
+        mL.set(ControlMode.Velocity, toNative(rpm),
+                DemandType.ArbitraryFeedForward,
+                mFeedForward.calculate(rpm / 60) / Constants.SHOOTER_NOMINAL_VOLTAGE);
+    }
+
+    /**
      * Manually control the hood for testing purposes.
      * 
      */
@@ -198,38 +224,7 @@ public class Shooter {
         mHood.getPIDController().setReference(
                 MathUtil.clamp(angle, Constants.SHOOTER_HOOD_MIN, Constants.SHOOTER_HOOD_MAX)
                         / Constants.SHOOTER_REV_TO_ANGLE,
-                ControlType.kPosition);
-    }
-
-    /**
-     * Spin up the motor to the locally stored rpm
-     */
-    public void spinUp() {
-        if (target_macro == Macro.Testing) {
-            spinAt(SmartDashboard.getNumber("ShooterTestRPM", 0));
-        } else {
-            spinAt(target_macro.target_rpm);
-        }
-    }
-
-    /**
-     * Start the shooter with the setpoint provided
-     * 
-     * @param rpm target rpm
-     */
-    private void spinAt(double rpm) {
-        mL.set(ControlMode.Velocity, toNative(rpm),
-                DemandType.ArbitraryFeedForward,
-                mFeedForward.calculate(rpm / 60) / Constants.SHOOTER_NOMINAL_VOLTAGE);
-    }
-
-    /**
-     * Checks whether the limit switch is triggered
-     * 
-     * @return True if the hood is at the limit switch
-     */
-    public boolean atLimit() {
-        return !mLimit.get();
+                ControlType.kPosition, 0, mHoodForward.calculate(angle, 0));
     }
 
     /**
@@ -286,6 +281,15 @@ public class Shooter {
      */
     private double toNative(double rpm) {
         return (rpm * 2048) / 600;
+    }
+
+    /**
+     * Checks whether the limit switch is triggered
+     * 
+     * @return True if the hood is at the limit switch
+     */
+    public boolean atLimit() {
+        return !mLimit.get();
     }
 
     public void updateDashboard() {

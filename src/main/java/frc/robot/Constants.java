@@ -14,10 +14,10 @@ public class Constants {
 
     // intake
     public static final int INTAKE_PORT = 7;
-    public static final int[] PNEUMATIC_INTAKE_PORTS = {12, 3, 8, 7};  
+    public static final int[] PNEUMATIC_INTAKE_PORTS = { 12, 3, 8, 7 };
     public static final double INTAKE_SPEED = 0.4;
 
-    //indexer 
+    // indexer
     public static final int INDEXERFALCON = 13;
     public static final int BOTTOMSENSOR = 0;
     public static final int TOPSENSOR = 1;
@@ -38,7 +38,6 @@ public class Constants {
     public static final double CLIMB_ZERO_POS = 0;
     public static final int CLIMB_POWER_CHANNEL = 0;
     public static final double CLIMB_DRAW_THRESHOLD = 0;
-    
 
     public static final double CLIMB_TARGET_MAX_POS = 46 * 2048; // rev
     public static final double CLIMB_TARGET_MIN_POS = 5 * 2048; // rev
@@ -73,10 +72,16 @@ public class Constants {
     public static final double SHOOTER_THRESHOLD_RPM = 200;
 
     public static final double SHOOTER_NOMINAL_VOLTAGE = 7;
+    public static final double SHOOTER_HOOD_NOMINAL_VOLTAGE = 10;
 
-    public static final double SHOOTER_KS = 0.74904;    //0.74904
+    public static final double SHOOTER_KS = 0.74904; // 0.74904
     public static final double SHOOTER_KV = 0.12235;
     public static final double SHOOTER_KA = 0.062135;
+
+    public static final double SHOOTER_HOOD_KS = 0;
+    public static final double SHOOTER_HOOD_KCOS = 0;
+    public static final double SHOOTER_HOOD_KV = 0;
+    public static final double SHOOTER_HOOD_KA = 0;
 
     public static final double SHOOTER_KP = 0.003793;
     public static final double SHOOTER_KD = 0;
@@ -94,9 +99,9 @@ public class Constants {
     public static final double SHOOTER_REV_TO_ANGLE = 0.416;
     public static final double SHOOTER_STARTING_ANGLE = 0;
 
-    //REFERENCE ANGLES
-    public static final double MOUNTING_HEIGHT = 0.381; //tochange
-    public static final double MOUNTING_ANGLE = 0.5759; //tochange
+    // REFERENCE ANGLES
+    public static final double MOUNTING_HEIGHT = 0.381; // tochange
+    public static final double MOUNTING_ANGLE = 0.5759; // tochange
     public static final double REFERENCE_HEIGHT = 0.264;
 
     public static final int PORT_PIPELINE = 1;
