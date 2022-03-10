@@ -48,7 +48,7 @@ public class Constants {
     public static final double CLIMB_kI = 0;
     public static final double CLIMB_kD = 0;
 
-    public static final int CLIMB_PNEUMATICS[] = { 10, 5, 2, 13 };
+    public static final int CLIMB_PNEUMATICS[] = { 5, 10, 9, 6};
 
     // Shooter Constants
     public static final int SHOOTER_HOOD_PORT = 8;

@@ -45,7 +45,7 @@ public class Intake {
       solenoidA.toggle();;
       solenoidB.toggle();
    }  
-/*   
+   
    public void intakeDown() {
       solenoidA.set(Value.kForward);
       solenoidB.set(Value.kForward);
@@ -55,7 +55,7 @@ public class Intake {
       solenoidA.set(Value.kReverse);
       solenoidB.set(Value.kReverse);
    }
-*/
+
    public void intakeRoller() {
       intakeSpark.set(-Constants.INTAKE_SPEED);
    }   
