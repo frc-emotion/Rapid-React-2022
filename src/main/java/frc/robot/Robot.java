@@ -9,8 +9,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -25,7 +26,10 @@ public class Robot extends TimedRobot {
   Command teleopCommand;
   Command autoCommand;
 
+  
+
   public static Trajectory test;
+  public static Trajectory forw;
   TrajectoryCreator creator;
 
   /**
@@ -39,9 +43,11 @@ public class Robot extends TimedRobot {
 
     creator = new TrajectoryCreator();
 
-    test = creator.generateTrajectory("AutoPick.wpilib.json", "AutoPickTest#2");
+    test = creator.generateTrajectory("bb.wpilib.json", "AutoPickTest#2");
+    forw = creator.generateTrajectory("ff.wpilib.json", "dsgd#2");
 
     Drive.m_field.getObject("traj").setTrajectory(test);
+    Drive.m_field.getObject("traj2").setTrajectory(forw);
     
 
   }
@@ -72,15 +78,13 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
  
-     autoCommand = container.getAutonomousCommand();
+     autoCommand = container.runAuto();
      
-    if (teleopCommand != null){
-      teleopCommand.cancel();
-    }
+     //container.getAutonomousCommand();
 
-     if(autoCommand != null){
-      autoCommand.schedule(); 
-     }
+    if (autoCommand != null){
+      autoCommand.schedule();
+    }
 
 
     

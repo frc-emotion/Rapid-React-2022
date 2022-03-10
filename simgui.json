@@ -1,4 +1,13 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "navX-Sensor[0]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -28,7 +37,12 @@
           "style": "Box/Image",
           "width": 0.800000011920929
         },
-        "image": "C:\\Users\\Karan\\Downloads\\2022-field.png",
+        "bottom": 900,
+        "height": 8.229599952697754,
+        "image": "C:\\Users\\Karan\\Documents\\2022-field.png",
+        "left": 74,
+        "right": 1774,
+        "top": 50,
         "traj": {
           "arrowSize": 0,
           "arrowWeight": 0.0,
@@ -43,6 +57,14 @@
           "weight": 5.0,
           "width": 0.0
         },
+        "traj2": {
+          "arrowSize": 0,
+          "arrows": false,
+          "length": 0.0,
+          "style": "Track",
+          "width": 0.0
+        },
+        "width": 16.459199905395508,
         "window": {
           "name": "Rapid React Field",
           "visible": true

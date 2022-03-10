@@ -49,7 +49,7 @@ public class Drive extends SubsystemBase {
     private final DifferentialDrivetrainSim driveSim = new DifferentialDrivetrainSim(
         DCMotor.getNEO(3),    
         Constants.kDriveGearRatio,    
-        5.17,                     
+        6.9,                     
         55.9,                   
         Units.inchesToMeters(3), 
         0.69,                 
@@ -125,6 +125,8 @@ public class Drive extends SubsystemBase {
         leftEncoder.setPositionConversionFactor((1/Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0));
         rightEncoder.setPositionConversionFactor((1/Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0));
 
+        gyro.calibrate();
+
         //Zero Encoders
         resetEncoders();
         // Sets the robot Position in a 2D Space
@@ -140,11 +142,7 @@ public class Drive extends SubsystemBase {
 
     @Override
     public void periodic() {
-
-       
         m_field.setRobotPose(odometry.getPoseMeters());
-
-
         odometry.update(gyro.getRotation2d(),
                 leftEncoder.getPosition(),
                 rightEncoder.getPosition());

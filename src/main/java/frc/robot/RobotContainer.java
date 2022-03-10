@@ -8,21 +8,31 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
+import org.ejml.equation.Sequence;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import frc.robot.commands.AutoCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.TwoBallAuto;
 import frc.robot.subsystems.Drive;
 
 public class RobotContainer {
+
+  private RunRamsete auto;
 
   private final Drive drive = new Drive();
   DriveCommand drivetrain = new DriveCommand(drive);
 
   Trajectory autoPick;
+  Trajectory b1;
+  Trajectory b2;
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
@@ -34,6 +44,15 @@ public class RobotContainer {
   public Command getTeleopCommand(){
     return drivetrain;
   }
+
+  public Command runAuto(){
+    autoPick = Robot.test;
+    b2 = Robot.forw;
+
+    return new TwoBallAuto(drive, autoPick, b2);
+  }
+
+
 
 
 
@@ -60,8 +79,8 @@ public class RobotContainer {
     RamseteCommand ramseteCommand = new RamseteCommand(autoPick, drive::getPose,
         new RamseteController(Constants.RamseteB, Constants.RamseteZeta),
         new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSeconds, Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.DRIVE_KINEMATICS, drive::getWheelSpeeds, new PIDController(Constants.kPDriveVel, 0, 0),
-        new PIDController(Constants.kPDriveVel, 0, 0), drive::tankDriveVolts, drive
+        Constants.DRIVE_KINEMATICS, drive::getWheelSpeeds, new PIDController(Constants.kPDriveVel, 0, Constants.kDDriveVel),
+        new PIDController(Constants.kPDriveVel, 0, Constants.kDDriveVel), drive::tankDriveVolts, drive
 
     );
 
