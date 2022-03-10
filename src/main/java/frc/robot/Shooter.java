@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter {
     private CANSparkMax mHood;
-    private WPI_TalonFX mL, mR, mIndexer;
-    private DigitalInput mLimit, mBottom, mTop;
+    private WPI_TalonFX mL, mR;
+    private DigitalInput mLimit;
 
     private Macro target_macro = Macro.UpAgainst;
 
@@ -48,19 +48,15 @@ public class Shooter {
     public Shooter() {
         mL = new WPI_TalonFX(Constants.SHOOTER_LEFT_PORT);
         mR = new WPI_TalonFX(Constants.SHOOTER_RIGHT_PORT);
-        mIndexer = new WPI_TalonFX(Constants.SHOOTER_INDEXER_PORT);
 
         mL.configFactoryDefault();
         mR.configFactoryDefault();
-        mIndexer.configFactoryDefault();
 
         mL.setInverted(InvertType.InvertMotorOutput);
         mR.setInverted(InvertType.None);
-        mIndexer.setInverted(InvertType.None);
 
         mL.setNeutralMode(NeutralMode.Coast);
         mR.setNeutralMode(NeutralMode.Coast);
-        mIndexer.setNeutralMode(NeutralMode.Brake);
 
         mL.configVoltageCompSaturation(Constants.SHOOTER_NOMINAL_VOLTAGE);
         mL.enableVoltageCompensation(true);
@@ -85,8 +81,6 @@ public class Shooter {
         controller.setD(Constants.SHOOTER_HOOD_KD);
 
         mLimit = new DigitalInput(Constants.SHOOTER_LIMIT_PORT);
-        mBottom = new DigitalInput(Constants.SHOOTER_BOTTOM_SENSOR_PORT);
-        mTop = new DigitalInput(Constants.SHOOTER_TOP_SENSOR_PORT);
 
         SmartDashboard.putNumber("ShooterTestRPM", 0);
         SmartDashboard.putNumber("ShooterTestAngle", 0);
@@ -100,9 +94,7 @@ public class Shooter {
             spinUp();
         } else if (Robot.operatorController.getAButton()) {
             shoot();
-        } else if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
-            indexUp();
-        } else if (Math.abs(Robot.operatorController.getLeftY()) >= Constants.JOYSTICK_THRESHOLD) {
+        } else if (Math.abs(Robot.operatorController.getRightY()) >= Constants.JOYSTICK_THRESHOLD) {
             teleopHood();
         } else if (Robot.operatorController.getPOV() != -1) {
             switch (Robot.operatorController.getPOV()) {
@@ -144,7 +136,6 @@ public class Shooter {
 
         mHood.stopMotor();
         mL.stopMotor();
-        mIndexer.stopMotor();
 
         reached_target = false;
     }
@@ -166,25 +157,8 @@ public class Shooter {
         }
 
         if (reached_target) {
-            mIndexer.set(Constants.SHOOTER_INDEX_SPEED);
-        } else {
-            mIndexer.stopMotor();
+        //ADD INDEXER CODE 
         }
-    }
-
-    /**
-     * Index balls until one reaches the loading position
-     */
-    public void indexUp() {
-        if (atTop()) {
-            mIndexer.stopMotor();
-        } else {
-            mIndexer.set(Constants.SHOOTER_INDEX_SPEED);
-        }
-    }
-
-    public void indexReverse() {
-        mIndexer.set(-Constants.SHOOTER_INDEX_SPEED);
     }
 
     /**
@@ -192,7 +166,7 @@ public class Shooter {
      * 
      */
     public void teleopHood() {
-        double joystick = -Robot.operatorController.getLeftY(); // Up is negative for Y
+        double joystick = -Robot.operatorController.getRightY(); // Up is negative for Y
 
         if (joystick < 0 && atLimit()) {
             callibrate();
@@ -238,12 +212,7 @@ public class Shooter {
      * Spin up the motor to the locally stored rpm
      */
     public void spinUp() {
-        if (target_macro == Macro.Testing) {
-            spinAt(SmartDashboard.getNumber("ShooterTestRPM", 0));
-        } else {
-            spinAt(target_macro.target_rpm);
-        }
-
+          spinAt(1700);
     }
 
     /**
@@ -255,7 +224,6 @@ public class Shooter {
         mL.set(ControlMode.Velocity, toNative(rpm),
                 DemandType.ArbitraryFeedForward,
                 mFeedForward.calculate(rpm) / Constants.SHOOTER_NOMINAL_VOLTAGE);
-
     }
 
     /**
@@ -265,24 +233,6 @@ public class Shooter {
      */
     public boolean atLimit() {
         return !mLimit.get();
-    }
-
-    /**
-     * Checks whether a ball is at the top sensor
-     * 
-     * @return True if there is a ball
-     */
-    public boolean atTop() {
-        return !mTop.get();
-    }
-
-    /**
-     * Checks whether a ball is at the bottom sensor
-     * 
-     * @return True if there is a ball
-     */
-    public boolean atBottom() {
-        return !mBottom.get();
     }
 
     /**
@@ -338,7 +288,7 @@ public class Shooter {
      * @return
      */
     private double toNative(double rpm) {
-        return rpm * 2048 / 600;
+        return (rpm * 2048) / 600;
     }
 
     public void updateDashboard() {

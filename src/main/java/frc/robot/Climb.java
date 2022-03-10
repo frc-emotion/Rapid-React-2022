@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 
 /**
  * 
@@ -76,10 +74,10 @@ public class Climb {
     public void run() {
         double lJoystickPos = Robot.operatorController.getLeftY();
         if (!atMax || !atMin){
-            if (lJoystickPos > Constants.CLIMB_THRESHOLD ) {
+            if (lJoystickPos > Constants.JOYSTICK_THRESHOLD ) {
                 TalonA.set(Constants.CLIMB_MOTOR_SPEED);
                // ExtendClimb(Constants.CLIMB_TARGET_POS);
-            } else if (lJoystickPos < -Constants.CLIMB_THRESHOLD) {
+            } else if (lJoystickPos < -Constants.JOYSTICK_THRESHOLD) {
                 TalonA.set(-Constants.CLIMB_MOTOR_SPEED);
                 //RetractClimb(Constants.CLIMB_TARGET_POS);
             } else {
@@ -88,7 +86,7 @@ public class Climb {
         }
 
         
-        if (Robot.operatorController.getLeftBumper() && !Hooked) {
+        if (Robot.operatorController.getLeftBumperPressed() && !Hooked) {
 
             ActuatorL.toggle();
             ActuatorR.toggle();

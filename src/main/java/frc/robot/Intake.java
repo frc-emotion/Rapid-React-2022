@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 public class Intake {
     
    private CANSparkMax intakeSpark; 
- //  private DoubleSolenoid solenoidA, solenoidB;
+   private DoubleSolenoid solenoidA, solenoidB;
 
    public Intake() {
       
@@ -20,30 +20,32 @@ public class Intake {
       intakeSpark.setSecondaryCurrentLimit(Constants.NEO_MAX_CURRENT);
       intakeSpark.setIdleMode(IdleMode.kBrake);
 
-   //   solenoidA = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PNEUMATIC_INTAKE_PORTS[0], Constants.PNEUMATIC_INTAKE_PORTS[1]); //check module type w/Bart
-     // solenoidB = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PNEUMATIC_INTAKE_PORTS[2], Constants.PNEUMATIC_INTAKE_PORTS[3]);
+      solenoidA = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PNEUMATIC_INTAKE_PORTS[0], Constants.PNEUMATIC_INTAKE_PORTS[1]); 
+      solenoidA.set(Value.kReverse);
+      solenoidB = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PNEUMATIC_INTAKE_PORTS[2], Constants.PNEUMATIC_INTAKE_PORTS[3]);
+      solenoidB.set(Value.kReverse);
    }
 
    public void run(){
-   /*   if (Robot.operatorController.getYButtonPressed()) {
+      if (Robot.operatorController.getYButtonPressed()) {
          intakeToggle();
-      } */
+      } 
 
       if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
          intakeRoller();
-      } else if (Robot.operatorController.getRightBumper()) {
-         intakeRollerReverse();
+      } else if (Robot.operatorController.getLeftBumper()) {
+       //  intakeRollerReverse();
       } else {
          intakeRollerOff();
       }
 
    }
 
-/*   public void intakeToggle() {
+   public void intakeToggle() {
       solenoidA.toggle();;
       solenoidB.toggle();
-   } 
-   
+   }  
+/*   
    public void intakeDown() {
       solenoidA.set(Value.kForward);
       solenoidB.set(Value.kForward);

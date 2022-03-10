@@ -14,8 +14,14 @@ public class Constants {
 
     // intake
     public static final int INTAKE_PORT = 7;
-    public static final int[] PNEUMATIC_INTAKE_PORTS = { 0, 0, 0, 0 }; // CHANGE
+    public static final int[] PNEUMATIC_INTAKE_PORTS = {12, 3, 8, 7};  
     public static final double INTAKE_SPEED = 0.4;
+
+    //indexer 
+    public static final int INDEXERFALCON = 13;
+    public static final int BOTTOMSENSOR = 0;
+    public static final int TOPSENSOR = 1;
+    public static final double INDEXINGSPEED = 0.4;
 
     // drivetrain
     public static final int[] DRIVE_RIGHT_PORTS = { 1, 2, 3 };
@@ -28,7 +34,6 @@ public class Constants {
 
     // Climb Constants
     public static final int[] CLIMB_MOTORS_ID = { 11, 12 };
-    public static final double CLIMB_THRESHOLD = 0.2;
     public static final double CLIMB_MOTOR_SPEED = 0.85;
     public static final double CLIMB_ZERO_POS = 0;
 
@@ -44,18 +49,14 @@ public class Constants {
     public static final int CLIMB_PNEUMATICS[] = { 10, 5, 2, 13 };
 
     // Shooter Constants
-    public static final int SHOOTER_INDEXER_PORT = 13;
     public static final int SHOOTER_HOOD_PORT = 8;
     public static final int SHOOTER_LEFT_PORT = 9;
     public static final int SHOOTER_RIGHT_PORT = 10;
 
-    public static final int SHOOTER_BOTTOM_SENSOR_PORT = 0;
-    public static final int SHOOTER_TOP_SENSOR_PORT = 1;
-
     public static final int SHOOTER_LIMIT_PORT = 2;
 
     // NEED TO EXPERIMETNALLY GET
-    public static final double SHOOTER_RPM_UP_AGAINST = 3000;
+    public static final double SHOOTER_RPM_UP_AGAINST = 1700;
     public static final double SHOOTER_RPM_CARGO_LINE = 3000;
     public static final double SHOOTER_RPM_CLOSE_PAD = 3000;
     public static final double SHOOTER_RPM_FAR_PAD = 3000;
@@ -86,7 +87,6 @@ public class Constants {
     public static final double SHOOTER_HOOD_MAX = 35;
 
     public static final double SHOOTER_HOOD_SPEED = 0.3;
-    public static final double SHOOTER_INDEX_SPEED = 0.4;
 
     public static final double SHOOTER_REV_TO_ANGLE = 0.416;
     public static final double SHOOTER_STARTING_ANGLE = 0;
