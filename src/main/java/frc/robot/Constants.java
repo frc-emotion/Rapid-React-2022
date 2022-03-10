@@ -94,4 +94,8 @@ public class Constants {
     public static final double SHOOTER_REV_TO_ANGLE = 0.416;
     public static final double SHOOTER_STARTING_ANGLE = 0;
 
+    //REFERENCE ANGLES
+    public static final int MOUNTING_HEIGHT = 0.381; //tochange
+    public static final int MOUNTING_ANGLE = 0.5759; //tochange
+    public static final int REFERENCE_HEIGHT = 0.264;
 }
