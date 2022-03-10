@@ -93,12 +93,7 @@ public class Climb {
         }
 
         
-<<<<<<< HEAD
-        if (Robot.operatorController.getLeftBumperPressed() && !Hooked) {
-
-=======
         if (Robot.operatorController.getLeftBumper() && !Hooked) {
->>>>>>> e18ef4afdb000556897ed0d4313aa65684488a2a
             ActuatorL.toggle();
             ActuatorR.toggle();
         }
