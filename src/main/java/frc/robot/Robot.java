@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.drivetrain.DriveTrain;
+import frc.robot.shooter.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the

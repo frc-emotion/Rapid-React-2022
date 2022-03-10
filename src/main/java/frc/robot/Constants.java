@@ -1,5 +1,7 @@
 package frc.robot;
 
+import frc.robot.limelight.Distance;
+
 public class Constants {
 
     // controllers
@@ -64,31 +66,25 @@ public class Constants {
     public static final double SHOOTER_RPM_FAR_PAD = 3000;
 
     // NEED TO EXPERIMETNALLY GET
-    public static final double SHOOTER_ANGLE_UP_AGAINST = 0;
-    public static final double SHOOTER_ANGLE_CARGO_LINE = 0;
-    public static final double SHOOTER_ANGLE_CLOSE_PAD = 0;
+    public static final double SHOOTER_ANGLE_UP_AGAINST = 10;
+    public static final double SHOOTER_ANGLE_CARGO_LINE = 15;
+    public static final double SHOOTER_ANGLE_CLOSE_PAD = 20;
     public static final double SHOOTER_ANGLE_FAR_PAD = 0;
 
     public static final double SHOOTER_THRESHOLD_RPM = 200;
 
     public static final double SHOOTER_NOMINAL_VOLTAGE = 7;
-    public static final double SHOOTER_HOOD_NOMINAL_VOLTAGE = 10;
+    public static final double SHOOTER_HOOD_NOMINAL_VOLTAGE = 7;
 
-    public static final double SHOOTER_KS = 0.74904; // 0.74904
+    public static final double SHOOTER_KS = 0.74904;
     public static final double SHOOTER_KV = 0.12235;
     public static final double SHOOTER_KA = 0.062135;
-
-    public static final double SHOOTER_HOOD_KS = 0;
-    public static final double SHOOTER_HOOD_KCOS = 0;
-    public static final double SHOOTER_HOOD_KV = 0;
-    public static final double SHOOTER_HOOD_KA = 0;
 
     public static final double SHOOTER_KP = 0.003793;
     public static final double SHOOTER_KD = 0;
 
     // NEED TO GET WITH SYS ID
-    public static final double SHOOTER_HOOD_KP = 0;
-    public static final double SHOOTER_HOOD_KI = 0;
+    public static final double SHOOTER_HOOD_KP = 0.65;
     public static final double SHOOTER_HOOD_KD = 0;
 
     public static final double SHOOTER_HOOD_MIN = 5;
@@ -99,10 +95,16 @@ public class Constants {
     public static final double SHOOTER_REV_TO_ANGLE = 0.416;
     public static final double SHOOTER_STARTING_ANGLE = 0;
 
+    // Physical Constants
+    public static final double SHOOTER_HEIGHT = 0.813; // meter
+    public static final double SHOOTER_TARGET_THRESHOLD = 0.1; // meter
+
     // REFERENCE ANGLES
     public static final double MOUNTING_HEIGHT = 0.381; // tochange
     public static final double MOUNTING_ANGLE = 0.5759; // tochange
-    public static final double REFERENCE_HEIGHT = 0.264;
+    public static final double REFERENCE_HEIGHT = 2.64;
+
+    public static final Distance DISTANCE = new Distance(MOUNTING_HEIGHT, MOUNTING_ANGLE, REFERENCE_HEIGHT);
 
     public static final int PORT_PIPELINE = 1;
 }

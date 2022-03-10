@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.shooter;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
@@ -8,13 +8,15 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class Shooter {
     private CANSparkMax mHood;
@@ -25,8 +27,6 @@ public class Shooter {
 
     private final SimpleMotorFeedforward mFeedForward = new SimpleMotorFeedforward(Constants.SHOOTER_KS,
             Constants.SHOOTER_KV, Constants.SHOOTER_KA);
-    private final ArmFeedforward mHoodForward = new ArmFeedforward(Constants.SHOOTER_HOOD_KS,
-            Constants.SHOOTER_HOOD_KCOS, Constants.SHOOTER_HOOD_KV, Constants.SHOOTER_HOOD_KA);
 
     /**
      * Custom enum which stores the corresponding rpm and angle for each position
@@ -71,10 +71,11 @@ public class Shooter {
 
         mHood = new CANSparkMax(Constants.SHOOTER_HOOD_PORT, MotorType.kBrushless);
 
-        mHood.enableVoltageCompensation(Constants.SHOOTER_HOOD_NOMINAL_VOLTAGE);
-
         mHood.restoreFactoryDefaults();
+
         mHood.setInverted(true);
+        mHood.enableVoltageCompensation(Constants.SHOOTER_HOOD_NOMINAL_VOLTAGE);
+        mHood.setIdleMode(IdleMode.kBrake);
 
         SparkMaxPIDController controller = mHood.getPIDController();
 
@@ -83,6 +84,7 @@ public class Shooter {
 
         mLimit = new DigitalInput(Constants.SHOOTER_LIMIT_PORT);
 
+        // TESTING ONLY COMMENT OUT DURING COMPETITION
         SmartDashboard.putNumber("ShooterTestRPM", 0);
         SmartDashboard.putNumber("ShooterTestAngle", 0);
     }
@@ -162,6 +164,7 @@ public class Shooter {
      * Spin up the motor to the locally stored rpm
      */
     public void spinUp() {
+        // TESTING ONLY COMMENT OUT DURING COMPETITION
         if (target_macro == Macro.Testing) {
             spinAt(SmartDashboard.getNumber("ShooterTestRPM", 0));
         } else {
@@ -207,6 +210,7 @@ public class Shooter {
      * Moves the hood to the angle specified by the local target macro
      */
     public void goToMacro() {
+        // TESTING ONLY COMMENT OUT DURING COMPETITION
         if (target_macro == Macro.Testing) {
             setHoodAngle(SmartDashboard.getNumber("ShooterTestAngle", 0));
         } else {
@@ -224,7 +228,7 @@ public class Shooter {
         mHood.getPIDController().setReference(
                 MathUtil.clamp(angle, Constants.SHOOTER_HOOD_MIN, Constants.SHOOTER_HOOD_MAX)
                         / Constants.SHOOTER_REV_TO_ANGLE,
-                ControlType.kPosition, 0, mHoodForward.calculate(angle, 0));
+                ControlType.kPosition);
     }
 
     /**
