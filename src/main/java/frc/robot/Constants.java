@@ -36,6 +36,9 @@ public class Constants {
     public static final int[] CLIMB_MOTORS_ID = { 11, 12 };
     public static final double CLIMB_MOTOR_SPEED = 0.85;
     public static final double CLIMB_ZERO_POS = 0;
+    public static final int CLIMB_POWER_CHANNEL = 0;
+    public static final double CLIMB_DRAW_THRESHOLD = 0;
+    
 
     public static final double CLIMB_TARGET_MAX_POS = 46 * 2048; // rev
     public static final double CLIMB_TARGET_MIN_POS = 5 * 2048; // rev
