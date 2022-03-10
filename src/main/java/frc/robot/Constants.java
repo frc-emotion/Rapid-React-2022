@@ -42,10 +42,10 @@ public class Constants {
     //Indexer Constants
     public static final double PULLEYDIAMETER = 1.504; //inches
     public static final double PULLEYCIRCUMFRENCE = 4.724955351; //inches
-    public static final int INDEXERFALCON = 3;
+    public static final int INDEXERFALCON = 13;
     public static final int BOTTOMSENSOR = 0;
     public static final int TOPSENSOR = 1;
-    public static final double INDEXINGSPEED = 0.5;
+    public static final double INDEXINGSPEED = 0.05;
     public static final double SHOOTINDEXINGSPEED = 0.75;
     
     

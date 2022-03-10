@@ -11,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-//i blame keshav for how bad this code is 
+
 public class Indexer {
 
     WPI_TalonFX TalonA;
@@ -39,12 +39,12 @@ public class Indexer {
     public void run() {
         if(Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
             indexerUp(Constants.SHOOTINDEXINGSPEED);
-        } else if (!topsensor.get()) {
-            indexerStop();
-        }else if(Robot.operatorController.getBButton()) {
+        } else if(Robot.operatorController.getBButton()) {
             indexerUp(Constants.INDEXINGSPEED);
         } else if (Robot.operatorController.getAButton()) {
             indexerUp(-Constants.INDEXINGSPEED);
+        } else if (!topsensor.get()) {
+            indexerStop();
         } else if(Robot.operatorController.getXButtonPressed()) {
             released = true; //only for rare situations in which operator needs to change this again, otherwise indexing should run in conjunction with intake mechanism and just the intaking button
         } else if (Robot.operatorController.getRightTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
@@ -68,16 +68,14 @@ public class Indexer {
                     containsFirstBall = true;
                 }
             }
+        } else if (active == true && Robot.operatorController.getRightTriggerAxis() < Constants.TRIGGER_THRESHOLD) {
+            released = !released;
+            active = false;
         } else {
-            if(active == true && released == false) { //essentially means that if the person released the trigger after initially activating it, then released will become true
-                released = true;
-                active = false;
-            } else if (active == true && released == true) { //lol this is so confusing
-                active = false;
-                released = false;
-            }
             indexerStop();
         }
+
+        System.out.println("active: " + active + " released" + released);
 
         updateSmartDashboard();
     }
