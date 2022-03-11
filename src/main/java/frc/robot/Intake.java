@@ -31,10 +31,10 @@ public class Intake {
          intakeToggle();
       } 
 
-      if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
+      if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) { //&& (Robot.indexer.ballcount < 2)
          intakeRoller();
-      } else if (Robot.operatorController.getLeftBumper()) {
-       //  intakeRollerReverse();
+      } else if (Robot.operatorController.getBButton()) {
+         //intakeRollerReverse();
       } else {
          intakeRollerOff();
       }

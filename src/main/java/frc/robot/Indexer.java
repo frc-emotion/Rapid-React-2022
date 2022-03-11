@@ -12,9 +12,9 @@ public class Indexer {
     
     private WPI_TalonFX mIndexer;
     private DigitalInput bottomsensor, topsensor; 
-    boolean indexerStat; //true is enabled, false is disabled  
-    boolean ball; 
-    //int ballcount;    
+    boolean indexerStat; //true means indexer is enabled, false is disabled  
+    boolean firstBall; 
+    int ballcount;    
 
     public Indexer() {
         mIndexer = new WPI_TalonFX(Constants.INDEXERFALCON);
@@ -26,64 +26,62 @@ public class Indexer {
         topsensor = new DigitalInput(Constants.TOPSENSOR);
 
         indexerStat = true;
-       // ballcount = 0;
-        ball = false;
-
-        SmartDashboard.putBoolean("Top Sensor Triggered", false);
-        SmartDashboard.putBoolean("Bottom Sensor Triggered", false);
-        SmartDashboard.putBoolean("Indexer Status", indexerStat);
-        SmartDashboard.putBoolean("Ball?", ball);
-      //  SmartDashboard.putNumber("Ball Count", ballcount); 
+        firstBall= false;
+        ballcount = 0;
     }
 
     public void run() {
-        if (Robot.operatorController.getXButtonPressed()) {
-            indexerStat = !indexerStat;
+        if (Robot.operatorController.getXButtonPressed()) { 
+            indexerStat = !indexerStat; //changes indexer status 
         }
 
         if(Robot.operatorController.getAButton()) {
-             //  ballcount = 0; 
              indexerStat = true; 
-             ball = false; 
+             firstBall= false; 
+             ballcount = 0; 
          } else if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD && indexerStat == true) {
              indexForward();
-         }
+         } 
          else if(Robot.operatorController.getBButton()) {
-             indexForward();
-      //   } else if (Robot.operatorController.getAButton()) {
-        //     indexReverse();
-         } else {
+             indexReverse();
+         } 
+         else {
              indexerStop();
          }
- 
-        /* if (ballcount == 0 && !bottomsensor.get()) { 
-             ballcount = 1;
-             indexerStat = false; 
-         } 
-         else if (ballcount == 1 && bottomsensor.get()) { 
-             ballcount = 2;
-         }
-         else if (!topsensor.get()) { 
-             indexerStat = false;
-         }
-             */
  
          indexerStatus();
          updateSmartDashboard();
     }
 
-        /**
+
+
+    public void indexForward() {
+        mIndexer.set(Constants.INDEXINGSPEED);
+    }
+
+    public void indexReverse() {
+        mIndexer.set(-Constants.INDEXINGSPEED);
+    }
+
+    public void indexerStop() {
+        mIndexer.set(0);
+    }
+
+ /**
      * Index balls until one reaches the loading position
      */
     public void indexerStatus() {
-        if (ball == false && atBottom()) {    
-            /*can't just be based on bottomsensor here because then it might stop 
-            when bottom is triggered before top is when intaking 2nd ball */
-                    ball = true; 
+        if (firstBall == false && atBottom()) {    // if (ballcount == 0 && atBottom()) {  
+                    firstBall = true; 
                     indexerStat = false; //stop?
+                    ballcount = 1; 
         } 
-        else if (atTop()) { 
+        else if (atTop()) {  
             indexerStat = false;
+        }
+        
+        if(atTop() && atBottom()) {
+            ballcount = 2; 
         }
     }
 
@@ -107,23 +105,10 @@ public class Indexer {
 
     public void updateSmartDashboard() {
         SmartDashboard.putBoolean("Top Triggered", atTop());
-        SmartDashboard.putBoolean("Bottom Triggered", !bottomsensor.get());
+        SmartDashboard.putBoolean("Bottom Triggered", atBottom());
         SmartDashboard.putBoolean("Indexer Status", indexerStat);
-        SmartDashboard.putBoolean("Ball?", ball);
-       // SmartDashboard.putNumber("Ball Count", ballcount);
+        SmartDashboard.putBoolean("First Ball?", firstBall);
+        SmartDashboard.putNumber("Ball Count", ballcount);
     }
-
-    public void indexForward() {
-        mIndexer.set(Constants.INDEXINGSPEED);
-    }
-
-    public void indexReverse() {
-        mIndexer.set(-Constants.INDEXINGSPEED);
-    }
-
-    public void indexerStop() {
-        mIndexer.set(0);
-    }
-
 
 }
