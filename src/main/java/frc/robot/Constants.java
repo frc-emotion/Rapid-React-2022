@@ -45,7 +45,7 @@ public class Constants {
     public static final int INDEXERFALCON = 13;
     public static final int BOTTOMSENSOR = 0;
     public static final int TOPSENSOR = 1;
-    public static final double INDEXINGSPEED = 0.05;
+    public static final double INDEXINGSPEED = 0.3;
     public static final double SHOOTINDEXINGSPEED = 0.75;
     
     

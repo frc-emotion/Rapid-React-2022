@@ -37,41 +37,46 @@ public class Indexer {
     }
 
     public void run() {
-        if(Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
+        if(Robot.operatorController.getRightTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
             indexerUp(Constants.SHOOTINDEXINGSPEED);
-        } else if(Robot.operatorController.getBButton()) {
+            containsFirstBall = false;
+        } else if(Robot.operatorController.getAButton()) {
+            
             indexerUp(Constants.INDEXINGSPEED);
-        } else if (Robot.operatorController.getAButton()) {
+            //System.out.println("workingB");
+        } else if (Robot.operatorController.getBButton()) {
             indexerUp(-Constants.INDEXINGSPEED);
+            
+            //System.out.println("workingA");
         } else if (!topsensor.get()) {
             indexerStop();
         } else if(Robot.operatorController.getXButtonPressed()) {
             released = true; //only for rare situations in which operator needs to change this again, otherwise indexing should run in conjunction with intake mechanism and just the intaking button
-        } else if (Robot.operatorController.getRightTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
+        } else if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
             active = true;
-            if(!bottomsensor.get()) {
-                containsFirstBall = true;
-            }
 
             if(containsFirstBall) {
                 if(topsensor.get() && released) {//run while unobstructed
+                    //System.out.println("topsensor free + released");
                     indexerUp(Constants.INDEXINGSPEED);
                 } else {
                     indexerStop();
                 }
 
             } else if (!containsFirstBall) {
-                if(bottomsensor.get()) {//redundant
+                if(bottomsensor.get()) {
+                    //System.out.println("Bottom Sensor Unobstructed");
                     indexerUp(Constants.INDEXINGSPEED);
                 } else {
-                    indexerStop();
+                    System.out.println("workingfirstball"); 
                     containsFirstBall = true;
+                    indexerStop();
                 }
             }
         } else if (active == true && Robot.operatorController.getRightTriggerAxis() < Constants.TRIGGER_THRESHOLD) {
             released = !released;
             active = false;
-        } else {
+        } else {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
             indexerStop();
         }
         System.out.println("containsFirstBall " + containsFirstBall);
@@ -85,6 +90,7 @@ public class Indexer {
     }
 
     public void indexerStop() {
+        //System.out.println("Stopping Indexer");
         TalonA.set(0);
     }
 
