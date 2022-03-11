@@ -42,7 +42,7 @@ public class Intake {
    }
 
    public void intakeToggle() {
-      solenoidA.toggle();;
+      solenoidA.toggle();
       solenoidB.toggle();
    }  
    

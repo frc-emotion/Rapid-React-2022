@@ -66,8 +66,6 @@ public class DriveTrain {
         }
         if (Robot.driverController.getAButton()) {
             forward();
-        } else if (Robot.driverController.getYButton()) {
-            backward();
         } else {
             runTankDrive();
         }
@@ -81,13 +79,18 @@ public class DriveTrain {
     public void forward() {
         // LB and RB are used to change the driveSpeed during the match
         // Drive power constants might be correct
+        int sign = 1;
+        if (invert) {
+            sign *= -1;
+        }
+
         double driveSpeed = Constants.DRIVE_REGULAR_POWER;
         if (Robot.driverController.getLeftBumper())
             driveSpeed = Constants.DRIVE_SLOW_POWER;
         else if (Robot.driverController.getRightBumper())
             driveSpeed = Constants.DRIVE_TURBO_POWER;
 
-        drive.arcadeDrive(driveSpeed, 0);
+        drive.arcadeDrive(sign * driveSpeed, 0);
     }
 
     public void backward() {

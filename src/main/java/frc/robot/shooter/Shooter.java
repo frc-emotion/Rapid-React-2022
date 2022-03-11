@@ -192,7 +192,11 @@ public class Shooter {
         if (joystick < 0 && atLimit()) {
             callibrate();
         } else {
-            mHood.set(Constants.SHOOTER_HOOD_SPEED * joystick);
+            if (getHoodAngle() < 2 && joystick < 0) {
+                mHood.set(Constants.SHOOTER_HOOD_ZERO_SPEED * joystick);
+            } else {
+                mHood.set(Constants.SHOOTER_HOOD_SPEED * joystick);
+            }
         }
 
     }

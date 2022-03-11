@@ -87,10 +87,11 @@ public class Constants {
     public static final double SHOOTER_HOOD_KP = 0.65;
     public static final double SHOOTER_HOOD_KD = 0;
 
-    public static final double SHOOTER_HOOD_MIN = 5;
-    public static final double SHOOTER_HOOD_MAX = 35;
+    public static final double SHOOTER_HOOD_MIN = 2.5;
+    public static final double SHOOTER_HOOD_MAX = 40;
 
     public static final double SHOOTER_HOOD_SPEED = 0.3;
+    public static final double SHOOTER_HOOD_ZERO_SPEED = 0.15;
 
     public static final double SHOOTER_REV_TO_ANGLE = 0.416;
     public static final double SHOOTER_STARTING_ANGLE = 0;
