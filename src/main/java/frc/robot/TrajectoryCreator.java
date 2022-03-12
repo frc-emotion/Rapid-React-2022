@@ -21,7 +21,6 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
  * Robot class
  * 
  * <p>
- * TODO: Need to Add RamseteCommand and OdometryReset
  * <p>
  */
 public class TrajectoryCreator {

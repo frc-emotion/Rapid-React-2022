@@ -9,9 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
-import frc.robot.commands.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,6 +20,7 @@ import frc.robot.commands.*;
 public class Robot extends TimedRobot {
 
   public static XboxController driverController;
+  public static XboxController operatorController;
   public static RobotContainer container;
   Command teleopCommand;
   Command autoCommand;
@@ -31,6 +30,7 @@ public class Robot extends TimedRobot {
   public static Trajectory test;
   public static Trajectory forw;
   TrajectoryCreator creator;
+  TrajectoryCreator creatorSecond;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -39,15 +39,17 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     driverController = new XboxController(0);
+    operatorController = new XboxController(0);
     container = new RobotContainer();
 
     creator = new TrajectoryCreator();
+    creatorSecond = new TrajectoryCreator();
 
-    test = creator.generateTrajectory("bb.wpilib.json", "AutoPickTest#2");
-    forw = creator.generateTrajectory("ff.wpilib.json", "dsgd#2");
+    test = creator.generateTrajectory("TwoBall_One.wpilib.json", "AutoPickTest#2");
+    forw = creatorSecond.generateTrajectory("TwoBall_Two.wpilib.json", "GG");
 
     Drive.m_field.getObject("traj").setTrajectory(test);
-    Drive.m_field.getObject("traj2").setTrajectory(forw);
+    Drive.m_field.getObject("trajectorDos").setTrajectory(forw);
     
 
   }

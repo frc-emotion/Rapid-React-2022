@@ -1,20 +1,14 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.Command;
 import com.revrobotics.RelativeEncoder;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.REVPhysicsSim;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import java.util.ArrayList;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.simulation.ADXRS450_GyroSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
-import edu.wpi.first.wpilibj.simulation.SimDeviceSim;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.hal.SimDouble;
@@ -209,12 +203,57 @@ public class Drive extends SubsystemBase {
     }
 
     public void run(){
-        if (Robot.driverController.getXButton()){
+        if (Robot.driverController.getXButtonPressed()) {
             invert = !invert;
         }
+        if (Robot.driverController.getAButton()) {
+            forward();
+        } else if (Robot.driverController.getYButton()) {
+            backward(); //comment out later if driver doesnt want invert control with arcade Forward
+        } 
+        else {
+            teleopTank();
+        }
 
-        teleopTank();
     }
+
+    public void moveForward() {
+        drive.arcadeDrive(Constants.DRIVE_FORWARD_SPEED, 0);
+    }
+
+    public void forward() {
+        // LB and RB are used to change the driveSpeed during the match
+        // Drive power constants might be correct
+        int sign = 1;
+        if (invert) {
+            sign *= -1;
+        }
+
+        double driveSpeed = Constants.DRIVE_REGULAR_POWER;
+        if (Robot.driverController.getLeftBumper())
+            driveSpeed = Constants.DRIVE_SLOW_POWER;
+        else if (Robot.driverController.getRightBumper())
+            driveSpeed = Constants.DRIVE_TURBO_POWER;
+
+        drive.arcadeDrive(sign * driveSpeed, 0);
+    }
+
+    public void backward() {
+        // LB and RB are used to change the driveSpeed during the match
+        // Drive power constants might be correct
+        double driveSpeed = Constants.DRIVE_REGULAR_POWER;
+        if (Robot.driverController.getLeftBumper())
+            driveSpeed = Constants.DRIVE_SLOW_POWER;
+        else if (Robot.driverController.getRightBumper())
+            driveSpeed = Constants.DRIVE_TURBO_POWER;
+
+        drive.arcadeDrive(-driveSpeed, 0);
+    }
+
+    public void stop() {
+        drive.arcadeDrive(0, 0);
+    }
+
 
     public void teleopTank() {
         // constants to easily configure if drive is opposite
