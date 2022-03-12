@@ -80,7 +80,7 @@ public class Climb {
     // Mainloop
     public void run() {
         double lJoystickPos = Robot.operatorController.getLeftY();
-        if (!atMax || !atMin){
+      
             if (lJoystickPos > Constants.JOYSTICK_THRESHOLD ) {
                 TalonA.set(Constants.CLIMB_MOTOR_SPEED);
                // ExtendClimb(Constants.CLIMB_TARGET_POS);
@@ -90,7 +90,6 @@ public class Climb {
             } else {
                 TalonA.set(0);
             }
-        }
 
         
         if (Robot.operatorController.getLeftBumperPressed() && !Hooked) {
@@ -98,7 +97,7 @@ public class Climb {
             ActuatorR.toggle();
         }
 
-        Bounds();
+      //  Bounds();
         RunSmartDash();
       
     }
@@ -186,7 +185,8 @@ public class Climb {
     public void RunSmartDash() {
         SmartDashboard.putNumber("Climb-Encoder Rev", returnRevs());
         SmartDashboard.putNumber("Climb-Encoder Veloctiy", getVel());
-        targetRev = SmartDashboard.getNumber("Target Rev", (Constants.CLIMB_MAX_POS / 2048) * 2048);
+        SmartDashboard.putNumber("ClimbDraw", getCurrentDraw());
+        targetRev = SmartDashboard.getNumber("Target Rev", (Constants.CLIMB_MAX_POS));
     }
 
 }
