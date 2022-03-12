@@ -23,22 +23,22 @@ import frc.robot.shooter.Shooter;
  */
 public class Robot extends TimedRobot {
 
-  //public static Compressor compressor;
+  // public static Compressor compressor;
   public static XboxController operatorController;
   public static XboxController driverController;
   public static Intake intake;
-  public static Indexer indexer; 
+  public static Indexer indexer;
   public static DriveTrain dt;
   public static Climb climb;
   public static Shooter shooter;
 
- // private double PSIreading;
+  // private double PSIreading;
 
   @Override
   public void robotInit() {
 
-    //compressor = new Compressor(PneumaticsModuleType.REVPH);
-    //compressor.enableDigital();
+    // compressor = new Compressor(PneumaticsModuleType.REVPH);
+    // compressor.enableDigital();
 
     operatorController = new XboxController(Constants.OPERATOR_PORT);
     driverController = new XboxController(0);
@@ -62,8 +62,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    //PSIreading = compressor.getPressure();
-    //SmartDashboard.putNumber("Pressure", PSIreading);
+    // PSIreading = compressor.getPressure();
+    // SmartDashboard.putNumber("Pressure", PSIreading);
 
   }
 

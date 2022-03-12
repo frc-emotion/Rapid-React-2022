@@ -50,7 +50,7 @@ public class Constants {
     public static final double CLIMB_kI = 0;
     public static final double CLIMB_kD = 0;
 
-    public static final int CLIMB_PNEUMATICS[] = { 5, 10, 9, 6};
+    public static final int CLIMB_PNEUMATICS[] = { 5, 10, 9, 6 };
 
     // Shooter Constants
     public static final int SHOOTER_HOOD_PORT = 8;
@@ -60,15 +60,19 @@ public class Constants {
     public static final int SHOOTER_LIMIT_PORT = 2;
 
     // NEED TO EXPERIMETNALLY GET
-    public static final double SHOOTER_RPM_UP_AGAINST = 1500;
-    public static final double SHOOTER_RPM_CARGO_LINE = 2000;
-    public static final double SHOOTER_RPM_CLOSE_PAD = 2500;
-    public static final double SHOOTER_RPM_FAR_PAD = 3000;
+    public static final double SHOOTER_RPM_FENDER_LOW = 800;
+    public static final double SHOOTER_ANGLE_FENDER_LOW = 38;
+    
+    public static final double SHOOTER_RPM_FENDER_HIGH = 1450;
+    public static final double SHOOTER_ANGLE_FENDER_HIGH = 0;
 
-    // NEED TO EXPERIMETNALLY GET
-    public static final double SHOOTER_ANGLE_UP_AGAINST = 10;
-    public static final double SHOOTER_ANGLE_CARGO_LINE = 15;
+    public static final double SHOOTER_RPM_CARGO_LINE = 1600;
+    public static final double SHOOTER_ANGLE_CARGO_LINE = 11.5;
+    
+    public static final double SHOOTER_RPM_CLOSE_PAD = 2500;
     public static final double SHOOTER_ANGLE_CLOSE_PAD = 20;
+    
+    public static final double SHOOTER_RPM_FAR_PAD = 3000;
     public static final double SHOOTER_ANGLE_FAR_PAD = 0;
 
     public static final double SHOOTER_THRESHOLD_RPM = 200;

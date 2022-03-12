@@ -23,7 +23,7 @@ public class Shooter {
     private WPI_TalonFX mL, mR;
     private DigitalInput mLimit;
 
-    private Macro target_macro = Macro.UpAgainst;
+    private Macro target_macro = Macro.FenderLow;
 
     private final SimpleMotorFeedforward mFeedForward = new SimpleMotorFeedforward(Constants.SHOOTER_KS,
             Constants.SHOOTER_KV, Constants.SHOOTER_KA);
@@ -32,7 +32,8 @@ public class Shooter {
      * Custom enum which stores the corresponding rpm and angle for each position
      */
     public enum Macro {
-        UpAgainst(Constants.SHOOTER_RPM_UP_AGAINST, Constants.SHOOTER_ANGLE_UP_AGAINST),
+        FenderLow(Constants.SHOOTER_RPM_FENDER_LOW, Constants.SHOOTER_ANGLE_FENDER_LOW),
+        FenderHigh(Constants.SHOOTER_RPM_FENDER_HIGH, Constants.SHOOTER_ANGLE_FENDER_HIGH),
         CargoLine(Constants.SHOOTER_RPM_CARGO_LINE, Constants.SHOOTER_ANGLE_CARGO_LINE),
         ClosePad(Constants.SHOOTER_RPM_CLOSE_PAD, Constants.SHOOTER_ANGLE_CLOSE_PAD),
         FarPad(Constants.SHOOTER_RPM_FAR_PAD, Constants.SHOOTER_ANGLE_FAR_PAD),
@@ -101,7 +102,7 @@ public class Shooter {
             switch (Robot.operatorController.getPOV()) {
                 case 0:
                     // Up
-                    setMacro(Macro.UpAgainst);
+                    setMacro(Macro.FenderHigh);
                     break;
                 case 90:
                     // Right
@@ -109,7 +110,7 @@ public class Shooter {
                     break;
                 case 180:
                     // Down
-                    setMacro(Macro.CargoLine);
+                    setMacro(Macro.FenderLow);
                     break;
                 case 270:
                     // Left
