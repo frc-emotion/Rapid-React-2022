@@ -15,8 +15,14 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Drive": "Subsystem",
+      "/LiveWindow/Indexer": "Subsystem",
+      "/LiveWindow/Intake": "Subsystem",
+      "/LiveWindow/Shooter": "Subsystem",
       "/LiveWindow/Ungrouped/ADXRS450_Gyro[0]": "Gyro",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[2]": "Digital Input",
       "/LiveWindow/Ungrouped/PIDController[100]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[101]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[102]": "PIDController",
@@ -632,6 +638,9 @@
       "/LiveWindow/Ungrouped/PIDController[99]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[9]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Talon FX [10]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [13]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [9]": "Motor Controller",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/SmartDashboard/Field": "Field2d"
     },
@@ -644,8 +653,8 @@
             0.0,
             255.0
           ],
-          "arrowSize": 40,
-          "arrowWeight": 13.0,
+          "arrowSize": 52,
+          "arrowWeight": 20.0,
           "length": 0.800000011920929,
           "style": "Box/Image",
           "width": 0.800000011920929
@@ -693,6 +702,15 @@
   "NetworkTables": {
     "LiveWindow": {
       "Drive": {
+        "open": true
+      },
+      "Indexer": {
+        "open": true
+      },
+      "Intake": {
+        "open": true
+      },
+      "Shooter": {
         "open": true
       },
       "open": true

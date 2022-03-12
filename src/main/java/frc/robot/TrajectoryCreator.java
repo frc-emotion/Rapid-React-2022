@@ -1,12 +1,7 @@
 package frc.robot;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystem;
 import java.nio.file.Path;
-
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import frc.robot.subsystems.Drive;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
@@ -14,7 +9,6 @@ import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstrai
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 
 /**
  * Abstracted Trajectory generation for for ease of use in

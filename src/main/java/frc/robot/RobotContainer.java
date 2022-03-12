@@ -5,19 +5,34 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.IndexTeleop;
+import frc.robot.commands.IntakeTeleop;
+import frc.robot.commands.ShooterTeleop;
 import frc.robot.commands.TwoBallAuto;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
 
   private final Drive drive = new Drive();
+  private final Shooter shoot = new Shooter();
+  private final Indexer index = new Indexer();
+  private final Intake intaker = new Intake();
+
+
   DriveCommand drivetrain = new DriveCommand(drive);
+  ShooterTeleop shooter = new ShooterTeleop(shoot);
+  IndexTeleop indexer = new IndexTeleop(index);
+  IntakeTeleop intake = new IntakeTeleop(intaker);
 
   Trajectory autoPick;
   Trajectory b1;
@@ -31,14 +46,16 @@ public class RobotContainer {
   }
 
   public Command getTeleopCommand(){
-    return drivetrain;
+
+    Command runSubsystems = new ParallelCommandGroup(drivetrain, shooter, indexer, intake);
+    return runSubsystems;
   }
 
   public Command runAuto(){
     autoPick = Robot.test;
     b2 = Robot.forw;
 
-    return new TwoBallAuto(drive, autoPick, b2);
+    return new TwoBallAuto(drive, intaker, shoot, autoPick, b2);
   }
 
 

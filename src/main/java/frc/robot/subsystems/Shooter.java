@@ -50,6 +50,7 @@ public class Shooter extends SubsystemBase {
     }
 
     
+    public static boolean isReady = false;
 
     public Shooter() {
         mL = new WPI_TalonFX(Constants.SHOOTER_LEFT_PORT);
@@ -166,9 +167,12 @@ public class Shooter extends SubsystemBase {
     public void shoot() {
         spinUp();
 
-        if (Robot.operatorController.getAButton()) {
+         if (Robot.operatorController.getAButton()) {
+            isReady = true;
+         }
+           
             //TRIGGER COMMAND ON A BUTTON//Robot.indexer.indexForward();
-        }
+        //}
     }
 
     /**
@@ -210,6 +214,15 @@ public class Shooter extends SubsystemBase {
             }
         }
 
+    }
+
+    public void autoShoot(boolean ready, double rpm, double angle){
+        setHoodAngle(angle);
+        spinAt(rpm);
+
+        if (getRPM() > rpm - 5){
+            ready = true;
+        }
     }
 
     /**

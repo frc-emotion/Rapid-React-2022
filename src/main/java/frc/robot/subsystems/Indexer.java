@@ -10,8 +10,6 @@ import frc.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
 public class Indexer extends SubsystemBase {
     
     private WPI_TalonFX mIndexer;
@@ -61,6 +59,12 @@ public class Indexer extends SubsystemBase {
  
          indexerStatus();
          updateSmartDashboard();
+
+
+//temp fix?
+         if (Robot.operatorController.getAButton() && Shooter.isReady) {
+            indexForward();
+        }
     }
 
 
@@ -75,6 +79,21 @@ public class Indexer extends SubsystemBase {
 
     public void indexerStop() {
         mIndexer.set(0);
+    }
+
+    public void autoIndex(boolean ready, boolean hit){
+//temp fix at meeting
+    if(!atTop()){
+       if (!atBottom() && !hit){
+        indexForward();
+       } else if (atBottom()){
+           hit = true;
+           indexForward();
+       }
+    }
+        if (ready){
+            indexForward();
+        }
     }
 
  /**
