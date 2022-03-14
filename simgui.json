@@ -5,9 +5,6 @@
         "header": {
           "open": true
         }
-      },
-      "window": {
-        "visible": false
       }
     }
   },
@@ -693,8 +690,7 @@
         },
         "width": 16.459199905395508,
         "window": {
-          "name": "Rapid React Field",
-          "visible": true
+          "name": "Rapid React Field"
         }
       }
     }

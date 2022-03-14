@@ -3,14 +3,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drive;
 
-public class DriveCommand extends CommandBase{
+public class TurnByDegrees extends CommandBase {
 
+   
     private final Drive drivetrain;
 
-    private double speed;
+    private double degrees;//#region;
 
-    public DriveCommand(Drive subsystem){
+    boolean turnSide;
+
+    public TurnByDegrees(Drive subsystem, double turnAmt, boolean lr){
         drivetrain = subsystem;
+        degrees = turnAmt;
+        turnSide = lr;
 
         addRequirements(subsystem);
     }
@@ -22,7 +27,7 @@ public class DriveCommand extends CommandBase{
 
     @Override 
     public void execute(){
-        drivetrain.run();
+        drivetrain.gyroTurn(degrees, turnSide);
        
     }
 

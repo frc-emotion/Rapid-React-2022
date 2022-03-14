@@ -24,9 +24,9 @@ public class Intake extends SubsystemBase {
       intakeSpark.setIdleMode(IdleMode.kBrake);
 
       solenoidA = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PNEUMATIC_INTAKE_PORTS[0], Constants.PNEUMATIC_INTAKE_PORTS[1]); 
-      solenoidA.set(Value.kReverse);
+      solenoidA.set(Value.kForward);
       solenoidB = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PNEUMATIC_INTAKE_PORTS[2], Constants.PNEUMATIC_INTAKE_PORTS[3]);
-      solenoidB.set(Value.kReverse);
+      solenoidB.set(Value.kForward);
    }
 
    public void run(){
@@ -52,13 +52,13 @@ public class Intake extends SubsystemBase {
    }  
    
    public void intakeDown() {
-      solenoidA.set(Value.kForward);
-      solenoidB.set(Value.kForward);
+      solenoidA.set(Value.kReverse);
+      solenoidB.set(Value.kReverse);
    }
 
    public void intakeUp() {
-      solenoidA.set(Value.kReverse);
-      solenoidB.set(Value.kReverse);
+      solenoidA.set(Value.kForward);
+      solenoidB.set(Value.kForward);
    }
 
    public void intakeRoller() {

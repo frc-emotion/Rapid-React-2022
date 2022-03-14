@@ -25,18 +25,19 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 
 public class Drive extends SubsystemBase {
-    CANSparkMax lsparkA = new CANSparkMax(3, MotorType.kBrushless);
-    CANSparkMax lsparkB = new CANSparkMax(4, MotorType.kBrushless);
-    CANSparkMax lsparkC = new CANSparkMax(5, MotorType.kBrushless);
-    CANSparkMax rsparkA = new CANSparkMax(6, MotorType.kBrushless);
-    CANSparkMax rsparkB = new CANSparkMax(9, MotorType.kBrushless);
-    CANSparkMax rsparkC = new CANSparkMax(10, MotorType.kBrushless);
+    CANSparkMax lsparkA = new CANSparkMax(Constants.DRIVE_LEFT_PORTS[0], MotorType.kBrushless);
+    CANSparkMax lsparkB = new CANSparkMax(Constants.DRIVE_LEFT_PORTS[1], MotorType.kBrushless);
+    CANSparkMax lsparkC = new CANSparkMax(Constants.DRIVE_LEFT_PORTS[2], MotorType.kBrushless);
+    CANSparkMax rsparkA = new CANSparkMax(Constants.DRIVE_RIGHT_PORTS[0], MotorType.kBrushless);
+    CANSparkMax rsparkB = new CANSparkMax(Constants.DRIVE_RIGHT_PORTS[1], MotorType.kBrushless);
+    CANSparkMax rsparkC = new CANSparkMax(Constants.DRIVE_RIGHT_PORTS[2], MotorType.kBrushless);
 
     private final MotorControllerGroup leftGroup = new MotorControllerGroup(lsparkA, lsparkB, lsparkC);
     private final MotorControllerGroup rightGroup = new MotorControllerGroup(rsparkA, rsparkB, rsparkC);
 
     private final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
 
+    
     
 
     //USEFUL FOR NEW ROBOT (IF NOT CHARACTERIZED)
@@ -61,12 +62,12 @@ public class Drive extends SubsystemBase {
     
 
     //Custom Devices Include CANSparkMax Integrated Encoders
-    int m1 = SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [3]");
+    int m1 = SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [1]");
 
     SimDouble m1_encoderPos = new SimDouble(SimDeviceDataJNI.getSimValueHandle(m1, "Position"));
     SimDouble m1_encoderVel = new SimDouble(SimDeviceDataJNI.getSimValueHandle(m1, "Velocity"));
 
-    int m2 = SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [6]");
+    int m2 = SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [4]");
 
     SimDouble m2_encoderPos = new SimDouble(SimDeviceDataJNI.getSimValueHandle(m1, "Position"));
     SimDouble m2_encoderVel = new SimDouble(SimDeviceDataJNI.getSimValueHandle(m1, "Velocity"));
@@ -107,6 +108,11 @@ public class Drive extends SubsystemBase {
             spark.setIdleMode(IdleMode.kBrake);
         }
 
+        
+        lsparkA.setInverted(false);
+        lsparkB.setInverted(false);
+        lsparkC.setInverted(false);
+
         rsparkA.setInverted(true);
         rsparkB.setInverted(true);
         rsparkC.setInverted(true);
@@ -136,6 +142,10 @@ public class Drive extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Gyro", gyro.getYaw());
+        
+
+
         m_field.setRobotPose(odometry.getPoseMeters());
         odometry.update(gyro.getRotation2d(),
                 leftEncoder.getPosition(),
@@ -211,10 +221,35 @@ public class Drive extends SubsystemBase {
         } else if (Robot.driverController.getYButton()) {
             backward(); //comment out later if driver doesnt want invert control with arcade Forward
         } 
+        else if (Robot.driverController.getAButton()){
+            zeroHeading();
+        }
         else {
             teleopTank();
         }
 
+    }
+
+    public void gyroTurn(double degrees, boolean lr){
+        if (lr){
+            if (gyro.getYaw() < degrees){
+                drive.arcadeDrive(0, -0.3);
+            }
+            if (gyro.getYaw() > degrees){
+                drive.arcadeDrive(0, 0);
+            }
+        }
+        else if (!lr){
+            if (gyro.getYaw() > degrees){
+                drive.arcadeDrive(0, 0.3);
+            }
+            if (gyro.getYaw() < degrees){
+                drive.arcadeDrive(0, 0);
+            }
+        }
+    }
+    public void autoforward(double speed) {
+        drive.arcadeDrive(-speed, 0);
     }
 
     public void moveForward() {
@@ -278,11 +313,11 @@ public class Drive extends SubsystemBase {
         }
 
         // LB and RB are used to change the drivePower during the match
-        double drivePower = 0.75;
+        double drivePower = Constants.DRIVE_REGULAR_POWER;
         if (Robot.driverController.getLeftBumper())
-            drivePower = 0.3;
+            drivePower = Constants.DRIVE_SLOW_POWER;
         else if (Robot.driverController.getRightBumper())
-            drivePower = 0.9;
+            drivePower = Constants.DRIVE_TURBO_POWER;
 
         // However driveExponent should be constant (Changeable by SmartDashboard)
         double driveExponent = SmartDashboard.getNumber("Drive Exponent", 1.8);

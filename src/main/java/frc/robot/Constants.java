@@ -8,7 +8,7 @@ public class Constants {
     public static final double kaVoltSecondsSquaredPerMeter= 0.6315;
 
     //Tuned kP valeue for 2022RR
-    public static final double kPDriveVel = 0;//1.856 Assume sim does not count for enough error, as STD of sim vaules have not been calculated
+    public static final double kPDriveVel = 1.856;//1.856 Assume sim does not count for enough error, as STD of sim vaules have not been calculated
     public static final double kDDriveVel = 0;
 
     //Kinematics

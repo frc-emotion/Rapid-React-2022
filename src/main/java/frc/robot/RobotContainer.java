@@ -55,7 +55,7 @@ public class RobotContainer {
     autoPick = Robot.test;
     b2 = Robot.forw;
 
-    return new TwoBallAuto(drive, intaker, shoot, autoPick, b2);
+    return new TwoBallAuto(drive, intaker, shoot, index, autoPick, b2);
   }
 
 

@@ -3,14 +3,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drive;
 
-public class DriveCommand extends CommandBase{
+public class Forward extends CommandBase{
 
     private final Drive drivetrain;
-
     private double speed;
 
-    public DriveCommand(Drive subsystem){
+
+    public Forward(Drive subsystem, double spd){
         drivetrain = subsystem;
+        speed = spd;
 
         addRequirements(subsystem);
     }
@@ -22,7 +23,7 @@ public class DriveCommand extends CommandBase{
 
     @Override 
     public void execute(){
-        drivetrain.run();
+        drivetrain.autoforward(speed);
        
     }
 

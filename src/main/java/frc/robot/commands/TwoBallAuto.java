@@ -17,27 +17,32 @@ public class TwoBallAuto extends SequentialCommandGroup {
     RunRamsete path = new RunRamsete();
 
     boolean ready;
+    boolean x;
 
-    public TwoBallAuto(Drive drive, Intake intake, Shooter shot, Trajectory traj, Trajectory traj2){
+    double degrees = 45;
+
+    public TwoBallAuto(Drive drive, Intake intake, Shooter shot, Indexer index, Trajectory traj, Trajectory traj2){
         //Reset Position
         drive.resetOdometry(traj.getInitialPose());
         drive.resetEncoders();
 
         Command auto = 
         sequence(
-            new InstantCommand(() -> intake.intakeDown()),
-        parallel(
-            new StartEndCommand(() -> intake.intakeRoller(), () -> intake.intakeRollerOff(), intake)
-            .withTimeout(10),
-           //ADD INDEXER
-                //new InstantCommand(() ->drive.zeroHeading()),
-            sequence(
-                path.executeAuto(drive, traj),
-
-                parallel(
-                    new AutoShooter(shot, Constants.SHOOTER_RPM_CARGO_LINE, Constants.SHOOTER_ANGLE_CARGO_LINE, ready).withTimeout(5)
-                    ,path.executeAuto(drive, traj2))
+            new InstantCommand(() -> intake.intakeDown()).withTimeout(2),
+            parallel(
+                new StartEndCommand(() -> intake.intakeRoller(), () -> intake.intakeRollerOff(), intake)
+                .withTimeout(10),
+                sequence(
+                    path.executeAuto(drive, traj),
+                    parallel(
+                        new AutoShooter(shot, 2200, Constants.SHOOTER_ANGLE_CARGO_LINE, ready).withTimeout(5),
+                        sequence(
+                            new Forward(drive, -0.4).withTimeout(0.6),
+                            new TurnToDegrees(drive, 20, false)
+                            ),
+                            new InstantCommand(() -> index.indexForward()).withTimeout(3)
                     )
+                )
             )
         );
 

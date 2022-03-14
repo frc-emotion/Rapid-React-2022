@@ -39,13 +39,13 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     driverController = new XboxController(0);
-    operatorController = new XboxController(0);
+    operatorController = new XboxController(1);
     container = new RobotContainer();
 
     creator = new TrajectoryCreator();
     creatorSecond = new TrajectoryCreator();
 
-    test = creator.generateTrajectory("TwoBall_One.wpilib.json", "AutoPickTest#2");
+    test = creator.generateTrajectory("xrs.wpilib.json", "AutoPickTest#2");
     forw = creatorSecond.generateTrajectory("TwoBall_Two.wpilib.json", "GG");
 
     Drive.m_field.getObject("traj").setTrajectory(test);
