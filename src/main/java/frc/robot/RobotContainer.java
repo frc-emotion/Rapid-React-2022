@@ -15,6 +15,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IndexTeleop;
 import frc.robot.commands.IntakeTeleop;
 import frc.robot.commands.ShooterTeleop;
+import frc.robot.commands.TeleopCommand;
 import frc.robot.commands.TwoBallAuto;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Indexer;
@@ -29,11 +30,6 @@ public class RobotContainer {
   private final Intake intaker = new Intake();
 
 
-  DriveCommand drivetrain = new DriveCommand(drive);
-  ShooterTeleop shooter = new ShooterTeleop(shoot);
-  IndexTeleop indexer = new IndexTeleop(index);
-  IntakeTeleop intake = new IntakeTeleop(intaker);
-
   Trajectory autoPick;
   Trajectory b1;
   Trajectory b2;
@@ -46,9 +42,7 @@ public class RobotContainer {
   }
 
   public Command getTeleopCommand(){
-
-    Command runSubsystems = new ParallelCommandGroup(drivetrain, shooter, indexer, intake);
-    return runSubsystems;
+    return new TeleopCommand(drive, index, intaker, shoot);
   }
 
   public Command runAuto(){

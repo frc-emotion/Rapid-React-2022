@@ -88,6 +88,10 @@ public class Robot extends TimedRobot {
       autoCommand.schedule();
     }
 
+    if (teleopCommand != null){
+      teleopCommand.cancel();
+    }
+
 
     
   }
