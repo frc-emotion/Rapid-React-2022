@@ -12,13 +12,18 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.Constants;
+import edu.wpi.first.math.controller.PIDController;
 
 public class DriveTrain {
     private CANSparkMax lsparkA, lsparkB, lsparkC, rsparkA, rsparkB, rsparkC;
     private DifferentialDrive drive;
     private boolean invert;
+    private Alignment alignment;
 
     public DriveTrain() {
+        PIDController drivepid = new PIDController(Constants.DRIVE_KP, Constants.DRIVE_KI, Constants.DRIVE_KD);
+        drivepid.setTolerance(0.5);
+
         lsparkA = new CANSparkMax(Constants.DRIVE_LEFT_PORTS[0], MotorType.kBrushless);
         lsparkB = new CANSparkMax(Constants.DRIVE_LEFT_PORTS[1], MotorType.kBrushless);
         lsparkC = new CANSparkMax(Constants.DRIVE_LEFT_PORTS[2], MotorType.kBrushless);
@@ -66,10 +71,16 @@ public class DriveTrain {
         }
         if (Robot.driverController.getAButton()) {
             forward();
+        } else if (Robot.driverController.getBButton()) {
+            align();
         } else {
             runTankDrive();
         }
 
+    }
+
+    public void align() {
+        drive.arcadeDrive(0, MathUtil.clamp(drivepid.calculate((alignment.getError()), 0), Constants.MIN_ERROR, Constants.MAX_ERROR));
     }
 
     public void moveForward() {

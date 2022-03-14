@@ -33,6 +33,13 @@ public class Constants {
     public static final double DRIVE_REGULAR_POWER = 0.65;
     public static final double DRIVE_SLOW_POWER = 0.4;
     public static final double DRIVE_TURBO_POWER = 0.9;
+    public static final double DRIVE_KP = 0.28;
+    public static final double DRIVE_KI = 0.0;
+    public static final double DRIVE_KD = 0.055;
+    public static final double MIN_ERROR = 0.3;
+    public static final double MAX_ERROR = -0.3;
+
+
 
     // Climb Constants
     public static final int[] CLIMB_MOTORS_ID = { 11, 12 };
