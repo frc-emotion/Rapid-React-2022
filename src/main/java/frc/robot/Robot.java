@@ -38,8 +38,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    driverController = new XboxController(0);
-    operatorController = new XboxController(1);
+    driverController = new XboxController(Constants.DRIVER_PORT);
+    operatorController = new XboxController(Constants.OPERATOR_PORT);
     container = new RobotContainer();
 
     creator = new TrajectoryCreator();

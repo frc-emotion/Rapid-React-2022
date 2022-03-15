@@ -141,11 +141,11 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Stop all motors and callibrate if at limit switch
+     * Stop all motors and calibrate if at limit switch
      */
     public void stop() {
         if (atLimit()) {
-            callibrate();
+            calibrate();
         }
 
         mHood.stopMotor();
@@ -155,7 +155,7 @@ public class Shooter extends SubsystemBase {
     /**
      * Zero hood encoder
      */
-    private void callibrate() {
+    private void calibrate() {
         mHood.stopMotor();
         mHood.getEncoder().setPosition(0);
     }
@@ -205,15 +205,18 @@ public class Shooter extends SubsystemBase {
     public void teleopHood() {
         double joystick = -Robot.operatorController.getRightY(); // Up is negative for Y
         if (joystick < 0 && atLimit()) {
-            callibrate();
+            calibrate();
+        } else if (getHoodAngle() > 40 && joystick > 0) {
+            mHood.stopMotor();
         } else {
             if (getHoodAngle() < 2 && joystick < 0) {
+                mHood.set(Constants.SHOOTER_HOOD_ZERO_SPEED * joystick);
+            } else if (getHoodAngle() > 38 && joystick > 0) {
                 mHood.set(Constants.SHOOTER_HOOD_ZERO_SPEED * joystick);
             } else {
                 mHood.set(Constants.SHOOTER_HOOD_SPEED * joystick);
             }
-        }
-
+        } 
     }
 
     public void autoShoot(boolean ready, double rpm, double angle){
