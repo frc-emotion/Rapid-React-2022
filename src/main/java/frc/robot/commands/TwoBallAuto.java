@@ -28,6 +28,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
 
         Command auto = 
         sequence(
+            new WaitCommand(2.3),
             new InstantCommand(() -> intake.intakeDown()).withTimeout(2),
             parallel(
                 new StartEndCommand(() -> intake.intakeRoller(), () -> intake.intakeRollerOff(), intake)
@@ -37,10 +38,18 @@ public class TwoBallAuto extends SequentialCommandGroup {
                     parallel(
                         new AutoShooter(shot, 2200, Constants.SHOOTER_ANGLE_CARGO_LINE, ready).withTimeout(5),
                         sequence(
-                            new Forward(drive, -0.4).withTimeout(0.6),
-                            new TurnToDegrees(drive, 20, false)
+                            new Forward(drive, -0.4).withTimeout(0.8),
+                            new TurnToDegrees(drive, 16.8, false)
+                         //   new WaitCommand(2.4),
+                           // new StartEndCommand(() -> index.indexForward(), () -> index.indexerStop(), index).withTimeout(10)
                             ),
-                            new InstantCommand(() -> index.indexForward()).withTimeout(3)
+                        //new StartEndCommand(() -> index.indexForward(), () -> index.indexerStop(), index).withTimeout(10)
+
+                        new InstantCommand(() -> index.indexForward()).withTimeout(10)
+
+                           
+
+                            
                     )
                 )
             )

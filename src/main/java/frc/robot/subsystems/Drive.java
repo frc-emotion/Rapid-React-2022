@@ -233,7 +233,7 @@ public class Drive extends SubsystemBase {
     public void gyroTurn(double degrees, boolean lr){
         if (lr){
             if (gyro.getYaw() < degrees){
-                drive.arcadeDrive(0, -0.3);
+                drive.arcadeDrive(0, 0.3);
             }
             if (gyro.getYaw() > degrees){
                 drive.arcadeDrive(0, 0);
@@ -241,7 +241,7 @@ public class Drive extends SubsystemBase {
         }
         else if (!lr){
             if (gyro.getYaw() > degrees){
-                drive.arcadeDrive(0, 0.3);
+                drive.arcadeDrive(0, -0.3);
             }
             if (gyro.getYaw() < degrees){
                 drive.arcadeDrive(0, 0);

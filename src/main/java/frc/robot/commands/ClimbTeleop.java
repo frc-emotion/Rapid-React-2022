@@ -1,22 +1,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Drive;
 
-public class TurnToDegrees extends CommandBase {
+public class ClimbTeleop extends CommandBase{
 
-   
-    private final Drive drivetrain;
+    private final Climb climb;
 
-    private double degrees;//#region;
+    private double speed;
 
-    boolean turnSide;
-
-    public TurnToDegrees(Drive subsystem, double turnAmt, boolean lr){
-        drivetrain = subsystem;
-        degrees = turnAmt;
-        turnSide = lr;
-
+    public ClimbTeleop(Climb subsystem){
+        climb = subsystem;
         addRequirements(subsystem);
     }
 
@@ -27,7 +22,7 @@ public class TurnToDegrees extends CommandBase {
 
     @Override 
     public void execute(){
-        drivetrain.gyroTurn(degrees, turnSide);
+            climb.run();
        
     }
 

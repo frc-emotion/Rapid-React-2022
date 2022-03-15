@@ -17,6 +17,7 @@ import frc.robot.commands.IntakeTeleop;
 import frc.robot.commands.ShooterTeleop;
 import frc.robot.commands.TeleopCommand;
 import frc.robot.commands.TwoBallAuto;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -28,6 +29,7 @@ public class RobotContainer {
   private final Shooter shoot = new Shooter();
   private final Indexer index = new Indexer();
   private final Intake intaker = new Intake();
+  private final Climb climb = new Climb();
 
 
   Trajectory autoPick;
@@ -42,7 +44,7 @@ public class RobotContainer {
   }
 
   public Command getTeleopCommand(){
-    return new TeleopCommand(drive, index, intaker, shoot);
+    return new TeleopCommand(drive, index, intaker, shoot, climb);
   }
 
   public Command runAuto(){
@@ -51,10 +53,6 @@ public class RobotContainer {
 
     return new TwoBallAuto(drive, intaker, shoot, index, autoPick, b2);
   }
-
-
-
-
 
   public Command getAutonomousCommand() {
 
@@ -87,8 +85,6 @@ public class RobotContainer {
     drive.resetOdometry(autoPick.getInitialPose());
     
     return ramseteCommand.andThen(() -> drive.tankDriveVolts(0, 0));
-
-    
 
   }
 

@@ -7,31 +7,39 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.RunRamsete;
 import frc.robot.subsystems.*;
 
 
 public class ThreeBallAuto extends SequentialCommandGroup {
     RunRamsete path = new RunRamsete();
+    boolean ready;
 
-    public ThreeBallAuto(Drive drive, Intake intake, Trajectory traj, Trajectory traj2, Trajectory traj3){
+
+    public ThreeBallAuto(Drive drive, Intake intake, Shooter shot, Indexer index, Trajectory traj, Trajectory traj2){
         //Reset Position
         drive.resetOdometry(traj.getInitialPose());
         drive.resetEncoders();
 
         Command auto = 
-        
         sequence(
-            new InstantCommand(() -> intake.intakeDown()),
-        parallel(
-            new StartEndCommand(() -> intake.intakeRoller(), () -> intake.intakeRollerOff(), intake)
-            .withTimeout(10),
-                //new InstantCommand(() -> drive.zeroHeading()),
-            sequence(
-                path.executeAuto(drive, traj),
-                path.executeAuto(drive, traj2),
-                path.executeAuto(drive, traj3))
+            new InstantCommand(() -> intake.intakeDown()).withTimeout(2),
+            parallel(
+                new StartEndCommand(() -> intake.intakeRoller(), () -> intake.intakeRollerOff(), intake)
+                .withTimeout(10),
+                sequence(
+                    path.executeAuto(drive, traj),
+                    parallel(
+                        new AutoShooter(shot, 2200, Constants.SHOOTER_ANGLE_CARGO_LINE, ready).withTimeout(5),
+                        sequence(
+                            new Forward(drive, -0.4).withTimeout(0.6),
+                            new TurnToDegrees(drive, 20, true)
+                            ),
+                            new InstantCommand(() -> index.indexForward()).withTimeout(3)
+                    )
                 )
+            )
         );
 
        // Command runTwoBall = parallel(trajectories); //add intake and then have intake/indexer run always
