@@ -166,10 +166,11 @@ public class Shooter extends SubsystemBase {
      */
     public void shoot() {
         spinUp();
-
-         if (Robot.operatorController.getAButton()) {
+        /*
+        if (Robot.operatorController.getAButton()) {
             isReady = true;
          }
+         */
            
             //TRIGGER COMMAND ON A BUTTON//Robot.indexer.indexForward();
         //}

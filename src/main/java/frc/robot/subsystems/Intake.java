@@ -36,8 +36,8 @@ public class Intake extends SubsystemBase {
 
       if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) { //&& (Robot.indexer.ballcount < 2)
          intakeRoller();
-      } else if (Robot.operatorController.getBButton()) {
-         //intakeRollerReverse();
+      } else if (Robot.operatorController.getLeftBumper()) {
+         intakeRollerReverse();
       } else {
          intakeRollerOff();
       }
