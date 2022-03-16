@@ -140,13 +140,15 @@ public class Climb extends SubsystemBase{
     }
 
     public void Bounds(){
-        if (returnRevs() < -Constants.CLIMB_MAX_POS){
+        if (returnRevs() > Constants.CLIMB_MAX_POS){
             atMax = true;
         } 
         else {
             atMax = false;
         }
-        if (returnRevs() > 1){
+
+        //lower bounds
+        if (returnRevs() < 0){
             atMin = true;
         }
         else {

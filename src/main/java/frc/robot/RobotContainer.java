@@ -32,7 +32,7 @@ public class RobotContainer {
   private final Climb climb = new Climb();
 
 
-  Trajectory autoPick;
+  Trajectory TwoBall;
   Trajectory b1;
   Trajectory b2;
   public RobotContainer() {
@@ -48,44 +48,23 @@ public class RobotContainer {
   }
 
   public Command runAuto(){
-    autoPick = Robot.test;
-    b2 = Robot.forw;
-
-    return new TwoBallAuto(drive, intaker, shoot, index, autoPick, b2);
+    TwoBall = Robot.twoBallOne;
+    //b2 = Robot.forw;
+    return new TwoBallAuto(drive, intaker, shoot, index, TwoBall);
   }
 
   public Command getAutonomousCommand() {
-
-     /**
-    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
-        new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSeconds, Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.DRIVE_KINEMATICS, 10);
-
-    TrajectoryConfig config = new TrajectoryConfig(Constants.maxSpeedMPS, Constants.maxAccelerationMPSsq)
-        .setKinematics(Constants.DRIVE_KINEMATICS).addConstraint(autoVoltageConstraint);
-
-  
-     * TrajectoryGenerator.generateTrajectory( // new Pose2d(0,0, new
-     * Rotation2d(0)), // List.of( new Translation2d(1,1), new Translation2d(2,-1)
-     * ), new Pose2d(3,0, new Rotation2d(0)), config
-     * 
-     * );
-    */
-    autoPick = Robot.test;
-
-
-    RamseteCommand ramseteCommand = new RamseteCommand(autoPick, drive::getPose,
-        new RamseteController(Constants.RamseteB, Constants.RamseteZeta),
-        new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSeconds, Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.DRIVE_KINEMATICS, drive::getWheelSpeeds, new PIDController(Constants.kPDriveVel, 0, Constants.kDDriveVel),
-        new PIDController(Constants.kPDriveVel, 0, Constants.kDDriveVel), drive::tankDriveVolts, drive
-
-    );
-
-    drive.resetOdometry(autoPick.getInitialPose());
-    
-    return ramseteCommand.andThen(() -> drive.tankDriveVolts(0, 0));
+    TwoBall = Robot.twoBallOne;
+    //b2 = Robot.forw;
+    return new TwoBallAuto(drive, intaker, shoot, index, TwoBall);
 
   }
+
+  /*
+  public Command getSubsytemChecker(){
+
+    return new SubsystemChecker
+  }
+  */
 
 }

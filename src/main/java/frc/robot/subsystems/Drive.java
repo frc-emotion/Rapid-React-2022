@@ -37,31 +37,26 @@ public class Drive extends SubsystemBase {
 
     private final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
 
-    
-    
-
-    //USEFUL FOR NEW ROBOT (IF NOT CHARACTERIZED)
+    // USEFUL FOR NEW ROBOT (IF NOT CHARACTERIZED)
     private final DifferentialDrivetrainSim driveSim = new DifferentialDrivetrainSim(
-        DCMotor.getNEO(3),    
-        Constants.kDriveGearRatio,    
-        6.9,                     
-        55.9,                   
-        Units.inchesToMeters(3), 
-        0.69,                 
-      
-        // The standard deviations for measurement noise:
-        // x and y:          0.001 m
-        // heading:          0.001 rad
-        // l and r velocity: 0.1   m/s
-        // l and r position: 0.005 m
-        VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005)
-    );
+            DCMotor.getNEO(3),
+            Constants.kDriveGearRatio,
+            6.9,
+            55.9,
+            Units.inchesToMeters(3),
+            0.69,
+
+            // The standard deviations for measurement noise:
+            // x and y: 0.001 m
+            // heading: 0.001 rad
+            // l and r velocity: 0.1 m/s
+            // l and r position: 0.005 m
+            VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
 
     private final RelativeEncoder leftEncoder = lsparkA.getEncoder();
     private final RelativeEncoder rightEncoder = rsparkA.getEncoder();
-    
 
-    //Custom Devices Include CANSparkMax Integrated Encoders
+    // Custom Devices Include CANSparkMax Integrated Encoders
     int m1 = SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [1]");
 
     SimDouble m1_encoderPos = new SimDouble(SimDeviceDataJNI.getSimValueHandle(m1, "Position"));
@@ -72,15 +67,14 @@ public class Drive extends SubsystemBase {
     SimDouble m2_encoderPos = new SimDouble(SimDeviceDataJNI.getSimValueHandle(m1, "Position"));
     SimDouble m2_encoderVel = new SimDouble(SimDeviceDataJNI.getSimValueHandle(m1, "Velocity"));
 
-    //For inital sim testing
+    // For inital sim testing
     private final AHRS gyro = new AHRS();
 
     int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
     SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
-    
 
-   // private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-   // private ADXRS450_GyroSim gyroSim = new ADXRS450_GyroSim(gyro);
+    // private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    // private ADXRS450_GyroSim gyroSim = new ADXRS450_GyroSim(gyro);
 
     private final DifferentialDriveOdometry odometry;
 
@@ -108,7 +102,6 @@ public class Drive extends SubsystemBase {
             spark.setIdleMode(IdleMode.kBrake);
         }
 
-        
         lsparkA.setInverted(false);
         lsparkB.setInverted(false);
         lsparkC.setInverted(false);
@@ -118,33 +111,32 @@ public class Drive extends SubsystemBase {
         rsparkC.setInverted(true);
 
         // Velocity Conversions
-        leftEncoder.setVelocityConversionFactor((1/Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
-        rightEncoder.setVelocityConversionFactor((1/Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
+        leftEncoder.setVelocityConversionFactor(
+                (1 / Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
+        rightEncoder.setVelocityConversionFactor(
+                (1 / Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
 
         // Position Conversions
-        leftEncoder.setPositionConversionFactor((1/Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0));
-        rightEncoder.setPositionConversionFactor((1/Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0));
+        leftEncoder
+                .setPositionConversionFactor((1 / Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0));
+        rightEncoder
+                .setPositionConversionFactor((1 / Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0));
 
         gyro.calibrate();
 
-        //Zero Encoders
+        // Zero Encoders
         resetEncoders();
         // Sets the robot Position in a 2D Space
         odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
 
         SmartDashboard.putData("Field", m_field);
-        
 
-        this.invert = false;
+        this.invert = true;
     }
-
-
 
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Gyro", gyro.getYaw());
-        
-
 
         m_field.setRobotPose(odometry.getPoseMeters());
         odometry.update(gyro.getRotation2d(),
@@ -154,14 +146,13 @@ public class Drive extends SubsystemBase {
         simPeriodic();
     }
 
-    public void updatedField(){
-        //Used Field 2D on shuffleboard when/if basic odometry works
+    public void updatedField() {
+        // Used Field 2D on shuffleboard when/if basic odometry works
     }
 
     public Pose2d getPose() {
         return odometry.getPoseMeters();
     }
-
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         // returns in RPM, divide by gear ratio multiply by circumference and /60 to get
@@ -212,42 +203,36 @@ public class Drive extends SubsystemBase {
         return -gyro.getRate();
     }
 
-    public void run(){
+    public void run() {
         if (Robot.driverController.getXButtonPressed()) {
             invert = !invert;
         }
         if (Robot.driverController.getAButton()) {
             forward();
-        } else if (Robot.driverController.getYButton()) {
-            backward(); //comment out later if driver doesnt want invert control with arcade Forward
-        } 
-        else if (Robot.driverController.getAButton()){
-            zeroHeading();
-        }
-        else {
+        } else {
             teleopTank();
         }
 
     }
 
-    public void gyroTurn(double degrees, boolean lr){
-        if (lr){
-            if (gyro.getYaw() < degrees){
+    public void gyroTurn(double degrees, boolean lr) {
+        if (lr) {
+            if (gyro.getYaw() < degrees) {
                 drive.arcadeDrive(0, 0.3);
             }
-            if (gyro.getYaw() > degrees){
+            if (gyro.getYaw() > degrees) {
                 drive.arcadeDrive(0, 0);
             }
-        }
-        else if (!lr){
-            if (gyro.getYaw() > degrees){
+        } else if (!lr) {
+            if (gyro.getYaw() > degrees) {
                 drive.arcadeDrive(0, -0.3);
             }
-            if (gyro.getYaw() < degrees){
+            if (gyro.getYaw() < degrees) {
                 drive.arcadeDrive(0, 0);
             }
         }
     }
+
     public void autoforward(double speed) {
         drive.arcadeDrive(-speed, 0);
     }
@@ -288,7 +273,6 @@ public class Drive extends SubsystemBase {
     public void stop() {
         drive.arcadeDrive(0, 0);
     }
-
 
     public void teleopTank() {
         // constants to easily configure if drive is opposite
@@ -333,13 +317,14 @@ public class Drive extends SubsystemBase {
             drive.tankDrive(-driveR, -driveL);
         } else {
             drive.tankDrive(driveL, driveR);
-        
+
         }
     }
 
-    public void simPeriodic(){
+    public void simPeriodic() {
 
-        driveSim.setInputs(lsparkA.get() * RobotController.getInputVoltage(), rsparkA.get() * RobotController.getInputVoltage());
+        driveSim.setInputs(lsparkA.get() * RobotController.getInputVoltage(),
+                rsparkA.get() * RobotController.getInputVoltage());
         driveSim.update(0.02);
 
         m1_encoderPos.set(driveSim.getLeftPositionMeters());

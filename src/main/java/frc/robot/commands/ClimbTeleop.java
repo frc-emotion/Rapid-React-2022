@@ -23,7 +23,6 @@ public class ClimbTeleop extends CommandBase{
     @Override 
     public void execute(){
             climb.run();
-       
     }
 
     @Override

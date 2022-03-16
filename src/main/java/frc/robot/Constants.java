@@ -34,7 +34,7 @@ public class Constants {
     public static final int DRIVER_PORT = 0;
     public static final int OPERATOR_PORT = 1;
     public static final double TRIGGER_THRESHOLD = 0.3;
-    public static final double JOYSTICK_THRESHOLD = 0.02;
+    public static final double JOYSTICK_THRESHOLD = 0.2;
 
     // current limits
     public static final int NEO_MAX_CURRENT = 45;
@@ -69,7 +69,7 @@ public class Constants {
 
     public static final double CLIMB_TARGET_MAX_POS = 46 * 2048; // rev
     public static final double CLIMB_TARGET_MIN_POS = 5 * 2048; // rev
-    public static final double CLIMB_MAX_POS = 47; // rev
+    public static final double CLIMB_MAX_POS = 147; // rev
     public static final double CLIMB_MIN_POS = 3; // rev
 
     public static final double CLIMB_kP = 0;
