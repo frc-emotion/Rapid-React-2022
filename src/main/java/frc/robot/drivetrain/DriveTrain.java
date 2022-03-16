@@ -35,8 +35,6 @@ public class DriveTrain {
 
         // Group sparks into an ArrayList for a cleaner intialization loop
         ArrayList<CANSparkMax> sparkList = new ArrayList<CANSparkMax>() {
-
-
             {
                 add(lsparkA);
                 add(lsparkB);

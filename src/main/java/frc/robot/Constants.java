@@ -23,7 +23,9 @@ public class Constants {
     public static final int INDEXERFALCON = 13;
     public static final int BOTTOMSENSOR = 0;
     public static final int TOPSENSOR = 1;
-    public static final double INDEXINGSPEED = 0.4;
+    public static final int INTAKESENSOR = 3;
+    public static final double INDEXINGSPEED = 0.3;
+    public static final double SHOOTINDEXINGSPEED = 0.6;
 
     // drivetrain
     public static final int[] DRIVE_RIGHT_PORTS = { 1, 2, 3 };

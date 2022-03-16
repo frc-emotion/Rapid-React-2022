@@ -156,9 +156,9 @@ public class Shooter {
     public void shoot() {
         spinUp();
 
-        if (Robot.operatorController.getAButton()) {
-            Robot.indexer.indexForward();
-        }
+        /*if (Robot.operatorController.getAButton()) {
+            Robot.indexer.indexForward(Constants.INDEXINGSPEED);
+        }*/
     }
 
     /**
