@@ -1,0 +1,53 @@
+package frc.robot.commands;
+
+import java.util.function.BooleanSupplier;
+
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
+import frc.robot.RunRamsete;
+import frc.robot.subsystems.*;
+
+public class OneBallTaxi extends SequentialCommandGroup {
+    RunRamsete path = new RunRamsete();
+
+    boolean ready;
+
+    public OneBallTaxi(Drive drive, Intake intake, Shooter shot, Indexer index, Trajectory traj) {
+        // Reset Position
+        drive.resetOdometry(traj.getInitialPose());
+        drive.resetEncoders();
+
+        Command auto = sequence(
+                new WaitCommand(1.5),
+                new StartEndCommand(shot::autoZero, shot::stopHood, shot).withTimeout(3),
+                parallel(
+                        new AutoShooter(shot, Constants.SHOOTER_RPM_CARGO_LINE, Constants.SHOOTER_ANGLE_CARGO_LINE, ready)
+                                                .withTimeout(5),
+                            sequence(
+                                new InstantCommand(() -> index.indexForward()).withTimeout(5),
+                                new Forward(drive, 0.5).withTimeout(3)
+                                        // new WaitCommand(2.4),
+                                        // new StartEndCommand(() -> index.indexForward(), () -> index.indexerStop(),
+                                        // index).withTimeout(10)
+                                )                                        // new StartEndCommand(() -> index.indexForward(), () -> index.indexerStop(),
+                                        // index).withTimeout(10)
+
+                                       
+
+                                ));
+
+        // Command runTwoBall = parallel(trajectories); //add intake and then have
+        // intake/indexer run always
+        addCommands(
+                auto);
+
+    }
+
+}
