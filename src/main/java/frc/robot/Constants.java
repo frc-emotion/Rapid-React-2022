@@ -43,7 +43,7 @@ public class Constants {
     // intake
     public static final int INTAKE_PORT = 7;
     public static final int[] PNEUMATIC_INTAKE_PORTS = { 12, 3, 8, 7 };
-    public static final double INTAKE_SPEED = 0.4;
+    public static final double INTAKE_SPEED = 0.3;
 
     // indexer
     public static final int INDEXERFALCON = 13;

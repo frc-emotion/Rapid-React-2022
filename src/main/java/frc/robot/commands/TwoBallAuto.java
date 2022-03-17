@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,7 +18,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
     RunRamsete path = new RunRamsete();
 
     boolean ready;
-    boolean x;
+    BooleanSupplier x;
 
     double degrees = 45;
 
@@ -27,26 +29,30 @@ public class TwoBallAuto extends SequentialCommandGroup {
 
         Command auto = sequence(
                 new WaitCommand(2.3),
-                new InstantCommand(() -> intake.intakeDown()).withTimeout(2),
                 parallel(
-                        new StartEndCommand(() -> intake.intakeRoller(), () -> intake.intakeRollerOff(), intake)
+                new InstantCommand(() -> intake.intakeDown()).withTimeout(2),
+                new StartEndCommand(shot::autoZero, shot::stopHood, shot).withTimeout(5)
+                ),
+                parallel(
+                        new StartEndCommand(() -> intake.intakeRoller()
+                        , () -> intake.intakeRollerOff(), intake)
                                 .withTimeout(10),
                         sequence(
                                 path.executeAuto(drive, traj),
                                 parallel(
-                                        new AutoShooter(shot, 2200, Constants.SHOOTER_ANGLE_CARGO_LINE, ready)
+                                        new AutoShooter(shot, Constants.SHOOTER_RPM_CARGO_LINE, Constants.SHOOTER_ANGLE_CARGO_LINE, ready)
                                                 .withTimeout(5),
                                         sequence(
                                                 new Forward(drive, -0.4).withTimeout(0.8),
-                                                new TurnToDegrees(drive, 16.8, false)
+                                                new TurnToDegrees(drive, 7.1, false).withTimeout(1),
+                                                new InstantCommand(() -> index.indexForward()).withTimeout(10)
                                         // new WaitCommand(2.4),
                                         // new StartEndCommand(() -> index.indexForward(), () -> index.indexerStop(),
                                         // index).withTimeout(10)
-                                        ),
-                                        // new StartEndCommand(() -> index.indexForward(), () -> index.indexerStop(),
+                                        )                                        // new StartEndCommand(() -> index.indexForward(), () -> index.indexerStop(),
                                         // index).withTimeout(10)
 
-                                        new InstantCommand(() -> index.indexForward()).withTimeout(10)
+                                       
 
                                 ))));
 

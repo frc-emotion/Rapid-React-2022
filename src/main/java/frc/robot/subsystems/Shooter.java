@@ -2,6 +2,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.util.function.BooleanSupplier;
+
+import javax.swing.plaf.metal.MetalLabelUI;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.InvertType;
@@ -99,6 +103,10 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {
         //Put SmartDashboard values here
+        updateDashboard();
+        if (atLimit()) {
+            calibrate();
+        }
     }
 
     /**
@@ -137,16 +145,20 @@ public class Shooter extends SubsystemBase {
             stop();
         }
 
-        updateDashboard();
+        
+    }
+
+    public void stopHood(){
+        mHood.stopMotor();
     }
 
     /**
      * Stop all motors and calibrate if at limit switch
      */
     public void stop() {
-        if (atLimit()) {
-            calibrate();
-        }
+        SmartDashboard.putBoolean("Limit", mLimit.get());
+        System.out.println(mLimit.get());
+
 
         mHood.stopMotor();
         mL.stopMotor();
@@ -219,6 +231,15 @@ public class Shooter extends SubsystemBase {
         } 
     }
 
+    public void autoZero(){
+        if (!atLimit()){
+          mHood.set(-0.3);
+        }
+        else if (atLimit()){
+            calibrate();
+        }
+    }
+
     public void autoShoot(boolean ready, double rpm, double angle){
         setHoodAngle(angle);
         spinAt(rpm);
@@ -255,7 +276,7 @@ public class Shooter extends SubsystemBase {
      * 
      * @param angle the requested set point
      */
-    private void setHoodAngle(double angle) {
+    public void setHoodAngle(double angle) {
         mHood.getPIDController().setReference(
                 MathUtil.clamp(angle, Constants.SHOOTER_HOOD_MIN, Constants.SHOOTER_HOOD_MAX)
                         / Constants.SHOOTER_REV_TO_ANGLE,
