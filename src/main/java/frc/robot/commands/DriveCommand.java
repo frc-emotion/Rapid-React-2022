@@ -7,8 +7,6 @@ public class DriveCommand extends CommandBase{
 
     private final Drive drivetrain;
 
-    private double speed;
-
     public DriveCommand(Drive subsystem){
         drivetrain = subsystem;
 

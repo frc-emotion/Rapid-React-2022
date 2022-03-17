@@ -22,7 +22,8 @@ public class ThreeBallAuto extends SequentialCommandGroup {
         drive.resetEncoders();
 
         Command auto = sequence(
-                new WaitCommand(2.3),
+                new StartEndCommand(shot::autoZero, shot::stopHood, shot).withTimeout(4),
+                new WaitCommand(1),
                 parallel(
                         new AutoShooter(shot, 2200, Constants.SHOOTER_ANGLE_CARGO_LINE, ready).withTimeout(5),
                         new InstantCommand(() -> index.indexForward()).withTimeout(3)

@@ -35,7 +35,9 @@ public class Climb extends SubsystemBase{
 
     private PowerDistribution PDH;
 
-    private double targetRev;
+    public double max;
+    public double min;
+    public double maxCurrentDraw;
 
     public Climb() {
 
@@ -68,7 +70,10 @@ public class Climb extends SubsystemBase{
         TalonA.config_kD(0, Constants.CLIMB_kD);
       
         // Output Encoder Values
-        SmartDashboard.putNumber("MAX_REV", Constants.CLIMB_TARGET_MAX_POS);
+        SmartDashboard.putNumber("ClimbMAX", (Constants.CLIMB_MAX_POS));
+        SmartDashboard.putNumber("ClimbMIN", 0);
+
+
         Hooked = false;
         atMax = false;
         atMin = false;
@@ -77,6 +82,11 @@ public class Climb extends SubsystemBase{
         ActuatorL.set(Value.kReverse);
         //During Robot Init
 
+    }
+
+    @Override
+    public void periodic() {
+        RunSmartDash();
     }
 
     // Mainloop
@@ -93,6 +103,8 @@ public class Climb extends SubsystemBase{
         }
         else {
             TalonA.set(0);
+
+
         }
         if (Robot.operatorController.getLeftBumperPressed() && !Hooked) {
             ActuatorL.toggle();
@@ -140,7 +152,7 @@ public class Climb extends SubsystemBase{
     }
 
     public void Bounds(){
-        if (returnRevs() > Constants.CLIMB_MAX_POS){
+        if (returnRevs() > max){
             atMax = true;
         } 
         else {
@@ -148,12 +160,19 @@ public class Climb extends SubsystemBase{
         }
 
         //lower bounds
-        if (returnRevs() < 0){
+        if (returnRevs() < min){
             atMin = true;
         }
         else {
             atMin = false;
         }
+
+        //Disabled for testing, define maxCurrentDraw
+        /*
+        if (getCurrentDraw() > maxCurrentDraw){
+            ZeroEncoders();
+        }
+        */
     }
 
     public double returnRevs(){
@@ -173,16 +192,14 @@ public class Climb extends SubsystemBase{
         //Create object of PDH
     }
 
-    @Override
-    public void periodic() {
-        RunSmartDash();
-    }
+
 
     public void RunSmartDash() {
         SmartDashboard.putNumber("Climb-Encoder Rev", returnRevs());
         SmartDashboard.putNumber("Climb-Encoder Veloctiy", getVel());
         SmartDashboard.putNumber("ClimbDraw", getCurrentDraw());
-        targetRev = SmartDashboard.getNumber("Target Rev", (Constants.CLIMB_MAX_POS));
+        max = SmartDashboard.getNumber("ClimbMAX", (Constants.CLIMB_MAX_POS));
+        min = SmartDashboard.getNumber("ClimbMIN", 0);
     }
 
 }

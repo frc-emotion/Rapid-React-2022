@@ -28,7 +28,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
         drive.resetEncoders();
 
         Command auto = sequence(
-                new WaitCommand(2.3),
+                new WaitCommand(1.5),
                 parallel(
                 new InstantCommand(() -> intake.intakeDown()).withTimeout(2),
                 new StartEndCommand(shot::autoZero, shot::stopHood, shot).withTimeout(5)
@@ -45,7 +45,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
                                         sequence(
                                                 new Forward(drive, -0.4).withTimeout(0.8),
                                                 new TurnToDegrees(drive, 7.1, false).withTimeout(1),
-                                                new InstantCommand(() -> index.indexForward()).withTimeout(10)
+                                                new InstantCommand(() -> index.indexForward()).withTimeout(5)
                                         // new WaitCommand(2.4),
                                         // new StartEndCommand(() -> index.indexForward(), () -> index.indexerStop(),
                                         // index).withTimeout(10)
