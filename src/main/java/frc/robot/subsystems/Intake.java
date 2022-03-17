@@ -14,7 +14,7 @@ import frc.robot.Robot;
 public class Intake extends SubsystemBase {
     
    private CANSparkMax intakeSpark; 
-   private DoubleSolenoid solenoidA, solenoidB;
+   public static DoubleSolenoid solenoidA, solenoidB;
 
    public Intake() {
       
@@ -71,6 +71,10 @@ public class Intake extends SubsystemBase {
 
    public void intakeRollerOff() {
       intakeSpark.set(0);
+   }
+
+   public static Value getSolenoidState() {
+      return solenoidA.get();
    }
 
 }

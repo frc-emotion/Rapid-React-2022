@@ -73,8 +73,8 @@ public class Climb extends SubsystemBase{
         atMax = false;
         atMin = false;
 
-        ActuatorR.set(Value.kReverse);
-        ActuatorL.set(Value.kReverse);
+        ActuatorR.set(Value.kForward);
+        ActuatorL.set(Value.kForward);
         //During Robot Init
 
     }
@@ -94,7 +94,7 @@ public class Climb extends SubsystemBase{
         else {
             TalonA.set(0);
         }
-        if (Robot.operatorController.getLeftBumperPressed() && !Hooked) {
+        if (Robot.operatorController.getBackButtonPressed() && !Hooked) {
             ActuatorL.toggle();
             ActuatorR.toggle();
         }

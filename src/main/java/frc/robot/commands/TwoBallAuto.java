@@ -46,7 +46,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
                                         // new StartEndCommand(() -> index.indexForward(), () -> index.indexerStop(),
                                         // index).withTimeout(10)
 
-                                        new InstantCommand(() -> index.indexForward()).withTimeout(10)
+                                        new InstantCommand(() -> index.indexForward(Constants.INDEXINGSPEED)).withTimeout(10)
 
                                 ))));
 

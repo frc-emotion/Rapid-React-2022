@@ -10,13 +10,16 @@ import frc.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class Indexer extends SubsystemBase {
     
     private WPI_TalonFX mIndexer;
-    private DigitalInput bottomsensor, topsensor, intakesensor;
+    private DigitalInput bottomsensor, topsensor, intakesensorR, intakesensorL;
     boolean indexerStat; //true means indexer is enabled, false is disabled  
     boolean firstBall; 
+    boolean indexingFirstBall;
+    boolean indexingSecondBall;
     int ballcount;    
 
     public Indexer() {
@@ -25,37 +28,50 @@ public class Indexer extends SubsystemBase {
         mIndexer.setInverted(InvertType.None);
         mIndexer.setNeutralMode(NeutralMode.Brake);
 
-        intakesensor = new DigitalInput(Constants.INTAKESENSOR);
+        intakesensorR = new DigitalInput(Constants.INTAKESENSORR);
+        intakesensorL = new DigitalInput(Constants.INTAKESENSORL);
         bottomsensor = new DigitalInput(Constants.BOTTOMSENSOR);
         topsensor = new DigitalInput(Constants.TOPSENSOR);
 
         
         firstBall= false;
+        indexingFirstBall = false;
+        indexingSecondBall = false;
         ballcount = 0;
     }
 
     public void run() {
-        
-        if (Robot.operatorController.getAButton()) {
-           indexShoot(Constants.SHOOTINDEXINGSPEED);
 
-        } else if (Robot.operatorController.getRightBumper()) {
-            indexForward(Constants.INDEXINGSPEED);
+        System.out.println(Intake.getSolenoidState());
 
-        } else if (Robot.operatorController.getLeftBumper()) {
-            indexReverse(Constants.INDEXINGSPEED);
+        if(Intake.getSolenoidState() == Value.kReverse) {
 
-        } else if (atTop()) {
-            indexStop();
+            if (Robot.operatorController.getAButton()) {
+            indexShoot(Constants.SHOOTINDEXINGSPEED);
 
-        } else if (atIntake() && firstBall == false) {
-            indexingFirstBall();
+            } else if (Robot.operatorController.getRightBumper()) {
+                indexForward(Constants.INDEXINGSPEED);
 
-        } else if (atIntake() && firstBall == true) {
-            indexForward(Constants.INDEXINGSPEED); //will auto stop when it reaches top
+            } else if (Robot.operatorController.getLeftBumper()) {
+                indexReverse(Constants.INDEXINGSPEED);
 
-        } else {
-            indexStop();
+            } else if (atTop()) {
+                indexStop();
+                
+/*
+            } else if (firstBall == false && (atIntake() || indexingFirstBall)) {
+
+                indexingFirstBall = true;
+                indexingFirstBall();
+
+            } else if (firstBall == true && (atIntake() || indexingSecondBall)) {
+
+                indexingSecondBall = true;
+                indexingSecondBall();
+*/
+            } else {
+                indexStop();
+            }
         }
 
         
@@ -94,10 +110,19 @@ public class Indexer extends SubsystemBase {
     }
 
     public void indexingFirstBall() {
-        if(!atBottom()) {
+        if(atBottom()) {
+           firstBall = true;
+           indexingFirstBall = false;
+        }  else {
             indexForward(Constants.INDEXINGSPEED);
-        } else {
-            firstBall = true;
+        }
+    }
+
+    public void indexingSecondBall() {
+        if(atTop()) {
+           indexingSecondBall = false;
+        }  else {
+            indexForward(Constants.INDEXINGSPEED);
         }
     }
 
@@ -125,7 +150,7 @@ public class Indexer extends SubsystemBase {
      * @return True if there is a ball
      */
     public boolean atIntake() {
-        return !intakesensor.get();
+        return (!intakesensorR.get() || !intakesensorL.get());
     }
 
     public void runAutoIndexer(boolean shooting) {

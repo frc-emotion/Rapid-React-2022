@@ -1,5 +1,6 @@
 package frc.robot;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import java.lang.Math;
 
 public class Constants {
 
@@ -49,9 +50,11 @@ public class Constants {
     public static final int INDEXERFALCON = 13;
     public static final int BOTTOMSENSOR = 0;
     public static final int TOPSENSOR = 1;
-    public static final int INTAKESENSORR = 2;
-    public static final int INTAKESENSORL = 3;
+    public static final int INTAKESENSORR = 3;
+    public static final int INTAKESENSORL = 4;
     public static final double INDEXINGSPEED = 0.4;
+    public static final double SHOOTINDEXINGSPEED = 0.7;
+
 
     // drivetrain
     public static final int[] DRIVE_RIGHT_PORTS = { 1, 2, 3 };
@@ -108,12 +111,21 @@ public class Constants {
     public static final double SHOOTER_NOMINAL_VOLTAGE = 7;
     public static final double SHOOTER_HOOD_NOMINAL_VOLTAGE = 7;
 
-    public static final double SHOOTER_KS = 0.74904;
+    public static final double SHOOTER_KS = 0.69337;
+    public static final double SHOOTER_KV = 0.12293;
+    public static final double SHOOTER_KA = 0.0041655;
+
+    public static final double SHOOTER_KP = 0.00056201;
+    public static final double SHOOTER_KD = 0;
+
+    /**
+     * public static final double SHOOTER_KS = 0.74904;
     public static final double SHOOTER_KV = 0.12235;
     public static final double SHOOTER_KA = 0.062135;
 
     public static final double SHOOTER_KP = 0.003793;
     public static final double SHOOTER_KD = 0;
+     */
 
     // NEED TO GET WITH SYS ID
     public static final double SHOOTER_HOOD_KP = 0.65;

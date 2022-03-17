@@ -25,7 +25,7 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                 new WaitCommand(2.3),
                 parallel(
                         new AutoShooter(shot, 2200, Constants.SHOOTER_ANGLE_CARGO_LINE, ready).withTimeout(5),
-                        new InstantCommand(() -> index.indexForward()).withTimeout(3)
+                        new InstantCommand(() -> index.indexForward(Constants.INDEXINGSPEED)).withTimeout(3)
                 ),
                 new InstantCommand(() -> intake.intakeDown()).withTimeout(2),
                 parallel(
@@ -43,7 +43,7 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                                         ),
 
                                 //new StartEndCommand(() -> index.indexForward(), () -> index.indexerStop(),
-                                new InstantCommand(() -> index.indexForward()).withTimeout(3))));
+                                new InstantCommand(() -> index.indexForward(Constants.INDEXINGSPEED)).withTimeout(3))));
 
         // Command runTwoBall = parallel(trajectories); //add intake and then have
         // intake/indexer run always
