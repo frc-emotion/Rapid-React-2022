@@ -47,7 +47,7 @@ public class Indexer extends SubsystemBase {
         if(Intake.getSolenoidState() == Value.kReverse) {
 
             if (Robot.operatorController.getAButton()) {
-            indexShoot(Constants.SHOOTINDEXINGSPEED);
+                indexShoot(Constants.SHOOTINDEXINGSPEED);
 
             } else if (Robot.operatorController.getRightBumper()) {
                 indexForward(Constants.INDEXINGSPEED);
