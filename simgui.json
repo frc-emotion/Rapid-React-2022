@@ -6,6 +6,11 @@
           "open": true
         }
       }
+    },
+    "Timing": {
+      "window": {
+        "visible": false
+      }
     }
   },
   "NTProvider": {
@@ -642,7 +647,8 @@
       "/LiveWindow/Ungrouped/Talon FX [13]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX [9]": "Motor Controller",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
-      "/SmartDashboard/Field": "Field2d"
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/SendableChooser[0]": "String Chooser"
     },
     "windows": {
       "/SmartDashboard/Field": {
@@ -693,8 +699,7 @@
         },
         "width": 16.459199905395508,
         "window": {
-          "name": "Rapid React Field",
-          "visible": true
+          "name": "Rapid React Field"
         }
       }
     }
@@ -704,21 +709,9 @@
       "Drive": {
         "open": true
       },
-      "Indexer": {
-        "open": true
-      },
-      "Intake": {
-        "open": true
-      },
-      "Shooter": {
-        "open": true
-      },
       "open": true
     },
     "SmartDashboard": {
-      "Field": {
-        "open": true
-      },
       "open": true
     }
   },

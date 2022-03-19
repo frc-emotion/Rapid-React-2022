@@ -54,10 +54,10 @@ public class Climb extends SubsystemBase{
         TalonB.setNeutralMode(NeutralMode.Brake);
 
         // Remove and Add Factory Default Settings
-        TalonA.configFactoryDefault();
-        TalonB.configFactoryDefault();
-        //TalonA.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.TALON_MAX_CURRENT, 10, 0.5));
-        //TalonB.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.TALON_MAX_CURRENT, 10, 0.5));
+        //TalonA.configFactoryDefault();
+        //TalonB.configFactoryDefault();
+        TalonA.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.TALON_MAX_CURRENT, 10, 0.5));
+        TalonB.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Constants.TALON_MAX_CURRENT, 10, 0.5));
 
         TalonB.follow(TalonA);
 
@@ -91,7 +91,7 @@ public class Climb extends SubsystemBase{
 
     // Mainloop
     public void run() {
-        double lJoystickPos = Robot.operatorController.getLeftY();
+        double lJoystickPos = Robot.operatorController.getRightY();
 
         //Statements are Reversed, as the Joystick is reversed
         if (lJoystickPos > Constants.JOYSTICK_THRESHOLD && !atMin) {
@@ -106,7 +106,7 @@ public class Climb extends SubsystemBase{
 
 
         }
-        if (Robot.operatorController.getLeftBumperPressed() && !Hooked) {
+        if (Robot.operatorController.getYButtonPressed() && !Hooked) {
             ActuatorL.toggle();
             ActuatorR.toggle();
         }
@@ -198,8 +198,9 @@ public class Climb extends SubsystemBase{
         SmartDashboard.putNumber("Climb-Encoder Rev", returnRevs());
         SmartDashboard.putNumber("Climb-Encoder Veloctiy", getVel());
         SmartDashboard.putNumber("ClimbDraw", getCurrentDraw());
+        SmartDashboard.putBoolean("atMax", atMax);
         max = SmartDashboard.getNumber("ClimbMAX", (Constants.CLIMB_MAX_POS));
-        min = SmartDashboard.getNumber("ClimbMIN", 0);
+        min = SmartDashboard.getNumber("ClimbMIN", -Constants.CLIMB_MAX_POS);
     }
 
 }

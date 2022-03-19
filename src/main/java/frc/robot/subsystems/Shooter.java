@@ -2,10 +2,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.util.function.BooleanSupplier;
-
-import javax.swing.plaf.metal.MetalLabelUI;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.InvertType;
@@ -29,7 +25,7 @@ public class Shooter extends SubsystemBase {
     private WPI_TalonFX mL, mR;
     private DigitalInput mLimit;
 
-    private Macro target_macro = Macro.FenderLow;
+    private Macro target_macro = Macro.FenderHigh;
 
     private final SimpleMotorFeedforward mFeedForward = new SimpleMotorFeedforward(Constants.SHOOTER_KS,
             Constants.SHOOTER_KV, Constants.SHOOTER_KA);
@@ -41,6 +37,7 @@ public class Shooter extends SubsystemBase {
         FenderLow(Constants.SHOOTER_RPM_FENDER_LOW, Constants.SHOOTER_ANGLE_FENDER_LOW),
         FenderHigh(Constants.SHOOTER_RPM_FENDER_HIGH, Constants.SHOOTER_ANGLE_FENDER_HIGH),
         CargoLine(Constants.SHOOTER_RPM_CARGO_LINE, Constants.SHOOTER_ANGLE_CARGO_LINE),
+        OutsideTarmac(Constants.SHOOTER_RPM_OUTSIDE_TARMAC, Constants.SHOOTER_ANGLE_OUTSIDE_TARMAC),
         ClosePad(Constants.SHOOTER_RPM_CLOSE_PAD, Constants.SHOOTER_ANGLE_CLOSE_PAD),
         FarPad(Constants.SHOOTER_RPM_FAR_PAD, Constants.SHOOTER_ANGLE_FAR_PAD),
         Testing(0, 0);
@@ -54,7 +51,7 @@ public class Shooter extends SubsystemBase {
     }
 
     
-    public static boolean isReady = false;
+    //public static boolean isReady = false;
 
     public Shooter() {
         mL = new WPI_TalonFX(Constants.SHOOTER_LEFT_PORT);
@@ -115,7 +112,7 @@ public class Shooter extends SubsystemBase {
     public void run() {
         if (Robot.operatorController.getRightTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
             shoot();
-        } else if (Math.abs(Robot.operatorController.getRightY()) >= Constants.JOYSTICK_THRESHOLD) {
+        } else if (Math.abs(Robot.operatorController.getLeftY()) >= Constants.JOYSTICK_THRESHOLD) {
             teleopHood();
         } else if (Robot.operatorController.getPOV() != -1) {
             switch (Robot.operatorController.getPOV()) {
@@ -125,15 +122,15 @@ public class Shooter extends SubsystemBase {
                     break;
                 case 90:
                     // Right
-                    setMacro(Macro.ClosePad);
+                    setMacro(Macro.FenderLow);
                     break;
                 case 180:
                     // Down
-                    setMacro(Macro.FenderLow);
+                    setMacro(Macro.ClosePad);
                     break;
                 case 270:
                     // Left
-                    setMacro(Macro.FarPad);
+                    setMacro(Macro.OutsideTarmac);
                     break;
             }
             goToMacro();
@@ -156,10 +153,6 @@ public class Shooter extends SubsystemBase {
      * Stop all motors and calibrate if at limit switch
      */
     public void stop() {
-        SmartDashboard.putBoolean("Limit", mLimit.get());
-        System.out.println(mLimit.get());
-
-
         mHood.stopMotor();
         mL.stopMotor();
     }
@@ -179,9 +172,9 @@ public class Shooter extends SubsystemBase {
     public void shoot() {
         spinUp();
 
-         if (Robot.operatorController.getAButton()) {
+        /*if (Robot.operatorController.getAButton()) {
             isReady = true;
-         }
+         }*/
            
             //TRIGGER COMMAND ON A BUTTON//Robot.indexer.indexForward();
         //}
@@ -215,7 +208,7 @@ public class Shooter extends SubsystemBase {
      * 
      */
     public void teleopHood() {
-        double joystick = -Robot.operatorController.getRightY(); // Up is negative for Y
+        double joystick = -Robot.operatorController.getLeftY(); // Up is negative for Y
         if (joystick < 0 && atLimit()) {
             calibrate();
         } else if (getHoodAngle() > 40 && joystick > 0) {

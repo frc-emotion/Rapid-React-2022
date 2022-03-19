@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.*;
@@ -33,6 +35,8 @@ public class Robot extends TimedRobot {
   public static Trajectory forw;
   TrajectoryCreator creator;
 
+  SendableChooser<Integer> m_chooser = new SendableChooser<>();
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -58,6 +62,12 @@ public class Robot extends TimedRobot {
     Drive.m_field.getObject("Two Ball One").setTrajectory(twoBallOne);
     Drive.m_field.getObject("trajectorDos").setTrajectory(forw);
 
+
+    m_chooser.setDefaultOption("(tested) Two Ball Auto", 1);
+    m_chooser.addOption("One Ball Taxi", 2);
+    m_chooser.addOption("Three Ball Auto", 3);
+
+    SmartDashboard.putData(m_chooser);
   }
 
   /**
@@ -97,7 +107,32 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
 
-    autoCommand = container.runAuto();
+    switch(m_chooser.getSelected()){
+      case 1: autoCommand = container.runAuto();
+      break;
+
+      case 2: autoCommand = container.runOne();
+      break;
+
+      case 3: autoCommand = container.getThreeBall();
+      break;
+
+      default: autoCommand = container.runAuto();
+      break;
+    }
+
+    /*
+    if (m_chooser.getSelected() == 1){
+      autoCommand = container.runAuto();
+    }
+    else if (m_chooser.getSelected() == 2){
+      autoCommand = container.runOne();
+    }
+    else if (m_chooser.getSelected() == 3){
+      autoCommand = container.getThreeBall();
+    }
+    */
+    
     // container.getAutonomousCommand();
     if (autoCommand != null) {
       autoCommand.schedule();

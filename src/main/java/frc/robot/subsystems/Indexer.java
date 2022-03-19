@@ -10,12 +10,16 @@ import frc.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 public class Indexer extends SubsystemBase {
     
     private WPI_TalonFX mIndexer;
-    private DigitalInput bottomsensor, topsensor; 
+    private DigitalInput bottomsensor, topsensor, intakesensorR, intakesensorL;
     boolean indexerStat; //true means indexer is enabled, false is disabled  
     boolean firstBall; 
+    boolean indexingFirstBall;
+    boolean indexingSecondBall;
     int ballcount;    
 
     public Indexer() {
@@ -24,93 +28,100 @@ public class Indexer extends SubsystemBase {
         mIndexer.setInverted(InvertType.None);
         mIndexer.setNeutralMode(NeutralMode.Brake);
 
+        intakesensorR = new DigitalInput(Constants.INTAKESENSORR);
+        intakesensorL = new DigitalInput(Constants.INTAKESENSORL);
         bottomsensor = new DigitalInput(Constants.BOTTOMSENSOR);
         topsensor = new DigitalInput(Constants.TOPSENSOR);
 
-        indexerStat = true;
+        
         firstBall= false;
+        indexingFirstBall = false;
+        indexingSecondBall = false;
         ballcount = 0;
     }
 
-
-    @Override
-    public void periodic() {
-        //Put SmartDashboard values here
-    }
-
     public void run() {
-        if (Robot.operatorController.getXButtonPressed()) { 
-            indexerStat = !indexerStat; //changes indexer status 
+
+        //System.out.println(Intake.getSolenoidState());
+
+        if (Robot.operatorController.getXButton()) {
+            indexShoot(Constants.SHOOTINDEXINGSPEED);
+        } else if(Intake.getSolenoidState() == Value.kReverse) {
+
+            if (Robot.operatorController.getLeftBumper()) {
+                indexForward(Constants.INDEXINGSPEED);
+
+            } else if (Robot.operatorController.getBButton()) {
+                indexReverse(Constants.INDEXINGSPEED);
+
+            } else if (atTop()) {
+                indexStop();
+                
+/*
+            } else if (firstBall == false && (atIntake() || indexingFirstBall)) {
+
+                indexingFirstBall = true;
+                indexingFirstBall();
+
+            } else if (firstBall == true && (atIntake() || indexingSecondBall)) {
+
+                indexingSecondBall = true;
+                indexingSecondBall();
+*/
+            } else {
+                indexStop();
+            }
         }
 
-        if(Robot.operatorController.getAButton()) {
-             indexerStat = true; 
-             firstBall= false; 
-             ballcount = 0; 
-         } else if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD && indexerStat == true) {
-             indexForward();
-         } 
-         else if(Robot.operatorController.getBButton()) {
-             indexReverse();
-         } 
-         else {
-             indexerStop();
-         }
- 
-         indexerStatus();
-         updateSmartDashboard();
-
-
-//temp fix?
-         if (Robot.operatorController.getAButton() && Shooter.isReady) {
-            indexForward();
-        }
+        
     }
 
-
-
-    public void indexForward() {
-        mIndexer.set(Constants.INDEXINGSPEED);
+    public void periodic() {
+        updateSmartDashboard();
     }
 
-    public void indexReverse() {
-        mIndexer.set(-Constants.INDEXINGSPEED);
+    public void indexForward(double speed) {
+        mIndexer.set(speed);
     }
 
-    public void indexerStop() {
+    public void indexReverse(double speed) {
+        mIndexer.set(-speed);
+    }
+
+    public void indexStop() {
         mIndexer.set(0);
     }
 
-    public void autoIndex(boolean ready, boolean hit){
-//temp fix at meeting
-    if(!atTop()){
-       if (!atBottom() && !hit){
-        indexForward();
-       } else if (atBottom()){
-           hit = true;
-           indexForward();
-       }
-    }
-        if (ready){
-            indexForward();
-        }
+    public void indexShoot(double speed) {
+        indexForward(speed);
+        firstBall = false;
     }
 
  /**
      * Index balls until one reaches the loading position
      */
-    public void indexerStatus() {
-        if (firstBall == false && atBottom()) {    // if (ballcount == 0 && atBottom()) {  
-                    firstBall = true; 
-                    indexerStat = false; //stop?
-                    ballcount = 1; 
-        } 
-        else if (atTop()) {  
-            indexerStat = false;
+    public void checkBallCount() {
+        if(atTop()) {
+            ballcount = 2;
+        } else if (firstBall == true) {
+            ballcount = 1;
         }
-        
-        if(atTop() && atBottom()) {
-            ballcount = 2; 
+    }
+
+    public void indexingFirstBall() {
+        if(atBottom()) {
+           firstBall = true;
+           indexingFirstBall = false;
+        }  else {
+            indexForward(Constants.INDEXINGSPEED);
+        }
+    }
+
+    public void indexingSecondBall() {
+        if(atTop()) {
+           indexingSecondBall = false;
+        }  else {
+            indexForward(Constants.INDEXINGSPEED);
         }
     }
 
@@ -132,10 +143,38 @@ public class Indexer extends SubsystemBase {
         return !bottomsensor.get();
     }
 
+    /**
+     * Checks whether a ball is at the intake sensor
+     * 
+     * @return True if there is a ball
+     */
+    public boolean atIntake() {
+        return (!intakesensorR.get() || !intakesensorL.get());
+    }
+
+    public void runAutoIndexer(boolean shooting) {
+        if(shooting) {
+
+        } else if (atTop()) {
+            indexStop();
+
+        } else if (atIntake() && firstBall == false) {
+            indexingFirstBall();
+
+        } else if (atIntake() && firstBall == true) {
+            indexForward(Constants.INDEXINGSPEED); //will auto stop when it reaches top
+
+        } else {
+            indexStop();
+        }
+    }
+
+
+
     public void updateSmartDashboard() {
         SmartDashboard.putBoolean("Top Triggered", atTop());
         SmartDashboard.putBoolean("Bottom Triggered", atBottom());
-        SmartDashboard.putBoolean("Indexer Status", indexerStat);
+        SmartDashboard.putBoolean("Intake Triggered", atIntake());
         SmartDashboard.putBoolean("First Ball?", firstBall);
         SmartDashboard.putNumber("Ball Count", ballcount);
     }

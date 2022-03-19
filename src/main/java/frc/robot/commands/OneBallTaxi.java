@@ -19,9 +19,9 @@ public class OneBallTaxi extends SequentialCommandGroup {
 
     boolean ready;
 
-    public OneBallTaxi(Drive drive, Intake intake, Shooter shot, Indexer index, Trajectory traj) {
+    public OneBallTaxi(Drive drive, Intake intake, Shooter shot, Indexer index) {
         // Reset Position
-        drive.resetOdometry(traj.getInitialPose());
+        //drive.resetOdometry(traj.getInitialPose());
         drive.resetEncoders();
 
         Command auto = sequence(
@@ -31,8 +31,8 @@ public class OneBallTaxi extends SequentialCommandGroup {
                         new AutoShooter(shot, Constants.SHOOTER_RPM_CARGO_LINE, Constants.SHOOTER_ANGLE_CARGO_LINE, ready)
                                                 .withTimeout(5),
                             sequence(
-                                new InstantCommand(() -> index.indexForward()).withTimeout(5),
-                                new Forward(drive, 0.5).withTimeout(3)
+                                new StartEndCommand(() -> index.indexForward(Constants.INDEXINGSPEED), () -> index.indexForward(Constants.INDEXINGSPEED), index).withTimeout(5),
+                                new Forward(drive, 0.5).withTimeout(1)
                                         // new WaitCommand(2.4),
                                         // new StartEndCommand(() -> index.indexForward(), () -> index.indexerStop(),
                                         // index).withTimeout(10)

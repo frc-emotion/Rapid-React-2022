@@ -14,7 +14,7 @@ import frc.robot.Robot;
 public class Intake extends SubsystemBase {
     
    private CANSparkMax intakeSpark; 
-   private DoubleSolenoid solenoidA, solenoidB;
+   public static DoubleSolenoid solenoidA, solenoidB;
 
    public Intake() {
       
@@ -30,14 +30,14 @@ public class Intake extends SubsystemBase {
    }
 
    public void run(){
-      if (Robot.operatorController.getYButtonPressed()) {
+      if (Robot.operatorController.getAButtonPressed()) {
          intakeToggle();
       } 
 
       if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) { //&& (Robot.indexer.ballcount < 2)
          intakeRoller();
-      } else if (Robot.operatorController.getBButton()) {
-         //intakeRollerReverse();
+      } else if (Robot.operatorController.getRightBumper()) {
+         intakeRollerReverse();
       } else {
          intakeRollerOff();
       }
@@ -66,11 +66,15 @@ public class Intake extends SubsystemBase {
    }   
 
    public void intakeRollerReverse() {
-      intakeSpark.set(Constants.INTAKE_SPEED);
+      intakeSpark.set(Constants.REVERSE_INTAKE_SPEED);
    }
 
    public void intakeRollerOff() {
       intakeSpark.set(0);
+   }
+
+   public static Value getSolenoidState() {
+      return solenoidA.get();
    }
 
 }

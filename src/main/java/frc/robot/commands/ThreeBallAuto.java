@@ -22,13 +22,13 @@ public class ThreeBallAuto extends SequentialCommandGroup {
         drive.resetEncoders();
 
         Command auto = sequence(
-                new StartEndCommand(shot::autoZero, shot::stopHood, shot).withTimeout(4),
-                new WaitCommand(1),
+                new StartEndCommand(shot::autoZero, shot::stopHood, shot).withTimeout(0.5),
                 parallel(
-                        new AutoShooter(shot, 2200, Constants.SHOOTER_ANGLE_CARGO_LINE, ready).withTimeout(5),
-                        new InstantCommand(() -> index.indexForward()).withTimeout(3)
+                        new AutoShooter(shot, 2200, Constants.SHOOTER_ANGLE_CARGO_LINE, ready).withTimeout(3),
+                        new InstantCommand(() -> index.indexForward(Constants.INDEXINGSPEED)).withTimeout(3)
                 ),
-                new InstantCommand(() -> intake.intakeDown()).withTimeout(2),
+                new WaitCommand(1),
+                new InstantCommand(() -> intake.intakeDown()).withTimeout(1),
                 parallel(
                         new StartEndCommand(() -> intake.intakeRoller(), () -> intake.intakeRollerOff(), intake)
                                 .withTimeout(10),
@@ -38,13 +38,14 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                                         new AutoShooter(shot, 2200, Constants.SHOOTER_ANGLE_CARGO_LINE, ready)
                                                 .withTimeout(5),
                                         sequence(
-                                                new TurnToDegrees(drive, 20, true)).withTimeout(2),
+                                                new TurnToDegrees(drive, 20, true).withTimeout(2),
                                                 new Forward(drive, -0.4).withTimeout(0.6)
                                         // new StartEndCommand(() -> intake.intakeR)
                                         ),
 
                                 //new StartEndCommand(() -> index.indexForward(), () -> index.indexerStop(),
-                                new InstantCommand(() -> index.indexForward()).withTimeout(3))));
+                                new InstantCommand(() -> index.indexForward(Constants.INDEXINGSPEED))).withTimeout(3) 
+                                )));
 
         // Command runTwoBall = parallel(trajectories); //add intake and then have
         // intake/indexer run always
