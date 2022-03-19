@@ -1,7 +1,12 @@
 {
   "HALProvider": {
     "Other Devices": {
-      "navX-Sensor[0]": {
+      "Talon FX[11]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[11]/Integrated Sensor": {
         "header": {
           "open": true
         }
@@ -26,6 +31,8 @@
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[2]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[3]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[4]": "Digital Input",
       "/LiveWindow/Ungrouped/PIDController[100]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[101]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[102]": "PIDController",
@@ -699,7 +706,13 @@
         },
         "width": 16.459199905395508,
         "window": {
-          "name": "Rapid React Field"
+          "name": "Rapid React Field",
+          "visible": true
+        }
+      },
+      "/SmartDashboard/SendableChooser[0]": {
+        "window": {
+          "visible": true
         }
       }
     }

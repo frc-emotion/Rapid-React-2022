@@ -7,13 +7,21 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import edu.wpi.first.wpilibj.simulation.ElevatorSim;
+import edu.wpi.first.wpilibj.simulation.SimDeviceSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
+import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 
@@ -28,16 +36,36 @@ public class Climb extends SubsystemBase{
     MotorControllerGroup FalconClimb;
     WPI_TalonFX TalonA, TalonB;
     DoubleSolenoid ActuatorR, ActuatorL;
-
-    private boolean Hooked; 
     private boolean atMax;
-    private boolean atMin;
+    private boolean removeBounds;
 
     private PowerDistribution PDH;
 
     public double max;
     public double min;
-    public double maxCurrentDraw;
+
+    //SimDouble sim_Encoder_Pos;
+
+    
+
+    private final ElevatorSim m_elevatorSim =
+    new ElevatorSim(
+        DCMotor.getFalcon500(2),
+        21.33,
+        30,
+        15,
+        0.952,
+        2,
+        VecBuilder.fill(0.01));
+
+        int climb11 = SimDeviceDataJNI.getSimDeviceHandle("Talon FX[11]/Integrated Sensor");
+
+        SimDeviceSim climbSim = new SimDeviceSim("Talon FX[11]/Integrated Sensor");
+
+        private final SimDouble sim_Encoder_Pos = climbSim.getDouble("position");
+
+        //SimDouble sim_Encoder_Abs = new SimDouble(SimDeviceDataJNI.getSimValueHandle(climb11, "absolutePosition"));
+
 
     public Climb() {
 
@@ -73,14 +101,17 @@ public class Climb extends SubsystemBase{
         SmartDashboard.putNumber("ClimbMAX", (Constants.CLIMB_MAX_POS));
         SmartDashboard.putNumber("ClimbMIN", 0);
 
-
-        Hooked = false;
         atMax = false;
-        atMin = false;
-
+        removeBounds = false;
         ActuatorR.set(Value.kReverse);
         ActuatorL.set(Value.kReverse);
         //During Robot Init
+
+
+        //sim init
+
+        
+        
 
     }
 
@@ -94,24 +125,34 @@ public class Climb extends SubsystemBase{
         double lJoystickPos = Robot.operatorController.getRightY();
 
         //Statements are Reversed, as the Joystick is reversed
-        if (lJoystickPos > Constants.JOYSTICK_THRESHOLD && !atMin) {
-            TalonA.set(Constants.CLIMB_MOTOR_SPEED);
-        } else if (lJoystickPos < -Constants.JOYSTICK_THRESHOLD && !atMax) {
+        if (lJoystickPos < -Constants.JOYSTICK_THRESHOLD && !atMax) {
             TalonA.set(-Constants.CLIMB_MOTOR_SPEED);
+        } else if (lJoystickPos > Constants.JOYSTICK_THRESHOLD) {
+            TalonA.set(Constants.CLIMB_MOTOR_SPEED);
         } else if (Robot.operatorController.getStartButtonPressed()) {
             ZeroEncoders();
         }
         else {
             TalonA.set(0);
-
-
         }
-        if (Robot.operatorController.getYButtonPressed() && !Hooked) {
+
+        if (Robot.operatorController.getYButtonPressed()) {
             ActuatorL.toggle();
             ActuatorR.toggle();
         }
 
+        //click right stick button to toggle bounds IF NESSECARY
+        if (Robot.operatorController.getRightStickButtonPressed() && !removeBounds){
+            removeBounds = !removeBounds;
+        }
+
+      
         Bounds();
+        
+        
+        //if (removeBounds){
+        //    atMax=false;
+       // }
         
       
     }
@@ -124,25 +165,6 @@ public class Climb extends SubsystemBase{
         Actuator.set(Value.kReverse);
     }
 
-    private void Release(DoubleSolenoid Actuator) {
-        Actuator.set(Value.kOff);
-    }
-
-    private void ExtendClimb(double target) {
-        TalonA.set(ControlMode.Position, target);
-        // Talon.set(Constants.CLIMB_MOTOR_SPEED);
-
-    }
-
-    private void RetractClimb(double target) {
-        TalonA.set(ControlMode.Position, -target);
-        // TalonA.set(-Constants.CLIMB_MOTOR_SPEED);
-    }
-
-    private void stopClimb() {
-        TalonA.set(0);
-    }
-
     // Return TalonFX Position
     public double getPosition() {
         return TalonA.getSelectedSensorPosition();
@@ -152,34 +174,16 @@ public class Climb extends SubsystemBase{
     }
 
     public void Bounds(){
-        if (returnRevs() > max){
+        if (returnRevs() < -max){
             atMax = true;
         } 
         else {
             atMax = false;
         }
-
-        //lower bounds
-        if (returnRevs() < min){
-            atMin = true;
-        }
-        else {
-            atMin = false;
-        }
-
-        //Disabled for testing, define maxCurrentDraw
-        /*
-        if (getCurrentDraw() > maxCurrentDraw){
-            ZeroEncoders();
-        }
-        */
     }
-
+    /*TalonFx Units Per Rev (NON QUADRATURE) = 2048 */
     public double returnRevs(){
-        //TalonFx Units Per Rev (NON QUADRATURE) = 2048 
         return getPosition() / 2048;
-
-
     }
 
     private void ZeroEncoders(){
@@ -192,15 +196,17 @@ public class Climb extends SubsystemBase{
         //Create object of PDH
     }
 
-
-
     public void RunSmartDash() {
         SmartDashboard.putNumber("Climb-Encoder Rev", returnRevs());
         SmartDashboard.putNumber("Climb-Encoder Veloctiy", getVel());
         SmartDashboard.putNumber("ClimbDraw", getCurrentDraw());
-        SmartDashboard.putBoolean("atMax", atMax);
-        max = SmartDashboard.getNumber("ClimbMAX", (Constants.CLIMB_MAX_POS));
-        min = SmartDashboard.getNumber("ClimbMIN", -Constants.CLIMB_MAX_POS);
+        max = SmartDashboard.getNumber("ClimbMAX", -(Constants.CLIMB_MAX_POS));
+
+        SmartDashboard.putBoolean("max", atMax);
     }
+
+    public void climbSim(){
+    }
+
 
 }

@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
     creator = new TrajectoryCreator();
 
     // All Two Ball Paths
-    twoBallOne = creator.generateTrajectory("2ball1.wpilib.json", "AutoPickTest#2");
+    twoBallOne = creator.generateTrajectory("2ball100.wpilib.json", "AutoPickTest#2");
     forw = creator.generateTrajectory("2ball2.wpilib.json", "GG");
 
     // All 3 Ball Paths

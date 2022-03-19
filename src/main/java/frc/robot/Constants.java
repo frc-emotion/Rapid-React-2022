@@ -4,16 +4,15 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 public class Constants {
 
     public static final double ksVolts = 0.20317;
-    public static final double kvVoltSeconds = 10.83;
-    public static final double kaVoltSecondsSquaredPerMeter= 2.3465;
-
+    public static final double kvVoltSeconds = 4.89;//10.83;
+    public static final double kaVoltSecondsSquaredPerMeter= 0.691;//2.3465;
 /*
     public static final double ksVolts = 0.27717;
     public static final double kvVoltSeconds = 4.2592;
     public static final double kaVoltSecondsSquaredPerMeter= 0.6315;
 */
     //Tuned kP valeue for 2022RR
-    public static final double kPDriveVel =0;// 0.91439;//1.856;//1.856 Assume sim does not count for enough error, as STD of sim vaules have not been calculated
+    public static final double kPDriveVel = 0.91439;//1.856;//1.856 Assume sim does not count for enough error, as STD of sim vaules have not been calculated
     public static final double kDDriveVel = 0;
 
     //Kinematics
@@ -80,10 +79,11 @@ public class Constants {
 
     public static final double CLIMB_TARGET_MAX_POS = 46 * 2048; // rev
     public static final double CLIMB_TARGET_MIN_POS = 5 * 2048; // rev
-    public static final double CLIMB_MAX_POS = 140; // rev
-    public static final double CLIMB_MIN_POS = 3; // rev
+    public static final double CLIMB_MAX_POS = 115; // rev
+    public static final double CLIMB_MIN_POS = 0; // rev
 
     public static final double CLIMB_kP = 0;
+
     public static final double CLIMB_kI = 0;
     public static final double CLIMB_kD = 0;
 
