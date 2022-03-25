@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
@@ -12,6 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.*;
+
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,6 +40,8 @@ public class Robot extends TimedRobot {
   TrajectoryCreator creator;
 
   SendableChooser<Integer> m_chooser = new SendableChooser<>();
+  CvSink cvSink;
+  CvSource outputStream;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -46,8 +52,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     driverController = new XboxController(Constants.DRIVER_PORT);
     operatorController = new XboxController(Constants.OPERATOR_PORT);
-    container = new RobotContainer();
 
+    container = new RobotContainer();
     creator = new TrajectoryCreator();
 
     // All Two Ball Paths
@@ -58,16 +64,21 @@ public class Robot extends TimedRobot {
     threeBallOne = creator.generateTrajectory("3ball1.wpilib.json", "First 3 Ball Path");
 
     // All 4 Ball Paths
-
     Drive.m_field.getObject("Two Ball One").setTrajectory(twoBallOne);
     Drive.m_field.getObject("trajectorDos").setTrajectory(forw);
-
 
     m_chooser.setDefaultOption("(tested) Two Ball Auto", 1);
     m_chooser.addOption("One Ball Taxi", 2);
     m_chooser.addOption("Three Ball Auto", 3);
 
     SmartDashboard.putData(m_chooser);
+
+    /** Creates Camera Server for Driver Cam */
+    CameraServer.startAutomaticCapture();
+
+    // cvSink = CameraServer.getVideo();
+    // outputStream = CameraServer.putVideo("Blur", 640, 480);
+
   }
 
   /**
@@ -84,7 +95,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-
   }
 
   /**
@@ -107,31 +117,26 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
 
-    switch(m_chooser.getSelected()){
-      case 1: autoCommand = container.runAuto();
-      break;
+    switch (m_chooser.getSelected()) {
+      case 1:
+        autoCommand = container.runAuto();
+        break;
 
-      case 2: autoCommand = container.runOne();
-      break;
+      case 2:
+        autoCommand = container.runOne();
+        break;
 
-      case 3: autoCommand = container.getThreeBall();
-      break;
+      case 3:
+        autoCommand = container.getThreeBall();
+        break;
 
-      default: autoCommand = container.runAuto();
-      break;
+      default:
+        autoCommand = container.runAuto();
+        break;
     }
 
-    /*
-    if (m_chooser.getSelected() == 1){
-      autoCommand = container.runAuto();
-    }
-    else if (m_chooser.getSelected() == 2){
-      autoCommand = container.runOne();
-    }
-    else if (m_chooser.getSelected() == 3){
-      autoCommand = container.getThreeBall();
-    }
-    */
+
+
     
     // container.getAutonomousCommand();
     if (autoCommand != null) {

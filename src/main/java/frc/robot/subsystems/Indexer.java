@@ -42,20 +42,19 @@ public class Indexer extends SubsystemBase {
 
     public void run() {
 
-        //System.out.println(Intake.getSolenoidState());
-
         if (Robot.operatorController.getXButton()) {
             indexShoot(Constants.SHOOTINDEXINGSPEED);
-        } else if(Intake.getSolenoidState() == Value.kReverse) {
-
-            if (Robot.operatorController.getLeftBumper()) {
-                indexForward(Constants.INDEXINGSPEED);
-
-            } else if (Robot.operatorController.getBButton()) {
-                indexReverse(Constants.INDEXINGSPEED);
-
-            } else if (atTop()) {
-                indexStop();
+        }
+        
+        if (Robot.operatorController.getLeftBumper()) {
+            indexForward(Constants.INDEXINGSPEED);
+        } else if (Robot.operatorController.getBButton()) {
+            indexReverse(Constants.INDEXINGSPEED);
+        } else if (atTop()) {
+            indexStop();
+        } else {
+            indexStop();
+        }
                 
 /*
             } else if (firstBall == false && (atIntake() || indexingFirstBall)) {
@@ -68,14 +67,11 @@ public class Indexer extends SubsystemBase {
                 indexingSecondBall = true;
                 indexingSecondBall();
 */
-            } else {
-                indexStop();
-            }
-        }
 
         
     }
 
+    @Override
     public void periodic() {
         updateSmartDashboard();
     }

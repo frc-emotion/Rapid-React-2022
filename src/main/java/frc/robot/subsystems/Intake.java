@@ -23,10 +23,9 @@ public class Intake extends SubsystemBase {
       intakeSpark.setSecondaryCurrentLimit(Constants.NEO_MAX_CURRENT);
       intakeSpark.setIdleMode(IdleMode.kBrake);
 
-      solenoidA = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PNEUMATIC_INTAKE_PORTS[0], Constants.PNEUMATIC_INTAKE_PORTS[1]); 
+
+      solenoidA = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.PNEUMATIC_INTAKE_PORTS[0], Constants.PNEUMATIC_INTAKE_PORTS[1]); 
       solenoidA.set(Value.kForward);
-      solenoidB = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PNEUMATIC_INTAKE_PORTS[2], Constants.PNEUMATIC_INTAKE_PORTS[3]);
-      solenoidB.set(Value.kForward);
    }
 
    public void run(){
@@ -41,24 +40,18 @@ public class Intake extends SubsystemBase {
       } else {
          intakeRollerOff();
       }
-
-
-
    }
 
    public void intakeToggle() {
       solenoidA.toggle();
-      solenoidB.toggle();
    }  
    
    public void intakeDown() {
       solenoidA.set(Value.kReverse);
-      solenoidB.set(Value.kReverse);
    }
 
    public void intakeUp() {
       solenoidA.set(Value.kForward);
-      solenoidB.set(Value.kForward);
    }
 
    public void intakeRoller() {
@@ -71,10 +64,6 @@ public class Intake extends SubsystemBase {
 
    public void intakeRollerOff() {
       intakeSpark.set(0);
-   }
-
-   public static Value getSolenoidState() {
-      return solenoidA.get();
    }
 
 }

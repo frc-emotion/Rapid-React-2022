@@ -50,8 +50,7 @@ public class Shooter extends SubsystemBase {
         }
     }
 
-    
-    //public static boolean isReady = false;
+    // public static boolean isReady = false;
 
     public Shooter() {
         mL = new WPI_TalonFX(Constants.SHOOTER_LEFT_PORT);
@@ -96,10 +95,9 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putNumber("ShooterTestAngle", 0);
     }
 
-
     @Override
     public void periodic() {
-        //Put SmartDashboard values here
+        // Put SmartDashboard values here
         updateDashboard();
         if (atLimit()) {
             calibrate();
@@ -142,10 +140,9 @@ public class Shooter extends SubsystemBase {
             stop();
         }
 
-        
     }
 
-    public void stopHood(){
+    public void stopHood() {
         mHood.stopMotor();
     }
 
@@ -172,12 +169,14 @@ public class Shooter extends SubsystemBase {
     public void shoot() {
         spinUp();
 
-        /*if (Robot.operatorController.getAButton()) {
-            isReady = true;
-         }*/
-           
-            //TRIGGER COMMAND ON A BUTTON//Robot.indexer.indexForward();
-        //}
+        /*
+         * if (Robot.operatorController.getAButton()) {
+         * isReady = true;
+         * }
+         */
+
+        // TRIGGER COMMAND ON A BUTTON//Robot.indexer.indexForward();
+        // }
     }
 
     /**
@@ -221,23 +220,22 @@ public class Shooter extends SubsystemBase {
             } else {
                 mHood.set(Constants.SHOOTER_HOOD_SPEED * joystick);
             }
-        } 
+        }
     }
 
-    public void autoZero(){
-        if (!atLimit()){
-          mHood.set(-0.3);
-        }
-        else if (atLimit()){
+    public void autoZero() {
+        if (!atLimit()) {
+            mHood.set(-0.3);
+        } else if (atLimit()) {
             calibrate();
         }
     }
 
-    public void autoShoot(boolean ready, double rpm, double angle){
+    public void autoShoot(boolean ready, double rpm, double angle) {
         setHoodAngle(angle);
         spinAt(rpm);
 
-        if (getRPM() > rpm - 5){
+        if (getRPM() > rpm - 5) {
             ready = true;
         }
     }

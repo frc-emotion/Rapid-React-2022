@@ -36,50 +36,33 @@ public class RobotContainer {
   private final Intake intaker = new Intake();
   private final Climb climb = new Climb();
 
- // SendableChooser<Integer> m_chooser;
   Trajectory TwoBall;
   Trajectory OneBall;
   Trajectory ThreeBall;
   Trajectory b1;
   Trajectory b2;
+
   public RobotContainer() {
-
-     //m_chooser.setDefaultOption("(tested) Two Ball Auto", 1);
-    // m_chooser.addOption("One Ball Taxi", 2);
-
-// Put the chooser on the dashboard
-    //SmartDashboard.putData(m_chooser);
-    // Configure the button bindings
     configureButtonBindings();
   }
 
   private void configureButtonBindings() {
   }
 
-  public Command getTeleopCommand(){
+  public Command getTeleopCommand() {
     return new TeleopCommand(drive, index, intaker, shoot, climb);
   }
 
-  public Command runOne(){
+  public Command runOne() {
     return new OneBallTaxi(drive, intaker, shoot, index);
   }
 
-  public Command runAuto(){
+  public Command runAuto() {
     TwoBall = Robot.twoBallOne;
-
-    //if (m_chooser.getSelected() == 1){
     return new TwoBallAuto(drive, intaker, shoot, index, TwoBall);
-    //}
-
-    //else {
-    //  return new OneBallTaxi(drive, intaker, shoot, index);
-    //}
-    
-    //b2 = Robot.forw;
-    
   }
 
-  public Command getThreeBall(){
+  public Command getThreeBall() {
     ThreeBall = Robot.threeBallOne;
 
     return new ThreeBallAuto(drive, intaker, shoot, index, ThreeBall, b2);
@@ -87,16 +70,8 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     TwoBall = Robot.twoBallOne;
-    //b2 = Robot.forw;
+    // b2 = Robot.forw;
     return new TwoBallAuto(drive, intaker, shoot, index, TwoBall);
 
   }
-
-  /*
-  public Command getSubsytemChecker(){
-
-    return new SubsystemChecker
-  }
-  */
-
 }

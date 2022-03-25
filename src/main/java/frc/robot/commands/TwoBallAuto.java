@@ -41,8 +41,8 @@ public class TwoBallAuto extends SequentialCommandGroup {
                                 parallel(
                                         new AutoShooter(shot, Constants.SHOOTER_RPM_CARGO_LINE, Constants.SHOOTER_ANGLE_CARGO_LINE, ready)
                                                 .withTimeout(5),
-                                        sequence(
-                                                new Forward(drive, -0.4).withTimeout(0.85),
+                                        sequence( 
+                                                new Forward(drive, -0.4).withTimeout(0.97),
                                                 new TurnToDegrees(drive, 7.1, false).withTimeout(1),
                                                 new InstantCommand(() -> index.indexForward(Constants.INDEXINGSPEED)).withTimeout(5)
                                         // new WaitCommand(2.4),

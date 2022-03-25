@@ -3,14 +3,15 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
 public class Constants {
 
-    public static final double ksVolts = 0.20317;
+ /*   public static final double ksVolts = 0.20317;
     public static final double kvVoltSeconds = 4.89;//10.83;
     public static final double kaVoltSecondsSquaredPerMeter= 0.691;//2.3465;
-/*
+*/
+
     public static final double ksVolts = 0.27717;
     public static final double kvVoltSeconds = 4.2592;
     public static final double kaVoltSecondsSquaredPerMeter= 0.6315;
-*/
+
     //Tuned kP valeue for 2022RR
     public static final double kPDriveVel = 0.91439;//1.856;//1.856 Assume sim does not count for enough error, as STD of sim vaules have not been calculated
     public static final double kDDriveVel = 0;
@@ -46,7 +47,7 @@ public class Constants {
 
     // intake
     public static final int INTAKE_PORT = 7;
-    public static final int[] PNEUMATIC_INTAKE_PORTS = { 12, 3, 8, 7 };
+    public static final int[] PNEUMATIC_INTAKE_PORTS = { 7, 3}; //0, 6 };
     public static final double INTAKE_SPEED = 0.50;
     public static final double REVERSE_INTAKE_SPEED = 0.65;
 
@@ -87,7 +88,7 @@ public class Constants {
     public static final double CLIMB_kI = 0;
     public static final double CLIMB_kD = 0;
 
-    public static final int CLIMB_PNEUMATICS[] = { 5, 10, 9, 6 };
+    public static final int CLIMB_PNEUMATICS[] = { 5, 1, 9, 6 };
 
     // Shooter Constants
     public static final int SHOOTER_HOOD_PORT = 8;
@@ -113,8 +114,8 @@ public class Constants {
     public static final double SHOOTER_RPM_OUTSIDE_TARMAC = 2022;
     public static final double SHOOTER_ANGLE_OUTSIDE_TARMAC = 11;
     
-    public static final double SHOOTER_RPM_CLOSE_PAD = 2500;
-    public static final double SHOOTER_ANGLE_CLOSE_PAD = 20;
+    public static final double SHOOTER_RPM_CLOSE_PAD = 1980;
+    public static final double SHOOTER_ANGLE_CLOSE_PAD = 0;
     
     public static final double SHOOTER_RPM_FAR_PAD = 3000;
     public static final double SHOOTER_ANGLE_FAR_PAD = 0;
@@ -131,7 +132,8 @@ public class Constants {
     public static final double SHOOTER_KP = 0.003793;
     public static final double SHOOTER_KD = 0;
 
-   /* 
+   
+  /*
     public static final double SHOOTER_RPM_FENDER_LOW = 1100;
     public static final double SHOOTER_ANGLE_FENDER_LOW = 40;
     
@@ -145,8 +147,8 @@ public class Constants {
     public static final double SHOOTER_ANGLE_OUTSIDE_TARMAC = 11;
     
     
-    public static final double SHOOTER_RPM_CLOSE_PAD = 2750;
-    public static final double SHOOTER_ANGLE_CLOSE_PAD = 25;
+    public static final double SHOOTER_RPM_CLOSE_PAD = 2100;
+    public static final double SHOOTER_ANGLE_CLOSE_PAD = 0;
     
     public static final double SHOOTER_RPM_FAR_PAD = 3000;
     public static final double SHOOTER_ANGLE_FAR_PAD = 0;
@@ -162,10 +164,8 @@ public class Constants {
 
     public static final double SHOOTER_KP = 0.00056201;
     public static final double SHOOTER_KD = 0;
-
-    */
-
-    // NEED TO GET WITH SYS ID
+*/
+       // NEED TO GET WITH SYS ID
     public static final double SHOOTER_HOOD_KP = 0.65;
     public static final double SHOOTER_HOOD_KD = 0;
 
