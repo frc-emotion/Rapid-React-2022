@@ -99,7 +99,7 @@ public class Climb extends SubsystemBase {
 
     @Override
     public void periodic() {
-        RunSmartDash();
+        updateDash();
     }
 
     // Mainloop
@@ -129,15 +129,10 @@ public class Climb extends SubsystemBase {
         Bounds();
     }
 
-    private void Extend(DoubleSolenoid Actuator) {
-        Actuator.set(Value.kReverse);
-    }
-
-    public void Contract(DoubleSolenoid Actuator) {
-        Actuator.set(Value.kReverse);
-    }
-
-    // Return TalonFX Position
+    /**
+     * 
+     * @return TalonFx Encoder Position (Encoder Units)
+     */
     public double getPosition() {
         return TalonA.getSelectedSensorPosition();
     }
@@ -154,7 +149,10 @@ public class Climb extends SubsystemBase {
         }
     }
 
-    /* TalonFx Units Per Rev (NON QUADRATURE) = 2048 */
+    /** 
+     * TalonFx Units Per Rev (NON QUADRATURE) = 2048 
+     * 
+     * */
     public double returnRevs() {
         return getPosition() / 2048;
     }
@@ -164,7 +162,7 @@ public class Climb extends SubsystemBase {
         TalonB.setSelectedSensorPosition(0);
     }
 
-    public void RunSmartDash() {
+    public void updateDash() {
         SmartDashboard.putNumber("Climb-Encoder Rev", returnRevs());
         SmartDashboard.putNumber("Climb-Encoder Veloctiy", getVel());
         // SmartDashboard.putNumber("ClimbDraw", getCurrentDraw());

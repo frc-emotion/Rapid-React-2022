@@ -134,9 +134,6 @@ public class Robot extends TimedRobot {
         autoCommand = container.runAuto();
         break;
     }
-
-
-
     
     // container.getAutonomousCommand();
     if (autoCommand != null) {
@@ -166,7 +163,6 @@ public class Robot extends TimedRobot {
     if (teleopCommand != null) {
       teleopCommand.schedule();
     }
-
   }
 
   /** This function is called periodically during operator control. */

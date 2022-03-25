@@ -12,28 +12,29 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 
 public class Intake extends SubsystemBase {
-    
-   private CANSparkMax intakeSpark; 
+
+   private CANSparkMax intakeSpark;
    public static DoubleSolenoid solenoidA, solenoidB;
 
    public Intake() {
-      
-      intakeSpark = new CANSparkMax(Constants.INTAKE_PORT, MotorType.kBrushless); 
+
+      intakeSpark = new CANSparkMax(Constants.INTAKE_PORT, MotorType.kBrushless);
       intakeSpark.setSmartCurrentLimit(Constants.NEO_MAX_CURRENT);
       intakeSpark.setSecondaryCurrentLimit(Constants.NEO_MAX_CURRENT);
       intakeSpark.setIdleMode(IdleMode.kBrake);
 
-
-      solenoidA = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.PNEUMATIC_INTAKE_PORTS[0], Constants.PNEUMATIC_INTAKE_PORTS[1]); 
+      solenoidA = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.PNEUMATIC_INTAKE_PORTS[0],
+            Constants.PNEUMATIC_INTAKE_PORTS[1]);
       solenoidA.set(Value.kForward);
    }
 
-   public void run(){
+   public void run() {
       if (Robot.operatorController.getAButtonPressed()) {
          intakeToggle();
-      } 
+      }
 
-      if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) { //&& (Robot.indexer.ballcount < 2)
+      if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) { // && (Robot.indexer.ballcount
+                                                                                          // < 2)
          intakeRoller();
       } else if (Robot.operatorController.getRightBumper()) {
          intakeRollerReverse();
@@ -44,8 +45,8 @@ public class Intake extends SubsystemBase {
 
    public void intakeToggle() {
       solenoidA.toggle();
-   }  
-   
+   }
+
    public void intakeDown() {
       solenoidA.set(Value.kReverse);
    }
@@ -56,7 +57,7 @@ public class Intake extends SubsystemBase {
 
    public void intakeRoller() {
       intakeSpark.set(-Constants.INTAKE_SPEED);
-   }   
+   }
 
    public void intakeRollerReverse() {
       intakeSpark.set(Constants.REVERSE_INTAKE_SPEED);
