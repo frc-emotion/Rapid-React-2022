@@ -8,6 +8,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,13 +19,7 @@ import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 
 /**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the
- * name of this class or
- * the package after creating this project, you must also update the
- * build.gradle file in the
- * project.
+ *
  */
 public class Robot extends TimedRobot {
 
@@ -43,6 +38,7 @@ public class Robot extends TimedRobot {
   CvSink cvSink;
   CvSource outputStream;
 
+  
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -71,7 +67,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("One Ball Taxi", 2);
     m_chooser.addOption("Three Ball Auto", 3);
 
-    SmartDashboard.putData(m_chooser);
+    SmartDashboard.putData("Auto Path?", m_chooser);
 
     /** Creates Camera Server for Driver Cam */
     CameraServer.startAutomaticCapture();
@@ -134,7 +130,7 @@ public class Robot extends TimedRobot {
         autoCommand = container.runAuto();
         break;
     }
-    
+
     // container.getAutonomousCommand();
     if (autoCommand != null) {
       autoCommand.schedule();
