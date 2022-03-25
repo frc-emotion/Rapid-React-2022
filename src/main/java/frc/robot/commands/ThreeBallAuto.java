@@ -42,13 +42,9 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                                                 new Forward(drive, -0.4).withTimeout(0.6)
                                         // new StartEndCommand(() -> intake.intakeR)
                                         ),
-
-                                //new StartEndCommand(() -> index.indexForward(), () -> index.indexerStop(),
                                 new InstantCommand(() -> index.indexForward(Constants.INDEXINGSPEED))).withTimeout(3) 
                                 )));
 
-        // Command runTwoBall = parallel(trajectories); //add intake and then have
-        // intake/indexer run always
         addCommands(
                 auto);
 

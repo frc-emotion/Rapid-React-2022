@@ -215,6 +215,11 @@ public class Drive extends SubsystemBase {
 
     }
 
+    /**
+     * TODO: Clean up turn code (easier to switch)
+     * @param degrees angle to turn to (absolute)
+     * @param lr counterclockwise or clockwise turn
+     */
     public void gyroTurn(double degrees, boolean lr) {
         if (lr) {
             if (gyro.getYaw() < degrees) {
