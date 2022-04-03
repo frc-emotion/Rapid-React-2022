@@ -5,23 +5,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.IndexTeleop;
-import frc.robot.commands.IntakeTeleop;
-import frc.robot.commands.OneBallTaxi;
-import frc.robot.commands.ShooterTeleop;
+import frc.robot.commands.auto.FourBallAuto;
+import frc.robot.commands.auto.OneBallTaxi;
 import frc.robot.commands.TeleopCommand;
-import frc.robot.commands.ThreeBallAuto;
-import frc.robot.commands.TwoBallAuto;
+import frc.robot.commands.auto.ThreeBallAuto;
+import frc.robot.commands.auto.TwoBallAuto;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Indexer;
@@ -42,6 +31,9 @@ public class RobotContainer {
   Trajectory b1;
   Trajectory b2;
 
+  Trajectory four1;
+  Trajectory four2;  
+  Trajectory four3;
   public RobotContainer() {
     configureButtonBindings();
   }
@@ -73,5 +65,13 @@ public class RobotContainer {
     // b2 = Robot.forw;
     return new TwoBallAuto(drive, intaker, shoot, index, TwoBall);
 
+  }
+
+  public Command getFourBall() {
+    four1 = Robot.fourBallOne;
+    four2 = Robot.fourBallTwo;
+    four3 = Robot.fourBallThree;
+
+    return new FourBallAuto(drive, intaker, shoot, index, four1, four2, four3, b2);
   }
 }

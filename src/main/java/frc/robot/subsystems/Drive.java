@@ -321,7 +321,7 @@ public class Drive extends SubsystemBase {
         if (invert) {
             drive.tankDrive(-driveR, -driveL);
         } else {
-            drive.tankDrive(driveL, driveR);
+            drive.tankDrive(driveL,driveR);
 
         }
     }

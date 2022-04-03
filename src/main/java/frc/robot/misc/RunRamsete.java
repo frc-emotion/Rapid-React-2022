@@ -1,5 +1,6 @@
-package frc.robot;
+package frc.robot.misc;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -10,9 +11,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 
 
 public class RunRamsete{
-
     public Command executeAuto(Drive drive, Trajectory trajectory){
-
         RamseteCommand ramseteCommand = new RamseteCommand(trajectory, drive::getPose,
             new RamseteController(Constants.RamseteB, Constants.RamseteZeta),
             new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSeconds, Constants.kaVoltSecondsSquaredPerMeter),

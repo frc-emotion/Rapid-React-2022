@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.auto.FourBallAuto;
+import frc.robot.misc.TrajectoryCreator;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.cscore.CvSink;
@@ -32,6 +34,10 @@ public class Robot extends TimedRobot {
   public static Trajectory twoBallOne;
   public static Trajectory threeBallOne;
   public static Trajectory forw;
+
+  public static Trajectory fourBallOne;
+  public static Trajectory fourBallTwo;
+  public static Trajectory fourBallThree;
   TrajectoryCreator creator;
 
   SendableChooser<Integer> m_chooser = new SendableChooser<>();
@@ -53,19 +59,27 @@ public class Robot extends TimedRobot {
     creator = new TrajectoryCreator();
 
     // All Two Ball Paths
-    twoBallOne = creator.generateTrajectory("2ball100.wpilib.json", "AutoPickTest#2");
+    twoBallOne = creator.generateTrajectory("2ballDos.wpilib.json", "AutoPickTest#2");
     forw = creator.generateTrajectory("2ball2.wpilib.json", "GG");
 
     // All 3 Ball Paths
     threeBallOne = creator.generateTrajectory("3ball1.wpilib.json", "First 3 Ball Path");
 
     // All 4 Ball Paths
+    fourBallOne = creator.generateTrajectory("4Ball1.wpilib.json", "First 4 Ball Path");
+    fourBallTwo = creator.generateTrajectory("4Ball2.wpilib.json", "2nd 4 Ball Path");
+    fourBallThree = creator.generateTrajectory("4Ball3.wpilib.json", "Third 4 Ball Path");
+
+
+
+
     Drive.m_field.getObject("Two Ball One").setTrajectory(twoBallOne);
     Drive.m_field.getObject("trajectorDos").setTrajectory(forw);
 
     m_chooser.setDefaultOption("(tested) Two Ball Auto", 1);
     m_chooser.addOption("One Ball Taxi", 2);
     m_chooser.addOption("Three Ball Auto", 3);
+    m_chooser.addOption("Four Ball Auto", 4);
 
     SmartDashboard.putData("Auto Path?", m_chooser);
 
@@ -125,7 +139,9 @@ public class Robot extends TimedRobot {
       case 3:
         autoCommand = container.getThreeBall();
         break;
-
+      case 4:
+        autoCommand = container.getFourBall();
+        break;
       default:
         autoCommand = container.runAuto();
         break;

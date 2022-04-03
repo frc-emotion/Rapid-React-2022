@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import java.util.function.BooleanSupplier;
 
@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.RunRamsete;
+import frc.robot.misc.RunRamsete;
 import frc.robot.subsystems.*;
 
 public class TwoBallAuto extends SequentialCommandGroup {

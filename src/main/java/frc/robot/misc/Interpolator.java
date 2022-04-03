@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.misc;
 
 /** 
  * <br> </br>

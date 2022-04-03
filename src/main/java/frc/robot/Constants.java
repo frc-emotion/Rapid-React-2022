@@ -8,12 +8,12 @@ public class Constants {
     public static final double kaVoltSecondsSquaredPerMeter= 0.691;//2.3465;
 */
 
-    public static final double ksVolts = 0.27717;
-    public static final double kvVoltSeconds = 4.2592;
-    public static final double kaVoltSecondsSquaredPerMeter= 0.6315;
+    public static final double ksVolts = 0.19735;
+    public static final double kvVoltSeconds = 2.4936;
+    public static final double kaVoltSecondsSquaredPerMeter= 0.38003;
 
     //Tuned kP valeue for 2022RR
-    public static final double kPDriveVel = 0.91439;//1.856;//1.856 Assume sim does not count for enough error, as STD of sim vaules have not been calculated
+    public static final double kPDriveVel = 3.3077;//0.91439;//1.856;//1.856 Assume sim does not count for enough error, as STD of sim vaules have not been calculated
     public static final double kDDriveVel = 0;
 
     //Kinematics
@@ -114,7 +114,7 @@ public class Constants {
     public static final double SHOOTER_RPM_OUTSIDE_TARMAC = 2022;
     public static final double SHOOTER_ANGLE_OUTSIDE_TARMAC = 11;
     
-    public static final double SHOOTER_RPM_CLOSE_PAD = 1980;
+    public static final double SHOOTER_RPM_CLOSE_PAD = 1820;
     public static final double SHOOTER_ANGLE_CLOSE_PAD = 0;
     
     public static final double SHOOTER_RPM_FAR_PAD = 3000;
@@ -169,7 +169,7 @@ public class Constants {
     public static final double SHOOTER_HOOD_KP = 0.65;
     public static final double SHOOTER_HOOD_KD = 0;
 
-    public static final double SHOOTER_HOOD_MIN = 2;
+    public static final double SHOOTER_HOOD_MIN = 0.8;
     public static final double SHOOTER_HOOD_MAX = 40;
 
     public static final double SHOOTER_HOOD_SPEED = 0.3;

@@ -14,7 +14,7 @@ import frc.robot.Robot;
 public class Intake extends SubsystemBase {
 
    private CANSparkMax intakeSpark;
-   public static DoubleSolenoid solenoidA, solenoidB;
+   public static DoubleSolenoid solenoidA, solenoidB, giga;
 
    public Intake() {
 
@@ -22,6 +22,9 @@ public class Intake extends SubsystemBase {
       intakeSpark.setSmartCurrentLimit(Constants.NEO_MAX_CURRENT);
       intakeSpark.setSecondaryCurrentLimit(Constants.NEO_MAX_CURRENT);
       intakeSpark.setIdleMode(IdleMode.kBrake);
+
+
+
 
       solenoidA = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.PNEUMATIC_INTAKE_PORTS[0],
             Constants.PNEUMATIC_INTAKE_PORTS[1]);

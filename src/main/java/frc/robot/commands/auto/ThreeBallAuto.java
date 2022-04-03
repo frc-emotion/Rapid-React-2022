@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.RunRamsete;
+import frc.robot.commands.Forward;
+import frc.robot.commands.TurnToDegrees;
+import frc.robot.misc.RunRamsete;
 import frc.robot.subsystems.*;
 
 public class ThreeBallAuto extends SequentialCommandGroup {

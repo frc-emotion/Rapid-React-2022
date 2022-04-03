@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import java.util.function.BooleanSupplier;
 
@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.RunRamsete;
+import frc.robot.commands.Forward;
+import frc.robot.misc.RunRamsete;
 import frc.robot.subsystems.*;
 
 public class OneBallTaxi extends SequentialCommandGroup {
@@ -38,9 +39,6 @@ public class OneBallTaxi extends SequentialCommandGroup {
                                         // index).withTimeout(10)
                                 )                                        // new StartEndCommand(() -> index.indexForward(), () -> index.indexerStop(),
                                         // index).withTimeout(10)
-
-                                       
-
                                 ));
 
         // Command runTwoBall = parallel(trajectories); //add intake and then have

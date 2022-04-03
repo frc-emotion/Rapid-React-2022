@@ -10,7 +10,6 @@ import frc.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class Indexer extends SubsystemBase {
     
@@ -21,6 +20,8 @@ public class Indexer extends SubsystemBase {
     boolean indexingFirstBall;
     boolean indexingSecondBall;
     int ballcount;    
+
+    
 
     public Indexer() {
         mIndexer = new WPI_TalonFX(Constants.INDEXERFALCON);
@@ -42,13 +43,14 @@ public class Indexer extends SubsystemBase {
 
     public void run() {
 
-        if (Robot.operatorController.getXButton()) {
-            indexShoot(Constants.SHOOTINDEXINGSPEED);
-        }
+        
         
         if (Robot.operatorController.getLeftBumper()) {
             indexForward(Constants.INDEXINGSPEED);
-        } else if (Robot.operatorController.getBButton()) {
+        } else if (Robot.operatorController.getXButton()) {
+            indexShoot(Constants.SHOOTINDEXINGSPEED);
+        }
+        else if (Robot.operatorController.getBButton()) {
             indexReverse(Constants.INDEXINGSPEED);
         } else if (atTop()) {
             indexStop();
