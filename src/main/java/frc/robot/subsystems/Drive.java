@@ -7,6 +7,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import java.util.ArrayList;
+
+import javax.swing.GroupLayout.Alignment;
+
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.RobotController;
@@ -24,6 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.misc.Align;
 
 public class Drive extends SubsystemBase {
     CANSparkMax lsparkA = new CANSparkMax(Constants.DRIVE_LEFT_PORTS[0], MotorType.kBrushless);
@@ -83,10 +87,13 @@ public class Drive extends SubsystemBase {
 
     public static final Field2d m_field = new Field2d();
 
-    public PIDController drivepid;
+    public static final PIDController drivepid = new PIDController(Constants.DRIVE_KP, Constants.DRIVE_KI, Constants.DRIVE_KD);
+
+    public static final Align alignment = new Align();
+    //private static final Alignment alignment;
     public Drive() {
 
-        drivepid = new PIDController(Constants.DRIVE_KP, Constants.DRIVE_KI, Constants.DRIVE_KD);
+        
         drivepid.setTolerance(0.5);
 
         ArrayList<CANSparkMax> sparkList = new ArrayList<CANSparkMax>() {
