@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -20,6 +22,8 @@ public class Indexer extends SubsystemBase {
     boolean indexingFirstBall;
     boolean indexingSecondBall;
     int ballcount;    
+
+    
 
     
 
@@ -121,6 +125,20 @@ public class Indexer extends SubsystemBase {
         }  else {
             indexForward(Constants.INDEXINGSPEED);
         }
+    }
+
+    public void autoIndex(boolean x){
+        x = false;
+        if (!atTop()){
+            indexForward(Constants.INDEXINGSPEED);
+        }
+        if (atTop()){
+            x = true;
+        }
+    }
+
+    public void autoUp(){
+
     }
 
       /**

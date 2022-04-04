@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
@@ -82,7 +83,11 @@ public class Drive extends SubsystemBase {
 
     public static final Field2d m_field = new Field2d();
 
+    public PIDController drivepid;
     public Drive() {
+
+        drivepid = new PIDController(Constants.DRIVE_KP, Constants.DRIVE_KI, Constants.DRIVE_KD);
+        drivepid.setTolerance(0.5);
 
         ArrayList<CANSparkMax> sparkList = new ArrayList<CANSparkMax>() {
             {
@@ -277,6 +282,11 @@ public class Drive extends SubsystemBase {
 
     public void stop() {
         drive.arcadeDrive(0, 0);
+    }
+
+    public void align() {
+        //drive.arcadeDrive(0, MathUtil.clamp(drivepid.calculate(alignment.getError()), 0), Constants.MIN_ERROR, Constants.MAX_ERROR);
+        drive.arcadeDrive(0, drivepid.calculate(alignment.getError(), 0));
     }
 
     public void teleopTank() {

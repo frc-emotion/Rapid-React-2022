@@ -62,7 +62,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     TwoBall = Robot.twoBallOne;
-    // b2 = Robot.forw;
     return new TwoBallAuto(drive, intaker, shoot, index, TwoBall);
 
   }

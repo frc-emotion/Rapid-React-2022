@@ -1,4 +1,6 @@
-package frc.robot.commands;
+package frc.robot.commands.auto;
+
+import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,6 +19,10 @@ public class FourBallAuto extends SequentialCommandGroup {
     RunRamsete path = new RunRamsete();
     boolean ready;
 
+    BooleanSupplier top = () -> false;
+
+    boolean x;
+
     public FourBallAuto(Drive drive, Intake intake, Shooter shot, Indexer index, Trajectory traj, Trajectory traj2, Trajectory traj3, Trajectory traj4) {
         // Reset Position
         drive.resetOdometry(traj.getInitialPose());
@@ -24,37 +30,24 @@ public class FourBallAuto extends SequentialCommandGroup {
 
         Command auto = 
         sequence(
-                new InstantCommand(() -> intake.intakeDown()).withTimeout(0.5),
-                new StartEndCommand(shot::autoZero, shot::stopHood, shot).withTimeout(0.5),
-                new WaitCommand(1),
+
+                new InstantCommand(() -> intake.intakeDown()).withTimeout(0.3),
+               // new StartEndCommand(shot::autoZero, shot::stopHood, shot).withTimeout(0.5),
                 parallel(
-                        new StartEndCommand(() -> intake.intakeRoller(), () -> intake.intakeRollerOff(), intake)
-                                .withTimeout(20),
-                        sequence(
+                        new StartEndCommand(() -> intake.autointakeRoller(), () -> intake.intakeRollerOff(), intake)
+                                .withTimeout(13),
+                                sequence(
                                 path.executeAuto(drive, traj),
-                                parallel(
-                                        new AutoShooter(shot, 2200, Constants.SHOOTER_ANGLE_CARGO_LINE, ready)
-                                                .withTimeout(4),
-                                        sequence(
-                                               // new TurnToDegrees(drive, 20, true).withTimeout(2),
-                                                new Forward(drive, -0.4).withTimeout(0.6)
-                                        // new StartEndCommand(() -> intake.intakeR)
-                                        ),
-                                new InstantCommand(() -> index.indexForward(Constants.INDEXINGSPEED)).withTimeout(2)
-                                ).withTimeout(2),
+
+                                new ShooterSequence(intake, shot, index, 2),
 
                                 path.executeAuto(drive, traj2),
+
+                                new StartEndCommand(() -> index.autoIndex(x), () -> index.indexStop(), index).withTimeout(0.8),      
                                 
                                 path.executeAuto(drive, traj3),
-                                parallel(
-                                        new AutoShooter(shot, 2200, Constants.SHOOTER_ANGLE_CARGO_LINE, ready)
-                                                .withTimeout(5),
-                                        sequence(
-                                        // new StartEndCommand(() -> intake.intakeR)
-                                        ),
-                                new InstantCommand(() -> index.indexForward(Constants.SHOOTINDEXINGSPEED))).withTimeout(2) 
-                                )));
 
+                                new ShooterSequence(intake, shot, index, 4))));
         addCommands(
                 auto);
 

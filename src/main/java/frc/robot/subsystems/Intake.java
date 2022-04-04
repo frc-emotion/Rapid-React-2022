@@ -62,6 +62,10 @@ public class Intake extends SubsystemBase {
       intakeSpark.set(-Constants.INTAKE_SPEED);
    }
 
+   public void autointakeRoller() {
+      intakeSpark.set(-0.3);
+   }
+
    public void intakeRollerReverse() {
       intakeSpark.set(Constants.REVERSE_INTAKE_SPEED);
    }

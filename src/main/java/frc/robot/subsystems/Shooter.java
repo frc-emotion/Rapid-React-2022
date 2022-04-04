@@ -240,6 +240,11 @@ public class Shooter extends SubsystemBase {
         }
     }
 
+    public void autoShootTime() {
+        setHoodAngle(Constants.SHOOTER_ANGLE_AUTO);
+        spinAt(Constants.SHOOTER_RPM_AUTO);
+    }
+
     /**
      * Set the local target macro to the passed macro
      * 
