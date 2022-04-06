@@ -9,7 +9,7 @@ public class Constants {
 */
 
     public static final double DRIVE_KD  = 0;
-    public static final double DRIVE_KP  = 0;
+    public static final double DRIVE_KP  = 1;
     public static final double DRIVE_KI  = 0;
 
     public static final double ksVolts = 0.19735;
@@ -121,8 +121,8 @@ public class Constants {
     public static final double SHOOTER_RPM_OUTSIDE_TARMAC = 2022;
     public static final double SHOOTER_ANGLE_OUTSIDE_TARMAC = 11;
     
-    public static final double SHOOTER_RPM_CLOSE_PAD = 1820;
-    public static final double SHOOTER_ANGLE_CLOSE_PAD = 0;
+    public static final double SHOOTER_RPM_CLOSE_PAD = 1800;
+    public static final double SHOOTER_ANGLE_CLOSE_PAD = 11.6;
     
     public static final double SHOOTER_RPM_FAR_PAD = 3000;
     public static final double SHOOTER_ANGLE_FAR_PAD = 0;

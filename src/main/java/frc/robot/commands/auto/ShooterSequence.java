@@ -24,9 +24,9 @@ public class ShooterSequence extends SequentialCommandGroup {
         Command shootTwo = parallel(
             new StartEndCommand(shot::autoShootTime, shot::stop, shot).withTimeout(maxTime),
             sequence(
-                new StartEndCommand(() -> index.indexForward(Constants.INDEXINGSPEED), () -> index.indexStop(), index).withTimeout(1),
+                new StartEndCommand(() -> index.indexForward(Constants.SHOOTINDEXINGSPEED), () -> index.indexStop(), index).withTimeout(1),
                 new WaitCommand(0.1), 
-                new StartEndCommand(() -> index.indexForward(Constants.INDEXINGSPEED), () -> index.indexStop(), index).withTimeout(1)
+                new StartEndCommand(() -> index.indexForward(Constants.SHOOTINDEXINGSPEED), () -> index.indexStop(), index).withTimeout(1)
             )
 
         );

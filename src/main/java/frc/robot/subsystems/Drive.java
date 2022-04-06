@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -219,6 +220,10 @@ public class Drive extends SubsystemBase {
         if (Robot.driverController.getXButtonPressed()) {
             invert = !invert;
         }
+        if (Robot.driverController.getBButton()){
+            align();
+        }
+
         if (Robot.driverController.getAButton()) {
             forward();
         } else {
@@ -292,7 +297,7 @@ public class Drive extends SubsystemBase {
     }
 
     public void align() {
-        //drive.arcadeDrive(0, MathUtil.clamp(drivepid.calculate(alignment.getError()), 0), Constants.MIN_ERROR, Constants.MAX_ERROR);
+        //drive.arcadeDrive(0, MathUtil.clamp((drivepid.calculate(alignment.getError())), 0.5, -0.5));
         drive.arcadeDrive(0, drivepid.calculate(alignment.getError(), 0));
     }
 
