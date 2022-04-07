@@ -255,6 +255,27 @@ public class Drive extends SubsystemBase {
         }
     }
 
+    public void turnToAngle(double desired){
+        double dg = gyro.getYaw();
+
+        if (desired - dg > 0){
+            if (gyro.getYaw() > desired) {
+                drive.arcadeDrive(0, 0.3);
+            }
+            if (gyro.getYaw() < desired) {
+                drive.arcadeDrive(0, 0);
+            }
+        }
+        else if (desired - dg < 0){
+            if (gyro.getYaw() > desired) {
+                drive.arcadeDrive(0, -0.3);
+            }
+            if (gyro.getYaw() < desired) {
+                drive.arcadeDrive(0, 0);
+            }
+        }
+    }
+
     public void autoforward(double speed) {
         drive.arcadeDrive(-speed, 0);
     }
@@ -297,8 +318,13 @@ public class Drive extends SubsystemBase {
     }
 
     public void align() {
+
+        double moveToX = MathUtil.clamp(drivepid.calculate((alignment.getError()), 0), -0.26, 0.26);
+
+        ///testDrive.arcadeDrive(0, Adjust);
+
         //drive.arcadeDrive(0, MathUtil.clamp((drivepid.calculate(alignment.getError())), 0.5, -0.5));
-        drive.arcadeDrive(0, drivepid.calculate(alignment.getError(), 0));
+        drive.arcadeDrive(0, moveToX);
     }
 
     public void teleopTank() {
