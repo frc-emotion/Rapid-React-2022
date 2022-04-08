@@ -13,6 +13,10 @@ public class LimeLight {
         return NetworkTableInstance.getDefault().getTable(table).getEntry(selector).getDouble(0);
     }
 
+    public double GetMode(){
+        return GetEntry("ledMode");
+    }
+
     public double getTv() {
         return GetEntry("tv");
     }

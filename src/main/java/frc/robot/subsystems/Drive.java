@@ -220,14 +220,14 @@ public class Drive extends SubsystemBase {
         if (Robot.driverController.getXButtonPressed()) {
             invert = !invert;
         }
-        if (Robot.driverController.getBButton()){
-            align();
-        }
-
+        //if (Robot.driverController.getBButton()){
+        //    alignment.enable();
+        //    align();
         if (Robot.driverController.getAButton()) {
             forward();
         } else {
             teleopTank();
+            //alignment.disable();
         }
 
     }
@@ -318,13 +318,18 @@ public class Drive extends SubsystemBase {
     }
 
     public void align() {
-
-        double moveToX = MathUtil.clamp(drivepid.calculate((alignment.getError()), 0), -0.26, 0.26);
+        if (alignment.getLed() == 3){
+        double moveToX = MathUtil.clamp(drivepid.calculate((alignment.getError()), 0), -0.30, 0.30);
 
         ///testDrive.arcadeDrive(0, Adjust);
 
+        
         //drive.arcadeDrive(0, MathUtil.clamp((drivepid.calculate(alignment.getError())), 0.5, -0.5));
-        drive.arcadeDrive(0, moveToX);
+        
+            drive.arcadeDrive(0, moveToX);
+        }else{
+            drive.arcadeDrive(0, 0);
+        }
     }
 
     public void teleopTank() {

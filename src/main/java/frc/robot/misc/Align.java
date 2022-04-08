@@ -8,6 +8,18 @@ public class Align {
         limeLight = new LimeLight();
     }
 
+    public void disable(){
+        limeLight.disableLight();
+    }
+
+    public void enable(){
+        limeLight.enableLight();
+    }
+
+    public double getLed(){
+        return limeLight.GetMode();
+    }
+
     public boolean targetFound() {
         limeLight.selectPipeline(Constants.PORT_PIPELINE);
 

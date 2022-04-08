@@ -112,6 +112,9 @@ public class Shooter extends SubsystemBase {
             shoot();
         } else if (Math.abs(Robot.operatorController.getLeftY()) >= Constants.JOYSTICK_THRESHOLD) {
             teleopHood();
+        }
+        else if (Robot.operatorController.getBButton()) {
+                mL.set(-0.1);
         } else if (Robot.operatorController.getPOV() != -1) {
             switch (Robot.operatorController.getPOV()) {
                 case 0:
@@ -240,8 +243,12 @@ public class Shooter extends SubsystemBase {
         }
     }
 
+    public void autoHood(double angle) {
+        setHoodAngle(angle);
+    }
+
     public void autoShootTime() {
-        setHoodAngle(Constants.SHOOTER_ANGLE_AUTO);
+        //setHoodAngle(Constants.SHOOTER_ANGLE_AUTO);
         spinAt(Constants.SHOOTER_RPM_AUTO);
     }
 

@@ -32,13 +32,16 @@ public class FourBallAuto extends SequentialCommandGroup {
         sequence(
 
                 new InstantCommand(() -> intake.intakeDown()).withTimeout(0.3),
-               // new StartEndCommand(shot::autoZero, shot::stopHood, shot).withTimeout(0.5),
+               //new StartEndCommand(shot::autoZero, shot::stopHood, shot).withTimeout(0.5),
                 parallel(
                         new StartEndCommand(() -> intake.autointakeRoller(), () -> intake.intakeRollerOff(), intake)
                                 .withTimeout(13),
+                        
                                 sequence(
-                                path.executeAuto(drive, traj),
-
+                                deadline(
+                                        path.executeAuto(drive, traj),
+                                        new HoodSequence(intake, shot, index, 4)
+                                ),
                                 new ShooterSequence(intake, shot, index, 2),
 
                                 path.executeAuto(drive, traj2),

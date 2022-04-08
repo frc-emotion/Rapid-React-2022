@@ -8,8 +8,8 @@ public class Constants {
     public static final double kaVoltSecondsSquaredPerMeter= 0.691;//2.3465;
 */
 
-    public static final double DRIVE_KD  = 0;
-    public static final double DRIVE_KP  = 1;
+    public static final double DRIVE_KD  = 0.05;
+    public static final double DRIVE_KP  = 0.5;
     public static final double DRIVE_KI  = 0;
 
     public static final double ksVolts = 0.19735;
@@ -84,7 +84,7 @@ public class Constants {
 
     public static final double CLIMB_TARGET_MAX_POS = 46 * 2048; // rev
     public static final double CLIMB_TARGET_MIN_POS = 5 * 2048; // rev
-    public static final double CLIMB_MAX_POS = 115; // rev
+    public static final double CLIMB_MAX_POS = 125; // rev
     public static final double CLIMB_MIN_POS = 0; // rev
 
     public static final double CLIMB_kP = 0;
@@ -114,15 +114,15 @@ public class Constants {
     public static final double SHOOTER_RPM_CARGO_LINE = 1600;
     public static final double SHOOTER_ANGLE_CARGO_LINE = 11.5;
 
-    public static final double SHOOTER_RPM_AUTO = 1800;
-    public static final double SHOOTER_ANGLE_AUTO = 11.6;
+    public static final double SHOOTER_RPM_AUTO = 1750;
+    public static final double SHOOTER_ANGLE_AUTO = 18;
 
     //Test Macros
-    public static final double SHOOTER_RPM_OUTSIDE_TARMAC = 2022;
-    public static final double SHOOTER_ANGLE_OUTSIDE_TARMAC = 11;
+    public static final double SHOOTER_RPM_OUTSIDE_TARMAC = 1750;
+    public static final double SHOOTER_ANGLE_OUTSIDE_TARMAC = 18;
     
-    public static final double SHOOTER_RPM_CLOSE_PAD = 1800;
-    public static final double SHOOTER_ANGLE_CLOSE_PAD = 11.6;
+    public static final double SHOOTER_RPM_CLOSE_PAD = 1820;
+    public static final double SHOOTER_ANGLE_CLOSE_PAD = 0;
     
     public static final double SHOOTER_RPM_FAR_PAD = 3000;
     public static final double SHOOTER_ANGLE_FAR_PAD = 0;
@@ -179,8 +179,8 @@ public class Constants {
     public static final double SHOOTER_HOOD_MIN = 0.8;
     public static final double SHOOTER_HOOD_MAX = 40;
 
-    public static final double SHOOTER_HOOD_SPEED = 0.4;
-    public static final double SHOOTER_HOOD_ZERO_SPEED = 0.3;
+    public static final double SHOOTER_HOOD_SPEED = 0.3;
+    public static final double SHOOTER_HOOD_ZERO_SPEED = 0.2;
 
     public static final double SHOOTER_REV_TO_ANGLE = 0.416;
     public static final double SHOOTER_STARTING_ANGLE = 0;

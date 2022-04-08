@@ -10,6 +10,9 @@
         "header": {
           "open": true
         }
+      },
+      "window": {
+        "visible": false
       }
     },
     "Timing": {
@@ -654,10 +657,16 @@
       "/LiveWindow/Ungrouped/Talon FX [13]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX [9]": "Motor Controller",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/SmartDashboard/Auto Path?": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/SendableChooser[0]": "String Chooser"
     },
     "windows": {
+      "/SmartDashboard/Auto Path?": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "Robot": {
           "arrowColor": [
@@ -706,13 +715,7 @@
         },
         "width": 16.459199905395508,
         "window": {
-          "name": "Rapid React Field",
-          "visible": true
-        }
-      },
-      "/SmartDashboard/SendableChooser[0]": {
-        "window": {
-          "visible": true
+          "name": "Rapid React Field"
         }
       }
     }
