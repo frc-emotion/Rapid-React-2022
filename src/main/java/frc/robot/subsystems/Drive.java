@@ -1,15 +1,14 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.ArrayList;
+
 import com.revrobotics.RelativeEncoder;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import java.util.ArrayList;
 
-import javax.swing.GroupLayout.Alignment;
-
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.RobotController;
@@ -233,7 +232,7 @@ public class Drive extends SubsystemBase {
     }
 
     /**
-     * TODO: Clean up turn code (easier to switch)
+     * @version OUTDATED
      * @param degrees angle to turn to (absolute)
      * @param lr counterclockwise or clockwise turn
      */
@@ -255,6 +254,10 @@ public class Drive extends SubsystemBase {
         }
     }
 
+    /**
+     * @version Unused, New
+     * @param desired = setpoint angle 
+     */
     public void turnToAngle(double desired){
         double dg = gyro.getYaw();
 
@@ -301,6 +304,9 @@ public class Drive extends SubsystemBase {
         drive.arcadeDrive(sign * driveSpeed, 0);
     }
 
+    /**
+     * Obsolete; Use forward() instead
+     */
     public void backward() {
         // LB and RB are used to change the driveSpeed during the match
         // Drive power constants might be correct
@@ -317,15 +323,13 @@ public class Drive extends SubsystemBase {
         drive.arcadeDrive(0, 0);
     }
 
+    /**
+     * kP needs to be tuned
+     * Output Range needs to be tuned
+     */
     public void align() {
         if (alignment.getLed() == 3){
         double moveToX = MathUtil.clamp(drivepid.calculate((alignment.getError()), 0), -0.30, 0.30);
-
-        ///testDrive.arcadeDrive(0, Adjust);
-
-        
-        //drive.arcadeDrive(0, MathUtil.clamp((drivepid.calculate(alignment.getError())), 0.5, -0.5));
-        
             drive.arcadeDrive(0, moveToX);
         }else{
             drive.arcadeDrive(0, 0);
@@ -379,8 +383,8 @@ public class Drive extends SubsystemBase {
         }
     }
 
+    //simulation code for differential drive sim
     public void simPeriodic() {
-
         driveSim.setInputs(lsparkA.get() * RobotController.getInputVoltage(),
                 rsparkA.get() * RobotController.getInputVoltage());
         driveSim.update(0.02);

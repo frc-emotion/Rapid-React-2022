@@ -3,11 +3,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
 public class Constants {
 
- /*   public static final double ksVolts = 0.20317;
-    public static final double kvVoltSeconds = 4.89;//10.83;
-    public static final double kaVoltSecondsSquaredPerMeter= 0.691;//2.3465;
-*/
-
     public static final double DRIVE_KD  = 0.05;
     public static final double DRIVE_KP  = 0.5;
     public static final double DRIVE_KI  = 0;
@@ -17,11 +12,11 @@ public class Constants {
     public static final double kaVoltSecondsSquaredPerMeter= 0.38003;
 
     //Tuned kP valeue for 2022RR
-    public static final double kPDriveVel = 3.3077;//0.91439;//1.856;//1.856 Assume sim does not count for enough error, as STD of sim vaules have not been calculated
+    public static final double kPDriveVel = 3.3077;
     public static final double kDDriveVel = 0;
 
     //Kinematics
-    public static final double TrackWidthMeters = 0.6928;//0.5369051588705906;
+    public static final double TrackWidthMeters = 0.6928;// TORPEDO: 0.5369051588705906;
     public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(TrackWidthMeters);
 
     //Max Trajectory Velocity/Acceleration
@@ -108,8 +103,8 @@ public class Constants {
     public static final double SHOOTER_RPM_FENDER_LOW = 800;
     public static final double SHOOTER_ANGLE_FENDER_LOW = 38;
     
-    public static final double SHOOTER_RPM_FENDER_HIGH = 1450;
-    public static final double SHOOTER_ANGLE_FENDER_HIGH = 0;
+    public static final double SHOOTER_RPM_FENDER_HIGH = 1600;
+    public static final double SHOOTER_ANGLE_FENDER_HIGH = 1;
 
     public static final double SHOOTER_RPM_CARGO_LINE = 1600;
     public static final double SHOOTER_ANGLE_CARGO_LINE = 11.5;
@@ -140,7 +135,8 @@ public class Constants {
     public static final double SHOOTER_KD = 0;
 
    
-  /*
+    //FOR STEALTH WHEELS
+    /*
     public static final double SHOOTER_RPM_FENDER_LOW = 1100;
     public static final double SHOOTER_ANGLE_FENDER_LOW = 40;
     
@@ -171,8 +167,8 @@ public class Constants {
 
     public static final double SHOOTER_KP = 0.00056201;
     public static final double SHOOTER_KD = 0;
-*/
-       // NEED TO GET WITH SYS ID
+  */
+    // NEED TO GET WITH SYS ID
     public static final double SHOOTER_HOOD_KP = 0.65;
     public static final double SHOOTER_HOOD_KD = 0;
 
@@ -182,6 +178,7 @@ public class Constants {
     public static final double SHOOTER_HOOD_SPEED = 0.3;
     public static final double SHOOTER_HOOD_ZERO_SPEED = 0.2;
 
+    //Calculated from Solidworks (Manual Plot Test) and Motion Simulation
     public static final double SHOOTER_REV_TO_ANGLE = 0.416;
     public static final double SHOOTER_STARTING_ANGLE = 0;
 
@@ -195,7 +192,6 @@ public class Constants {
     public static final double REFERENCE_HEIGHT = 2.64;
 
     //public static final Distance DISTANCE = new Distance(MOUNTING_HEIGHT, MOUNTING_ANGLE, REFERENCE_HEIGHT);
-
     public static final int PORT_PIPELINE = 1;
     
 }

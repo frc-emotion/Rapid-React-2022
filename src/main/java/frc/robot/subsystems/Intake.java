@@ -14,17 +14,13 @@ import frc.robot.Robot;
 public class Intake extends SubsystemBase {
 
    private CANSparkMax intakeSpark;
-   public static DoubleSolenoid solenoidA, solenoidB, giga;
-
+   public static DoubleSolenoid solenoidA;
    public Intake() {
 
       intakeSpark = new CANSparkMax(Constants.INTAKE_PORT, MotorType.kBrushless);
       intakeSpark.setSmartCurrentLimit(Constants.NEO_MAX_CURRENT);
       intakeSpark.setSecondaryCurrentLimit(Constants.NEO_MAX_CURRENT);
       intakeSpark.setIdleMode(IdleMode.kBrake);
-
-
-
 
       solenoidA = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.PNEUMATIC_INTAKE_PORTS[0],
             Constants.PNEUMATIC_INTAKE_PORTS[1]);
@@ -35,9 +31,7 @@ public class Intake extends SubsystemBase {
       if (Robot.operatorController.getAButtonPressed()) {
          intakeToggle();
       }
-
-      if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) { // && (Robot.indexer.ballcount
-                                                                                          // < 2)
+      if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) { 
          intakeRoller();
       } else if (Robot.operatorController.getRightBumper()) {
          intakeRollerReverse();
@@ -63,7 +57,7 @@ public class Intake extends SubsystemBase {
    }
 
    public void autointakeRoller() {
-      intakeSpark.set(-0.3);
+      intakeSpark.set(-0.5);
    }
 
    public void intakeRollerReverse() {

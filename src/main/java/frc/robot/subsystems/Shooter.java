@@ -40,7 +40,7 @@ public class Shooter extends SubsystemBase {
         OutsideTarmac(Constants.SHOOTER_RPM_OUTSIDE_TARMAC, Constants.SHOOTER_ANGLE_OUTSIDE_TARMAC),
         ClosePad(Constants.SHOOTER_RPM_CLOSE_PAD, Constants.SHOOTER_ANGLE_CLOSE_PAD),
         FarPad(Constants.SHOOTER_RPM_FAR_PAD, Constants.SHOOTER_ANGLE_FAR_PAD),
-        Testing(0, 0);
+        Testing(1600, 4.5);
 
         public final double target_rpm, target_angle;
 
@@ -91,8 +91,8 @@ public class Shooter extends SubsystemBase {
         mLimit = new DigitalInput(Constants.SHOOTER_LIMIT_PORT);
 
         // TESTING ONLY COMMENT OUT DURING COMPETITION
-        SmartDashboard.putNumber("ShooterTestRPM", 0);
-        SmartDashboard.putNumber("ShooterTestAngle", 0);
+        SmartDashboard.putNumber("ShooterTestRPM", 1600);
+        SmartDashboard.putNumber("ShooterTestAngle", 4.5);
     }
 
     @Override
@@ -188,7 +188,7 @@ public class Shooter extends SubsystemBase {
     public void spinUp() {
         // TESTING ONLY COMMENT OUT DURING COMPETITION
         if (target_macro == Macro.Testing) {
-            spinAt(SmartDashboard.getNumber("ShooterTestRPM", 0));
+            spinAt(SmartDashboard.getNumber("ShooterTestRPM", 1600));
         } else {
             spinAt(target_macro.target_rpm);
         }
@@ -234,6 +234,7 @@ public class Shooter extends SubsystemBase {
         }
     }
 
+
     public void autoShoot(boolean ready, double rpm, double angle) {
         setHoodAngle(angle);
         spinAt(rpm);
@@ -248,7 +249,6 @@ public class Shooter extends SubsystemBase {
     }
 
     public void autoShootTime() {
-        //setHoodAngle(Constants.SHOOTER_ANGLE_AUTO);
         spinAt(Constants.SHOOTER_RPM_AUTO);
     }
 
@@ -267,7 +267,7 @@ public class Shooter extends SubsystemBase {
     public void goToMacro() {
         // TESTING ONLY COMMENT OUT DURING COMPETITION
         if (target_macro == Macro.Testing) {
-            setHoodAngle(SmartDashboard.getNumber("ShooterTestAngle", 0));
+            setHoodAngle(SmartDashboard.getNumber("ShooterTestAngle", 4.5));
         } else {
             setHoodAngle(target_macro.target_angle);
         }

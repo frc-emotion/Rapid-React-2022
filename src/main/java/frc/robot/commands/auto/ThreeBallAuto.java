@@ -1,10 +1,8 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -14,6 +12,12 @@ import frc.robot.commands.TurnToDegrees;
 import frc.robot.misc.RunRamsete;
 import frc.robot.subsystems.*;
 
+/**
+ * Unorganzied CommandGroup for Three Ball Auto Route
+ * <br></br>
+ * <b>NO ACCURATE TRAJECTORIES PLOTTED (DO NOT RUN) </b>
+ *
+ */
 public class ThreeBallAuto extends SequentialCommandGroup {
     RunRamsete path = new RunRamsete();
     boolean ready;
@@ -42,7 +46,6 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                                         sequence(
                                                 new TurnToDegrees(drive, 20, true).withTimeout(2),
                                                 new Forward(drive, -0.4).withTimeout(0.6)
-                                        // new StartEndCommand(() -> intake.intakeR)
                                         ),
                                 new InstantCommand(() -> index.indexForward(Constants.INDEXINGSPEED))).withTimeout(3) 
                                 )));

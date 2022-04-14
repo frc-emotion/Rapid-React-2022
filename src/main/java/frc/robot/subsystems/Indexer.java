@@ -7,9 +7,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
-
-import java.util.function.BooleanSupplier;
-
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -46,9 +43,6 @@ public class Indexer extends SubsystemBase {
     }
 
     public void run() {
-
-        
-        
         if (Robot.operatorController.getLeftBumper()) {
             indexForward(Constants.INDEXINGSPEED);
         } else if (Robot.operatorController.getXButton()) {
@@ -61,19 +55,6 @@ public class Indexer extends SubsystemBase {
         } else {
             indexStop();
         }
-                
-/*
-            } else if (firstBall == false && (atIntake() || indexingFirstBall)) {
-
-                indexingFirstBall = true;
-                indexingFirstBall();
-
-            } else if (firstBall == true && (atIntake() || indexingSecondBall)) {
-
-                indexingSecondBall = true;
-                indexingSecondBall();
-*/
-
         
     }
 
@@ -99,7 +80,7 @@ public class Indexer extends SubsystemBase {
         firstBall = false;
     }
 
- /**
+    /**
      * Index balls until one reaches the loading position
      */
     public void checkBallCount() {
@@ -137,10 +118,6 @@ public class Indexer extends SubsystemBase {
         }
     }
 
-    public void autoUp(){
-
-    }
-
       /**
      * Checks whether a ball is at the top sensor
      * 
@@ -168,6 +145,11 @@ public class Indexer extends SubsystemBase {
         return (!intakesensorR.get() || !intakesensorL.get());
     }
 
+
+    /**
+     * Not USEDs
+     * @param shooting
+     */
     public void runAutoIndexer(boolean shooting) {
         if(shooting) {
 

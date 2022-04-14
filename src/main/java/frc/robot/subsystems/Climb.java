@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
@@ -110,7 +109,6 @@ public class Climb extends SubsystemBase {
         if (Robot.operatorController.getYButtonPressed()) {
             ActuatorL.toggle();
         }
-
         // click right stick button to toggle bounds IF NEEDED
         if (Robot.operatorController.getRightStickButtonPressed() && !removeBounds) {
             removeBounds = !removeBounds;

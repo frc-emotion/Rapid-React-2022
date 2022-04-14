@@ -8,14 +8,11 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.auto.FourBallAuto;
 import frc.robot.misc.TrajectoryCreator;
-import frc.robot.subsystems.*;
 
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
@@ -70,24 +67,15 @@ public class Robot extends TimedRobot {
     fourBallTwo = creator.generateTrajectory("4Ball2.wpilib.json", "2nd 4 Ball Path");
     fourBallThree = creator.generateTrajectory("4Ball3.wpilib.json", "Third 4 Ball Path");
 
-
-
-
-    Drive.m_field.getObject("Two Ball One").setTrajectory(twoBallOne);
-    Drive.m_field.getObject("trajectorDos").setTrajectory(forw);
-
-    m_chooser.setDefaultOption("(tested) Two Ball Auto", 1);
+    m_chooser.setDefaultOption("Two Ball Auto", 1);
     m_chooser.addOption("One Ball Taxi", 2);
-    m_chooser.addOption("Three Ball Auto", 3);
+    m_chooser.addOption("(UNTESTED) Three Ball Auto", 3);
     m_chooser.addOption("Four Ball Auto", 4);
 
     SmartDashboard.putData("Auto Path?", m_chooser);
 
-    /** Creates Camera Server for Driver Cam */
+    // Creates Camera Server for Driver Cam 
     CameraServer.startAutomaticCapture();
-
-    // cvSink = CameraServer.getVideo();
-    // outputStream = CameraServer.putVideo("Blur", 640, 480);
 
   }
 
@@ -126,16 +114,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-
     switch (m_chooser.getSelected()) {
       case 1:
         autoCommand = container.runAuto();
         break;
-
       case 2:
         autoCommand = container.runOne();
         break;
-
       case 3:
         autoCommand = container.getThreeBall();
         break;
@@ -147,7 +132,6 @@ public class Robot extends TimedRobot {
         break;
     }
 
-    // container.getAutonomousCommand();
     if (autoCommand != null) {
       autoCommand.schedule();
     }

@@ -7,8 +7,6 @@ public class DriveStop extends CommandBase{
 
     private final Drive drivetrain;
 
-    private double speed;
-
     public DriveStop(Drive subsystem){
         drivetrain = subsystem;
 
