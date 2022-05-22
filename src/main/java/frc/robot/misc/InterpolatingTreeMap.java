@@ -17,10 +17,10 @@ import edu.wpi.first.math.Pair;
  * @author Karan Thakkar
  */
 public class InterpolatingTreeMap {
-    public TreeMap<Double, Pair<Double, Double>> mainMap = new TreeMap<Double, Pair<Double, Double>>();
+    public TreeMap<Double, Pair<Double, Double>> map = new TreeMap<Double, Pair<Double, Double>>();
 
-    public InterpolatingTreeMap(TreeMap<Double, Pair<Double, Double>> mainMap) {
-        this.mainMap = mainMap;
+    public InterpolatingTreeMap(TreeMap<Double, Pair<Double, Double>> map) {
+        this.map = map;
     }
 
     /** @return New interpolated value between two given points */
@@ -41,13 +41,13 @@ public class InterpolatingTreeMap {
      *                  point
      */
     public void interpolate(double precision) {
-        Object[] distanceMacros = mainMap.keySet().toArray();
-        int r = mainMap.keySet().size();
+        Object[] distanceMacros = map.keySet().toArray();
+        int r = map.keySet().size();
         int j = r - 1;
 
         for (int x = 0; x < (j); x++) {
-            Pair<Double, Double> a = mainMap.get(distanceMacros[x]);
-            Pair<Double, Double> b = mainMap.get(distanceMacros[x + 1]);
+            Pair<Double, Double> a = map.get(distanceMacros[x]);
+            Pair<Double, Double> b = map.get(distanceMacros[x + 1]);
             for (double i = (double) distanceMacros[x]; i <= (double) distanceMacros[x + 1]; i += ((precision) / 10)) {
                 double RPM = LinearInterpolatePoint(i,
                         new Pair<Double, Double>(toDouble(distanceMacros[x]), a.getFirst()),
@@ -56,7 +56,7 @@ public class InterpolatingTreeMap {
                         new Pair<Double, Double>(toDouble(distanceMacros[x]), a.getSecond()),
                         new Pair<Double, Double>(toDouble(distanceMacros[x + 1]), b.getSecond()));
                 Pair<Double, Double> newPoint = new Pair<Double, Double>(round(RPM, 3), round(hoodAngle, 3));
-                mainMap.put(round(i, 1), newPoint);
+                map.put(round(i, 1), newPoint);
             }
 
         }
@@ -68,7 +68,7 @@ public class InterpolatingTreeMap {
      * @return RPM at given distance
      */
     public double getRPM(double distance) {
-        return mainMap.get(distance).getFirst();
+        return map.get(distance).getFirst();
     }
 
     /**
@@ -77,7 +77,7 @@ public class InterpolatingTreeMap {
      * @return Hood Angle at given distance
      */
     public double getAngle(double distance) {
-        return mainMap.get(distance).getSecond();
+        return map.get(distance).getSecond();
     }
 
     /* */
