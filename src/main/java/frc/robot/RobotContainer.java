@@ -11,6 +11,7 @@ import frc.robot.commands.auto.OneBallTaxi;
 import frc.robot.commands.TeleopCommand;
 import frc.robot.commands.auto.ThreeBallAuto;
 import frc.robot.commands.auto.TwoBallAuto;
+import frc.robot.commands.auto.TwoBallEject;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Indexer;
@@ -26,8 +27,10 @@ public class RobotContainer {
   private final Climb climb = new Climb();
 
   Trajectory TwoBall;
+  Trajectory TwoBallEject;
   Trajectory OneBall;
   Trajectory ThreeBall;
+
   Trajectory b1;
   Trajectory b2;
 
@@ -52,6 +55,12 @@ public class RobotContainer {
   public Command runAuto() {
     TwoBall = Robot.twoBallOne;
     return new TwoBallAuto(drive, intaker, shoot, index, TwoBall);
+  }
+
+  public Command getTwoBallEject(){
+    TwoBall = Robot.twoBallOne;
+    TwoBallEject = Robot.twoBallEject;
+    return new TwoBallEject(drive, intaker, shoot, index, TwoBall, TwoBallEject);
   }
 
   public Command getThreeBall() {

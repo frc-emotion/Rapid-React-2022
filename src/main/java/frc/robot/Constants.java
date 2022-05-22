@@ -8,11 +8,11 @@ public class Constants {
     public static final double DRIVE_KI  = 0;
 
     public static final double ksVolts = 0.19735;
-    public static final double kvVoltSeconds = 2.4936;
+    public static final double kvVoltSeconds = 2.513;//2.4936;
     public static final double kaVoltSecondsSquaredPerMeter= 0.38003;
 
-    //Tuned kP valeue for 2022RR
-    public static final double kPDriveVel = 3.3077;
+    //Tuned kP valeue for 2022
+    public static final double kPDriveVel = 0;//3.3077;
     public static final double kDDriveVel = 0;
 
     //Kinematics
@@ -32,7 +32,7 @@ public class Constants {
 
 
 
-    // GENERAL CONSTANTS*************
+    // GENERAL CONSTANTS
 
     // controllers
     public static final int DRIVER_PORT = 0;

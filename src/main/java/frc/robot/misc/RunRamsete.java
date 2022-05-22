@@ -10,8 +10,8 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
 
 
-public class RunRamsete{
-    public Command executeAuto(Drive drive, Trajectory trajectory){
+public final class RunRamsete{
+    public static Command executeAuto(Drive drive, Trajectory trajectory){
         RamseteCommand ramseteCommand = new RamseteCommand(trajectory, drive::getPose,
             new RamseteController(Constants.RamseteB, Constants.RamseteZeta),
             new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSeconds, Constants.kaVoltSecondsSquaredPerMeter),

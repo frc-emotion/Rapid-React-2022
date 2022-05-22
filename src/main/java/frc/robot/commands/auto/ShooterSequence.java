@@ -21,7 +21,7 @@ public class ShooterSequence extends SequentialCommandGroup {
             sequence(
                 new StartEndCommand(() -> index.indexForward(Constants.SHOOTINDEXINGSPEED), () -> index.indexStop(), index).withTimeout(1),
                 new WaitCommand(0.1), 
-                new StartEndCommand(() -> index.indexForward(Constants.SHOOTINDEXINGSPEED), () -> index.indexStop(), index).withTimeout(1)
+                new StartEndCommand(() -> index.indexForward(Constants.SHOOTINDEXINGSPEED), () -> index.indexStop(), index).withTimeout(lastIndexTime)
             )
 
         );

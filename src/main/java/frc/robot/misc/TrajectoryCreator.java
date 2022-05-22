@@ -18,9 +18,6 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
  * <p>
  */
 public class TrajectoryCreator {
-    public TrajectoryCreator() {
-    }
-
     /**
      * Create Trajectories to be run using Ramsete Command.(Use during robot
      * initialization)

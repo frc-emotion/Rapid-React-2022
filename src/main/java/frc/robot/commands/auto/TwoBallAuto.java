@@ -19,8 +19,6 @@ import frc.robot.subsystems.*;
  * 
  */
 public class TwoBallAuto extends SequentialCommandGroup {
-    RunRamsete path = new RunRamsete();
-
     boolean ready;
     BooleanSupplier x;
 
@@ -41,12 +39,13 @@ public class TwoBallAuto extends SequentialCommandGroup {
                         , () -> intake.intakeRollerOff(), intake)
                                 .withTimeout(10),
                         sequence(
-                                path.executeAuto(drive, traj),
+                                RunRamsete.executeAuto(drive, traj),
                                 parallel(
+                                        //Offseason Note: Change RPM Back to AutoConstant or Drive forward for less time
                                         new AutoShooter(shot, Constants.SHOOTER_RPM_CARGO_LINE, Constants.SHOOTER_ANGLE_AUTO, ready)
                                                 .withTimeout(5),
                                         sequence( 
-                                                new Forward(drive, -0.4).withTimeout(0.97),
+                                                new Forward(drive, -0.4).withTimeout(0.5),//(0.97),
                                                 new TurnToDegrees(drive, 7.1, false).withTimeout(1),
                                                 new InstantCommand(() -> index.indexForward(Constants.INDEXINGSPEED)).withTimeout(5)
                                         

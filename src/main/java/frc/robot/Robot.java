@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
@@ -13,6 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.misc.TrajectoryCreator;
+
+import frc.robot.misc.*;
 
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
@@ -25,23 +28,24 @@ public class Robot extends TimedRobot {
   public static XboxController driverController;
   public static XboxController operatorController;
   public static RobotContainer container;
-  Command teleopCommand;
-  Command autoCommand;
+  private Command teleopCommand;
+  private Command autoCommand;
 
   public static Trajectory twoBallOne;
+  public static Trajectory twoBallEject;
   public static Trajectory threeBallOne;
   public static Trajectory forw;
 
   public static Trajectory fourBallOne;
   public static Trajectory fourBallTwo;
   public static Trajectory fourBallThree;
-  TrajectoryCreator creator;
+  private TrajectoryCreator creator;
 
-  SendableChooser<Integer> m_chooser = new SendableChooser<>();
-  CvSink cvSink;
-  CvSource outputStream;
+  private SendableChooser<Integer> m_chooser = new SendableChooser<>();
+  private CvSink cvSink;
+  private CvSource outputStream;
 
-  
+  public InterpolatingTreeMap test;
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -56,8 +60,8 @@ public class Robot extends TimedRobot {
     creator = new TrajectoryCreator();
 
     // All Two Ball Paths
-    twoBallOne = creator.generateTrajectory("2ballDos.wpilib.json", "AutoPickTest#2");
-    forw = creator.generateTrajectory("2ball2.wpilib.json", "GG");
+    twoBallOne = creator.generateTrajectory("2ballSmooth.wpilib.json", "Smooth 2 Ball Auto"); //TODO: Build seperate path with lower accel
+    twoBallEject = creator.generateTrajectory("2BallEject.wpilib.json", " TwoBall Eject Red"); //TODO: lower accel
 
     // All 3 Ball Paths
     threeBallOne = creator.generateTrajectory("3ball1.wpilib.json", "First 3 Ball Path");
@@ -68,14 +72,16 @@ public class Robot extends TimedRobot {
     fourBallThree = creator.generateTrajectory("4Ball3.wpilib.json", "Third 4 Ball Path");
 
     m_chooser.setDefaultOption("Two Ball Auto", 1);
-    m_chooser.addOption("One Ball Taxi", 2);
-    m_chooser.addOption("(UNTESTED) Three Ball Auto", 3);
-    m_chooser.addOption("Four Ball Auto", 4);
+    m_chooser.addOption("Two Ball Eject", 2);
+    m_chooser.addOption("One Ball Taxi", 3);
+    m_chooser.addOption("(UNTESTED) Three Ball Auto", 4);
+    m_chooser.addOption("Four Ball Auto", 5);
 
     SmartDashboard.putData("Auto Path?", m_chooser);
 
     // Creates Camera Server for Driver Cam 
     CameraServer.startAutomaticCapture();
+
 
   }
 
@@ -93,6 +99,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+
+    
+    
+    //Interpolator.CreateTreeMap(54, 60);
+    
   }
 
   /**
@@ -119,12 +130,15 @@ public class Robot extends TimedRobot {
         autoCommand = container.runAuto();
         break;
       case 2:
-        autoCommand = container.runOne();
+      autoCommand = container.getTwoBallEject();
         break;
       case 3:
-        autoCommand = container.getThreeBall();
+        autoCommand = container.runOne();
         break;
       case 4:
+        autoCommand = container.getThreeBall();
+        break;
+      case 5:
         autoCommand = container.getFourBall();
         break;
       default:
@@ -169,6 +183,7 @@ public class Robot extends TimedRobot {
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
+
   }
 
   /** This function is called periodically when disabled. */

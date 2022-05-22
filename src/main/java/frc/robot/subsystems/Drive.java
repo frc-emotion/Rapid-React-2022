@@ -49,14 +49,14 @@ public class Drive extends SubsystemBase {
             6.9,
             55.9,
             Units.inchesToMeters(3),
-            0.69,
+            0.6928,
 
             // The standard deviations for measurement noise:
             // x and y: 0.001 m
             // heading: 0.001 rad
             // l and r velocity: 0.1 m/s
             // l and r position: 0.005 m
-            VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
+            VecBuilder.fill(0.001, 0.001, 0.005, 0.1, 0.1, 0.005, 0.005));
 
     private final RelativeEncoder leftEncoder = lsparkA.getEncoder();
     private final RelativeEncoder rightEncoder = rsparkA.getEncoder();

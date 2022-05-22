@@ -19,7 +19,6 @@ import frc.robot.subsystems.*;
  *
  */
 public class ThreeBallAuto extends SequentialCommandGroup {
-    RunRamsete path = new RunRamsete();
     boolean ready;
 
     public ThreeBallAuto(Drive drive, Intake intake, Shooter shot, Indexer index, Trajectory traj, Trajectory traj2) {
@@ -39,7 +38,7 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                         new StartEndCommand(() -> intake.intakeRoller(), () -> intake.intakeRollerOff(), intake)
                                 .withTimeout(10),
                         sequence(
-                                path.executeAuto(drive, traj),
+                                RunRamsete.executeAuto(drive, traj),
                                 parallel(
                                         new AutoShooter(shot, 2200, Constants.SHOOTER_ANGLE_CARGO_LINE, ready)
                                                 .withTimeout(5),
