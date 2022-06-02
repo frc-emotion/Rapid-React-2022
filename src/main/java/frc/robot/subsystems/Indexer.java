@@ -147,7 +147,6 @@ public class Indexer extends SubsystemBase {
 
 
     /**
-     * Not USEDs
      * @param shooting
      */
     public void runAutoIndexer(boolean shooting) {

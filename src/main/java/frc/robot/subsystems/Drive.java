@@ -259,9 +259,9 @@ public class Drive extends SubsystemBase {
      * @param desired = setpoint angle 
      */
     public void turnToAngle(double desired){
-        double dg = gyro.getYaw();
+        double currentYaw = gyro.getYaw();
 
-        if (desired - dg > 0){
+        if (desired - currentYaw > 0){
             if (gyro.getYaw() > desired) {
                 drive.arcadeDrive(0, 0.3);
             }
@@ -269,7 +269,7 @@ public class Drive extends SubsystemBase {
                 drive.arcadeDrive(0, 0);
             }
         }
-        else if (desired - dg < 0){
+        else if (desired - currentYaw < 0){
             if (gyro.getYaw() > desired) {
                 drive.arcadeDrive(0, -0.3);
             }
