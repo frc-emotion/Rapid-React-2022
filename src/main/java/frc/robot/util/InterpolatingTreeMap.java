@@ -1,4 +1,4 @@
-package frc.robot.misc;
+package frc.robot.util;
 
 import java.util.TreeMap;
 import edu.wpi.first.math.Pair;
@@ -12,8 +12,8 @@ import edu.wpi.first.math.Pair;
  * </i>
  * <br>
  * </br>
- * <b> WIP (Can be optimized a lot)
- * 
+ * <b> WIP 
+ * TODO: Add Cubic Spline Interpolation
  * @author Karan Thakkar
  */
 public class InterpolatingTreeMap {

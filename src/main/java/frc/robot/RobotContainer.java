@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.math.trajectory.Trajectory;
 import frc.robot.commands.auto.FourBallAuto;
 import frc.robot.commands.auto.OneBallTaxi;
-import frc.robot.commands.TeleopCommand;
 import frc.robot.commands.auto.ThreeBallAuto;
 import frc.robot.commands.auto.TwoBallAuto;
 import frc.robot.commands.auto.TwoBallEject;
+import frc.robot.commands.teleop.TeleopCommand;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Indexer;
@@ -26,6 +26,8 @@ public class RobotContainer {
   private final Intake intaker = new Intake();
   private final Climb climb = new Climb();
 
+
+  //Define a command to match trajectories to auton routines
   Trajectory TwoBall;
   Trajectory TwoBallEject;
   Trajectory OneBall;

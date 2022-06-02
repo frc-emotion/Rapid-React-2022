@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.misc.Align;
+import frc.robot.util.Align;
 
 public class Drive extends SubsystemBase {
     CANSparkMax lsparkA = new CANSparkMax(Constants.DRIVE_LEFT_PORTS[0], MotorType.kBrushless);
@@ -87,13 +87,14 @@ public class Drive extends SubsystemBase {
 
     public static final Field2d m_field = new Field2d();
 
-    public static final PIDController drivepid = new PIDController(Constants.DRIVE_KP, Constants.DRIVE_KI, Constants.DRIVE_KD);
+    public static final PIDController drivepid = new PIDController(Constants.DRIVE_KP, Constants.DRIVE_KI,
+            Constants.DRIVE_KD);
 
     public static final Align alignment = new Align();
-    //private static final Alignment alignment;
+
+    // private static final Alignment alignment;
     public Drive() {
 
-        
         drivepid.setTolerance(0.5);
 
         ArrayList<CANSparkMax> sparkList = new ArrayList<CANSparkMax>() {
@@ -219,14 +220,14 @@ public class Drive extends SubsystemBase {
         if (Robot.driverController.getXButtonPressed()) {
             invert = !invert;
         }
-        //if (Robot.driverController.getBButton()){
-        //    alignment.enable();
-        //    align();
+        // if (Robot.driverController.getBButton()){
+        // alignment.enable();
+        // align();
         if (Robot.driverController.getAButton()) {
             forward();
         } else {
             teleopTank();
-            //alignment.disable();
+            // alignment.disable();
         }
 
     }
@@ -234,7 +235,7 @@ public class Drive extends SubsystemBase {
     /**
      * @version OUTDATED
      * @param degrees angle to turn to (absolute)
-     * @param lr counterclockwise or clockwise turn
+     * @param lr      counterclockwise or clockwise turn
      */
     public void gyroTurn(double degrees, boolean lr) {
         if (lr) {
@@ -256,20 +257,19 @@ public class Drive extends SubsystemBase {
 
     /**
      * @version Unused, New
-     * @param desired = setpoint angle 
+     * @param desired = setpoint angle
      */
-    public void turnToAngle(double desired){
+    public void turnToAngle(double desired) {
         double currentYaw = gyro.getYaw();
 
-        if (desired - currentYaw > 0){
+        if (desired - currentYaw > 0) {
             if (gyro.getYaw() > desired) {
                 drive.arcadeDrive(0, 0.3);
             }
             if (gyro.getYaw() < desired) {
                 drive.arcadeDrive(0, 0);
             }
-        }
-        else if (desired - currentYaw < 0){
+        } else if (desired - currentYaw < 0) {
             if (gyro.getYaw() > desired) {
                 drive.arcadeDrive(0, -0.3);
             }
@@ -328,10 +328,10 @@ public class Drive extends SubsystemBase {
      * Output Range needs to be tuned
      */
     public void align() {
-        if (alignment.getLed() == 3){
-        double moveToX = MathUtil.clamp(drivepid.calculate((alignment.getError()), 0), -0.30, 0.30);
+        if (alignment.getLed() == 3) {
+            double moveToX = MathUtil.clamp(drivepid.calculate((alignment.getError()), 0), -0.30, 0.30);
             drive.arcadeDrive(0, moveToX);
-        }else{
+        } else {
             drive.arcadeDrive(0, 0);
         }
     }
@@ -378,12 +378,12 @@ public class Drive extends SubsystemBase {
         if (invert) {
             drive.tankDrive(-driveR, -driveL);
         } else {
-            drive.tankDrive(driveL,driveR);
+            drive.tankDrive(driveL, driveR);
 
         }
     }
 
-    //simulation code for differential drive sim
+    // simulation code for differential drive sim
     public void simPeriodic() {
         driveSim.setInputs(lsparkA.get() * RobotController.getInputVoltage(),
                 rsparkA.get() * RobotController.getInputVoltage());

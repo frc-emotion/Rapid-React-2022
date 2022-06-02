@@ -1,4 +1,4 @@
-package frc.robot.misc;
+package frc.robot.util;
 import frc.robot.Constants;
 
 public class Align {

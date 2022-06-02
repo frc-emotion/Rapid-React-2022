@@ -5,16 +5,16 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.commands.Forward;
-import frc.robot.misc.RunRamsete;
+import frc.robot.commands.teleop.Forward;
 import frc.robot.subsystems.*;
+import frc.robot.util.Ramsete;
 
 
 /**
  * One Ball Taxi (Shoot -> Drive Back)
  */
 public class OneBallTaxi extends SequentialCommandGroup {
-    RunRamsete path = new RunRamsete();
+    Ramsete path = new Ramsete();
 
     boolean ready;
 
