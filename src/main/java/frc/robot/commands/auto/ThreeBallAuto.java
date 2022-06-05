@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.commands.Forward;
-import frc.robot.commands.TurnToDegrees;
-import frc.robot.misc.RunRamsete;
+import frc.robot.commands.misc.TurnToDegrees;
+import frc.robot.commands.teleop.Forward;
 import frc.robot.subsystems.*;
+import frc.robot.util.Ramsete;
 
 /**
  * Unorganzied CommandGroup for Three Ball Auto Route
@@ -38,7 +38,7 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                         new StartEndCommand(() -> intake.intakeRoller(), () -> intake.intakeRollerOff(), intake)
                                 .withTimeout(10),
                         sequence(
-                                RunRamsete.executeAuto(drive, traj),
+                                Ramsete.followPath(drive, traj),
                                 parallel(
                                         new AutoShooter(shot, 2200, Constants.SHOOTER_ANGLE_CARGO_LINE, ready)
                                                 .withTimeout(5),

@@ -10,6 +10,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -23,11 +26,17 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.util.Align;
+import frc.robot.util.dashboard.Tab;
+import frc.robot.util.dashboard.Tab.Type;
 
 public class Drive extends SubsystemBase {
     CANSparkMax lsparkA = new CANSparkMax(Constants.DRIVE_LEFT_PORTS[0], MotorType.kBrushless);
@@ -86,12 +95,14 @@ public class Drive extends SubsystemBase {
     private boolean invert;
 
     public static final Field2d m_field = new Field2d();
+    
 
     public static final PIDController drivepid = new PIDController(Constants.DRIVE_KP, Constants.DRIVE_KI,
             Constants.DRIVE_KD);
 
     public static final Align alignment = new Align();
 
+    private NetworkTableEntry gyroAngle;
     // private static final Alignment alignment;
     public Drive() {
 
@@ -142,16 +153,26 @@ public class Drive extends SubsystemBase {
         // Sets the robot Position in a 2D Space
         odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
 
-        SmartDashboard.putData("Field", m_field);
+        
 
+        //Shuffleboard Data
+        ShuffleboardTab driveData = Tab.getInstance().accessTab(Type.DRIVETRAIN);
+        gyroAngle = Tab.getInstance().addWidget(driveData, BuiltInWidgets.kTextView, "Gyro", 0, new int[]{0, 5} , new int[]{2,2});
+        Tab.getInstance().addField(driveData, BuiltInWidgets.kField, "FieldTest", m_field, new int[]{0, 0}, new int[]{4,2});
+       // SmartDashboard.putData("Field", m_field);
+        
         this.invert = true;
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Gyro", gyro.getYaw());
 
+        //get a reference to the subtable called "datatable"
+        
+        //SmartDashboard.putNumber("Gyro", gyro.getYaw());
+        gyroAngle.setDouble(angle.get());        
         m_field.setRobotPose(odometry.getPoseMeters());
+
         odometry.update(gyro.getRotation2d(),
                 leftEncoder.getPosition(),
                 rightEncoder.getPosition());
@@ -159,8 +180,8 @@ public class Drive extends SubsystemBase {
         simPeriodic();
     }
 
-    public void updatedField() {
-        // Used Field 2D on shuffleboard when/if basic odometry works
+    public void updateTab() {
+
     }
 
     public Pose2d getPose() {

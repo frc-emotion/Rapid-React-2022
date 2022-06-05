@@ -654,12 +654,13 @@
       "/LiveWindow/Ungrouped/Talon FX [13]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX [9]": "Motor Controller",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/Shuffleboard/DRIVETRAIN/FieldTest": "Field2d",
       "/SmartDashboard/Auto Path?": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/SendableChooser[0]": "String Chooser"
     },
     "windows": {
-      "/FMSInfo": {
+      "/Shuffleboard/DRIVETRAIN/FieldTest": {
         "window": {
           "visible": true
         }
@@ -724,17 +725,23 @@
     }
   },
   "NetworkTables": {
-    "LiveWindow": {
-      "Drive": {
+    "Shuffleboard": {
+      ".metadata": {
+        "DRIVETRAIN": {
+          "Gyro": {
+            "open": true
+          },
+          "open": true
+        },
+        "open": true
+      },
+      "DRIVETRAIN": {
+        "FieldTest": {
+          "open": true
+        },
         "open": true
       },
       "open": true
-    },
-    "SmartDashboard": {
-      "open": true
     }
-  },
-  "NetworkTables View": {
-    "visible": false
   }
 }

@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import frc.robot.misc.RunRamsete;
 import frc.robot.subsystems.*;
+import frc.robot.util.Ramsete;
 
 public class FourBallAuto extends SequentialCommandGroup {
     boolean ready;
@@ -31,13 +31,13 @@ public class FourBallAuto extends SequentialCommandGroup {
                                 .withTimeout(16),
                                 sequence(
                                         deadline(
-                                                RunRamsete.executeAuto(drive, traj),
+                                                Ramsete.followPath(drive, traj),
                                                 new HoodSequence(intake, shot, index, 4)
                                         ),
                                 new ShooterSequence(intake, shot, index, 2, 1),
-                                RunRamsete.executeAuto(drive, traj2),
+                                Ramsete.followPath(drive, traj2),
                                 new StartEndCommand(() -> index.autoIndex(x), () -> index.indexStop(), index).withTimeout(0.8),       
-                                RunRamsete.executeAuto(drive, traj3),
+                                Ramsete.followPath(drive, traj3),
                                 new ShooterSequence(intake, shot, index, 4, 4))));
         addCommands(
                 auto);

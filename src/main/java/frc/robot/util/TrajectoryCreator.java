@@ -1,4 +1,4 @@
-package frc.robot.misc;
+package frc.robot.util;
 
 import java.io.IOException;
 import java.nio.file.Path;

@@ -1,4 +1,4 @@
-package frc.robot.misc;
+package frc.robot.util;
 
 public class Distance {
     private double mountingHeight, refrenceHeight; // Height relative to the ground in meters

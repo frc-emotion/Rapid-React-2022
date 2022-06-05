@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.Constants;
-import frc.robot.commands.Forward;
-import frc.robot.commands.TurnToDegrees;
-import frc.robot.misc.RunRamsete;
+import frc.robot.commands.misc.TurnToDegrees;
+import frc.robot.commands.teleop.Forward;
 import frc.robot.subsystems.*;
+import frc.robot.util.Ramsete;
 
 
 /**
@@ -39,7 +39,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
                         , () -> intake.intakeRollerOff(), intake)
                                 .withTimeout(10),
                         sequence(
-                                RunRamsete.executeAuto(drive, traj),
+                                Ramsete.followPath(drive, traj),
                                 parallel(
                                         //Offseason Note: Change RPM Back to AutoConstant or Drive forward for less time
                                         new AutoShooter(shot, Constants.SHOOTER_RPM_CARGO_LINE, Constants.SHOOTER_ANGLE_AUTO, ready)

@@ -6,13 +6,16 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.util.*;
+
 /**
  *
  */
@@ -37,6 +40,7 @@ public class Robot extends TimedRobot {
   private SendableChooser<Integer> m_chooser = new SendableChooser<>();
 
   public InterpolatingTreeMap test;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -51,8 +55,9 @@ public class Robot extends TimedRobot {
     creator = new TrajectoryCreator();
 
     // All Two Ball Paths
-    twoBallOne = creator.generateTrajectory("2ballSmooth.wpilib.json", "Smooth 2 Ball Auto"); //TODO: Switch to PathPlanner 2.0
-    twoBallEject = creator.generateTrajectory("2BallEject.wpilib.json", " TwoBall Eject Red"); //Build seperate path with lower accel
+    twoBallOne = creator.generateTrajectory("2ballSmooth.wpilib.json", "Smooth 2 Ball Auto"); // TODO: Switch to Pathplanner
+                                                                                            
+    twoBallEject = creator.generateTrajectory("2BallEject.wpilib.json", " TwoBall Eject Red"); // Build seperate path with lower accel
     // All 3 Ball Paths
     threeBallOne = creator.generateTrajectory("3ball1.wpilib.json", "First 3 Ball Path");
 
@@ -69,9 +74,8 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData("Auto Path?", m_chooser);
 
-    // Creates Camera Server for Driver Cam 
+    // Creates Camera Server for Driver Cam
     CameraServer.startAutomaticCapture();
-
 
   }
 
@@ -90,10 +94,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    
-    
-    //Interpolator.CreateTreeMap(54, 60);
-    
+
   }
 
   /**
@@ -120,7 +121,7 @@ public class Robot extends TimedRobot {
         autoCommand = container.runAuto();
         break;
       case 2:
-      autoCommand = container.getTwoBallEject();
+        autoCommand = container.getTwoBallEject();
         break;
       case 3:
         autoCommand = container.runOne();

@@ -15,6 +15,7 @@ public class Intake extends SubsystemBase {
 
    private CANSparkMax intakeSpark;
    public static DoubleSolenoid solenoidA;
+
    public Intake() {
 
       intakeSpark = new CANSparkMax(Constants.INTAKE_PORT, MotorType.kBrushless);
@@ -31,7 +32,7 @@ public class Intake extends SubsystemBase {
       if (Robot.operatorController.getAButtonPressed()) {
          intakeToggle();
       }
-      if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) { 
+      if (Robot.operatorController.getLeftTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
          intakeRoller();
       } else if (Robot.operatorController.getRightBumper()) {
          intakeRollerReverse();

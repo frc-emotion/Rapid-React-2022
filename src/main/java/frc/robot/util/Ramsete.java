@@ -1,4 +1,4 @@
-package frc.robot.misc;
+package frc.robot.util;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.Drive;

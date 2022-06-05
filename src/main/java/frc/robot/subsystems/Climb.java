@@ -121,10 +121,10 @@ public class Climb extends SubsystemBase {
     }
 
     public void updateDash() {
-        SmartDashboard.putNumber("Climb-Encoder Rev", returnRevs());
-        SmartDashboard.putNumber("Climb-Encoder Veloctiy", getVel());
-        max = SmartDashboard.getNumber("ClimbMAX", -(Constants.CLIMB_MAX_POS));
-        SmartDashboard.putBoolean("max", atMax);
+       // SmartDashboard.putNumber("Climb-Encoder Rev", returnRevs());
+       // SmartDashboard.putNumber("Climb-Encoder Veloctiy", getVel());
+       // max = SmartDashboard.getNumber("ClimbMAX", -(Constants.CLIMB_MAX_POS));
+       // SmartDashboard.putBoolean("max", atMax);
     }
 
 }

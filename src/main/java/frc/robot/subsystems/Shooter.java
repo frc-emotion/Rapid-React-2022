@@ -22,9 +22,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.misc.Distance;
-import frc.robot.misc.InterpolatingTreeMap;
-import frc.robot.misc.LimeLight;
+import frc.robot.util.Distance;
+import frc.robot.util.InterpolatingTreeMap;
+import frc.robot.util.LimeLight;
 
 public class Shooter extends SubsystemBase {
     private CANSparkMax mHood;
@@ -34,7 +34,7 @@ public class Shooter extends SubsystemBase {
     private Distance distance;
 
     public double distanceToTarget;
-    public TreeMap<Double, Pair<Double, Double>>  MacroTable;
+    public TreeMap<Double, Pair<Double, Double>> MacroTable;
     public InterpolatingTreeMap ShooterTable;
 
     private Macro target_macro = Macro.FenderHigh;
@@ -62,23 +62,23 @@ public class Shooter extends SubsystemBase {
         }
     }
 
-
     public Shooter() {
         mL = new WPI_TalonFX(Constants.SHOOTER_LEFT_PORT);
         mR = new WPI_TalonFX(Constants.SHOOTER_RIGHT_PORT);
 
         distance = new Distance(Constants.MOUNTING_HEIGHT, Constants.MOUNTING_ANGLE, Constants.REFERENCE_HEIGHT);
         LL = new LimeLight();
-        
+
         MacroTable = new TreeMap<Double, Pair<Double, Double>>();
         MacroTable.put(20.0, new Pair<>(1600.0, 11.5));
         MacroTable.put(20.0, new Pair<>(1750.0, 18.0));
+        
 
         ShooterTable = new InterpolatingTreeMap(MacroTable);
         ShooterTable.interpolate(1);
-        //ShooterTable.put(20.0, new Pair<>(1750.0, 18.0));
-        //ShooterTable.put(20.0, new Pair<>(1750.0, 18.0));
-        //ShooterTable.put(20.0, new Pair<>(1750.0, 18.0));
+        // ShooterTable.put(20.0, new Pair<>(1750.0, 18.0));
+        // ShooterTable.put(20.0, new Pair<>(1750.0, 18.0));
+        // ShooterTable.put(20.0, new Pair<>(1750.0, 18.0));
 
         mL.configFactoryDefault();
         mR.configFactoryDefault();
@@ -138,16 +138,15 @@ public class Shooter extends SubsystemBase {
             shoot();
             /**
              * if (Robot.operatorController.getPOV() == -1){
-             *  spinUpTable();
+             * spinUpTable();
              * }else{
-             *  shoot()
+             * shoot()
              * }
              */
         } else if (Math.abs(Robot.operatorController.getLeftY()) >= Constants.JOYSTICK_THRESHOLD) {
             teleopHood();
-        }
-        else if (Robot.operatorController.getBButton()) {
-                mL.set(-0.1);
+        } else if (Robot.operatorController.getBButton()) {
+            mL.set(-0.1);
         } else if (Robot.operatorController.getPOV() != -1) {
             switch (Robot.operatorController.getPOV()) {
                 case 0:
@@ -170,8 +169,8 @@ public class Shooter extends SubsystemBase {
             goToMacro();
         } else if (Robot.operatorController.getBackButton()) {
             aimAtTarget();
-           // setMacro(Macro.Testing);
-           // goToMacro();
+            // setMacro(Macro.Testing);
+            // goToMacro();
         } else {
             stop();
         }
@@ -226,10 +225,11 @@ public class Shooter extends SubsystemBase {
             spinAt(target_macro.target_rpm);
         }
     }
+
     /**
      * Spin up the motor based on distance from the target
      */
-    public void spinUpTable(){
+    public void spinUpTable() {
         spinAt(ShooterTable.getRPM(distanceToTarget));
     }
 
@@ -273,7 +273,6 @@ public class Shooter extends SubsystemBase {
         }
     }
 
-
     public void autoShoot(boolean ready, double rpm, double angle) {
         setHoodAngle(angle);
         spinAt(rpm);
@@ -314,9 +313,9 @@ public class Shooter extends SubsystemBase {
 
     /**
      * Change hoodAngle when aligned
-     * TODO: Use Robot Pose (LL Correction) to set hoodAngle automatically. 
+     * Use Robot Pose (LL Correction) to set hoodAngle automatically.
      */
-    public void aimAtTarget(){
+    public void aimAtTarget() {
         setHoodAngle(ShooterTable.getAngle(distanceToTarget));
     }
 
