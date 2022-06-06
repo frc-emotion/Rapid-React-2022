@@ -661,6 +661,9 @@
     },
     "windows": {
       "/Shuffleboard/DRIVETRAIN/FieldTest": {
+        "Robot": {
+          "style": "Box/Image"
+        },
         "window": {
           "visible": true
         }
@@ -743,5 +746,8 @@
       },
       "open": true
     }
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }

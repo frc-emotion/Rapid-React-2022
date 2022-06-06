@@ -55,9 +55,11 @@ public class Robot extends TimedRobot {
     creator = new TrajectoryCreator();
 
     // All Two Ball Paths
-    twoBallOne = creator.generateTrajectory("2ballSmooth.wpilib.json", "Smooth 2 Ball Auto"); // TODO: Switch to Pathplanner
-                                                                                            
-    twoBallEject = creator.generateTrajectory("2BallEject.wpilib.json", " TwoBall Eject Red"); // Build seperate path with lower accel
+    twoBallOne = creator.generateTrajectory("2ballSmooth.wpilib.json", "Smooth 2 Ball Auto"); // TODO: Switch to
+                                                                                              // Pathplanner
+
+    twoBallEject = creator.generateTrajectory("2BallEject.wpilib.json", " TwoBall Eject Red"); // Build seperate path
+                                                                                               // with lower accel
     // All 3 Ball Paths
     threeBallOne = creator.generateTrajectory("3ball1.wpilib.json", "First 3 Ball Path");
 
@@ -93,8 +95,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-
-
   }
 
   /**

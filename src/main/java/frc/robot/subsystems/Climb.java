@@ -4,27 +4,38 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.util.dashboard.TabManager;
+import frc.robot.util.dashboard.TabManager.SubsystemTab;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 /**
  * @author Karan Thakkar
  */
 
 public class Climb extends SubsystemBase {
-    MotorControllerGroup FalconClimb;
-    WPI_TalonFX TalonA, TalonB;
+
+    public static final PowerDistribution PDP = new PowerDistribution();
+    
     public static DoubleSolenoid ActuatorR, ActuatorL;
+    public static WPI_TalonFX TalonA, TalonB;
+
     private boolean atMax;
-    public double max;
-    public double min;
+    private double max;
+
+    public NetworkTableEntry climbEncoderPosition;
+    public NetworkTableEntry climbCurrentDraw;
+    public NetworkTableEntry climbMaxPosition;
+    public NetworkTableEntry climbAtMax;
 
     public Climb() {
         // Init Double Solenoids, Falcons
@@ -54,17 +65,14 @@ public class Climb extends SubsystemBase {
         TalonA.config_kD(0, Constants.CLIMB_kD);
 
         // Output Encoder Values
-        SmartDashboard.putNumber("ClimbMAX", (Constants.CLIMB_MAX_POS));
-        SmartDashboard.putNumber("ClimbMIN", 0);
-
+        initShuffleboard();
         atMax = false;
         ActuatorL.set(Value.kReverse);
-
     }
 
     @Override
     public void periodic() {
-        updateDash();
+        updateShuffleboard();
     }
 
     // Mainloop
@@ -120,11 +128,24 @@ public class Climb extends SubsystemBase {
         TalonB.setSelectedSensorPosition(0);
     }
 
-    public void updateDash() {
-       // SmartDashboard.putNumber("Climb-Encoder Rev", returnRevs());
-       // SmartDashboard.putNumber("Climb-Encoder Veloctiy", getVel());
-       // max = SmartDashboard.getNumber("ClimbMAX", -(Constants.CLIMB_MAX_POS));
-       // SmartDashboard.putBoolean("max", atMax);
+    private double getCurrentDraw(int channel){
+        return PDP.getCurrent(channel);
+    }
+
+    public void initShuffleboard(){
+        ShuffleboardTab climbData = TabManager.getInstance().accessTab(SubsystemTab.CLIMB);
+        climbEncoderPosition = TabManager.getInstance().addWidget(climbData, BuiltInWidgets.kTextView, "Climb: Encoder Position", 0, new int[]{0,0}, new int[]{2,2});
+        climbCurrentDraw = TabManager.getInstance().addWidget(climbData, BuiltInWidgets.kVoltageView, "Climb: Current Draw", 0, new int[]{2,0}, new int[]{2,2});
+        climbMaxPosition = TabManager.getInstance().addWidget(climbData, BuiltInWidgets.kTextView, "Climb: Max Postion", -Constants.CLIMB_MAX_POS, new int[]{4,0}, new int[]{2,2});
+        climbAtMax = TabManager.getInstance().addWidget(climbData, BuiltInWidgets.kBooleanBox, "Climb: At Max Position?", atMax, new int[]{6,0}, new int[]{2,2});
+
+    }
+
+    public void updateShuffleboard() {
+        climbEncoderPosition.setDouble(returnRevs());
+        climbCurrentDraw.setDouble(getCurrentDraw(14));
+        climbMaxPosition.setBoolean(atMax);
+        max = climbMaxPosition.getDouble(-(Constants.CLIMB_MAX_POS));
     }
 
 }

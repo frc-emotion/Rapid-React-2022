@@ -35,8 +35,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.util.Align;
-import frc.robot.util.dashboard.Tab;
-import frc.robot.util.dashboard.Tab.Type;
+import frc.robot.util.dashboard.TabManager;
+import frc.robot.util.dashboard.TabManager.SubsystemTab;
 
 public class Drive extends SubsystemBase {
     CANSparkMax lsparkA = new CANSparkMax(Constants.DRIVE_LEFT_PORTS[0], MotorType.kBrushless);
@@ -156,9 +156,9 @@ public class Drive extends SubsystemBase {
         
 
         //Shuffleboard Data
-        ShuffleboardTab driveData = Tab.getInstance().accessTab(Type.DRIVETRAIN);
-        gyroAngle = Tab.getInstance().addWidget(driveData, BuiltInWidgets.kTextView, "Gyro", 0, new int[]{0, 5} , new int[]{2,2});
-        Tab.getInstance().addField(driveData, BuiltInWidgets.kField, "FieldTest", m_field, new int[]{0, 0}, new int[]{4,2});
+        ShuffleboardTab driveData = TabManager.getInstance().accessTab(SubsystemTab.DRIVETRAIN);
+        gyroAngle = TabManager.getInstance().addWidget(driveData, BuiltInWidgets.kDial, "Gyro", 0, new int[]{6, 0} , new int[]{2,2});
+        TabManager.getInstance().addFieldWidget(driveData, BuiltInWidgets.kField, "FieldTest", m_field, new int[]{0, 0}, new int[]{6,4});
        // SmartDashboard.putData("Field", m_field);
         
         this.invert = true;
@@ -166,17 +166,10 @@ public class Drive extends SubsystemBase {
 
     @Override
     public void periodic() {
-
-        //get a reference to the subtable called "datatable"
-        
-        //SmartDashboard.putNumber("Gyro", gyro.getYaw());
-        gyroAngle.setDouble(angle.get());        
-        m_field.setRobotPose(odometry.getPoseMeters());
-
         odometry.update(gyro.getRotation2d(),
                 leftEncoder.getPosition(),
                 rightEncoder.getPosition());
-
+        updateShuffleboard();
         simPeriodic();
     }
 
@@ -254,7 +247,7 @@ public class Drive extends SubsystemBase {
     }
 
     /**
-     * @version OUTDATED
+     * @version depreciated
      * @param degrees angle to turn to (absolute)
      * @param lr      counterclockwise or clockwise turn
      */
@@ -402,6 +395,11 @@ public class Drive extends SubsystemBase {
             drive.tankDrive(driveL, driveR);
 
         }
+    }
+
+    public void updateShuffleboard(){
+        gyroAngle.setDouble(gyro.getYaw());        
+        m_field.setRobotPose(odometry.getPoseMeters());
     }
 
     // simulation code for differential drive sim
