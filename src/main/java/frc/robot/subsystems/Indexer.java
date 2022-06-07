@@ -2,11 +2,18 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.util.dashboard.TabManager;
+import frc.robot.util.dashboard.TabManager.SubsystemTab;
+
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -19,6 +26,11 @@ public class Indexer extends SubsystemBase {
     boolean indexingFirstBall;
     boolean indexingSecondBall;
     int ballcount;
+
+    NetworkTableEntry topTriggered;
+    NetworkTableEntry bottomTriggered;
+    NetworkTableEntry intakeSensor;
+    NetworkTableEntry ballCount;
 
     public Indexer() {
         mIndexer = new WPI_TalonFX(Constants.INDEXERFALCON);
@@ -35,6 +47,8 @@ public class Indexer extends SubsystemBase {
         indexingFirstBall = false;
         indexingSecondBall = false;
         ballcount = 0;
+
+        initShuffleboard();
     }
 
     public void run() {
@@ -54,7 +68,7 @@ public class Indexer extends SubsystemBase {
 
     @Override
     public void periodic() {
-        updateSmartDashboard();
+        updateShuffleboard();
     }
 
     public void indexForward(double speed) {
@@ -159,7 +173,11 @@ public class Indexer extends SubsystemBase {
         }
     }
 
-    public void updateSmartDashboard() {
+    private void initShuffleboard(){
+        ShuffleboardTab indexerData = TabManager.getInstance().accessTab(SubsystemTab.INDEXER);
+    }
+
+    private void updateShuffleboard() {
         SmartDashboard.putBoolean("Top Triggered", atTop());
         SmartDashboard.putBoolean("Bottom Triggered", atBottom());
         SmartDashboard.putBoolean("Intake Triggered", atIntake());

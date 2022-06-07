@@ -18,13 +18,18 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.util.Distance;
 import frc.robot.util.InterpolatingTreeMap;
 import frc.robot.util.LimeLight;
+import frc.robot.util.dashboard.TabManager;
+import frc.robot.util.dashboard.TabManager.SubsystemTab;
 
 public class Shooter extends SubsystemBase {
     private CANSparkMax mHood;
@@ -41,6 +46,10 @@ public class Shooter extends SubsystemBase {
 
     private final SimpleMotorFeedforward mFeedForward = new SimpleMotorFeedforward(Constants.SHOOTER_KS,
             Constants.SHOOTER_KV, Constants.SHOOTER_KA);
+
+    public NetworkTableEntry shooterRPMGraph;
+    public NetworkTableEntry shooterStateEntry;
+    public NetworkTableEntry hoodAngle;
 
     /**
      * Custom enum which stores the corresponding rpm and angle for each position
@@ -72,13 +81,9 @@ public class Shooter extends SubsystemBase {
         MacroTable = new TreeMap<Double, Pair<Double, Double>>();
         MacroTable.put(20.0, new Pair<>(1600.0, 11.5));
         MacroTable.put(20.0, new Pair<>(1750.0, 18.0));
-        
 
         ShooterTable = new InterpolatingTreeMap(MacroTable);
         ShooterTable.interpolate(1);
-        // ShooterTable.put(20.0, new Pair<>(1750.0, 18.0));
-        // ShooterTable.put(20.0, new Pair<>(1750.0, 18.0));
-        // ShooterTable.put(20.0, new Pair<>(1750.0, 18.0));
 
         mL.configFactoryDefault();
         mR.configFactoryDefault();
@@ -117,17 +122,20 @@ public class Shooter extends SubsystemBase {
         // TESTING ONLY COMMENT OUT DURING COMPETITION
         SmartDashboard.putNumber("ShooterTestRPM", 1600);
         SmartDashboard.putNumber("ShooterTestAngle", 4.5);
+
+        initShuffleboard();
+
     }
 
     @Override
     public void periodic() {
         // Put SmartDashboard values here
-        updateDashboard();
+
         if (atLimit()) {
             calibrate();
         }
-
         distanceToTarget = distance.getDistance(LL.getTy());
+        updateShuffleboard();
     }
 
     /**
@@ -397,9 +405,27 @@ public class Shooter extends SubsystemBase {
         return !mLimit.get();
     }
 
-    public void updateDashboard() {
-        SmartDashboard.putNumber("ShooterRPM", getRPM());
-        SmartDashboard.putNumber("HoodAngle", getHoodAngle());
-        SmartDashboard.putString("ShooterState", target_macro.toString());
+    /**
+     * Checks if shooter aims by Macro/LookupTable
+     * @return shooter state with regards to boolean
+     */
+    public String shooterState(boolean shootByInterpolation) {
+        return shootByInterpolation ? "Interpolating Shots" : target_macro.toString();
+    }
+
+    private void initShuffleboard() {
+        ShuffleboardTab shooterData = TabManager.getInstance().accessTab(SubsystemTab.SHOOTER);
+        shooterRPMGraph = TabManager.getInstance().addWidget(shooterData, BuiltInWidgets.kTextView, "RPM", 0,
+                new int[] { 0, 0 }, new int[] { 4, 4 });
+        hoodAngle = TabManager.getInstance().addWidget(shooterData, BuiltInWidgets.kTextView, "Hood Angle", 0,
+                new int[] { 4, 0 }, new int[] { 2, 2 });
+        shooterStateEntry = TabManager.getInstance().addWidget(shooterData, BuiltInWidgets.kTextView, "Macro State",
+                shooterState(false), new int[] { 6, 0 }, new int[] { 2, 2 });
+    }
+
+    private void updateShuffleboard() {
+        shooterRPMGraph.setDouble(getRPM());
+        hoodAngle.setDouble(getHoodAngle());
+        shooterStateEntry.setString(shooterState(true));
     }
 }

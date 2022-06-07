@@ -1,9 +1,6 @@
 package frc.robot.util.dashboard;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
-
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -11,7 +8,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import frc.robot.subsystems.Shooter;
 
 /**
  * Organize subsystems by Shuffleboard Tabs and utilizeDebbger
@@ -21,11 +17,11 @@ import frc.robot.subsystems.Shooter;
  */
 public class TabManager {
     private static TabManager instance;
-    private static String[] tabNames = { "DRIVETRAIN", "SHOOTER", "INDEXER", "CLIMB", "VISION", "AUTON", "DEBUG" };
+    private static String[] tabNames = { "DRIVETRAIN", "SHOOTER", "INDEXER", "CLIMB", "VISION", "AUTON"};
 
     public enum SubsystemTab {
         DRIVETRAIN, SHOOTER, INDEXER,
-        CLIMB, VISION, AUTON, DEBUG
+        CLIMB, VISION, AUTON
     }
 
     public TabManager() {
@@ -39,7 +35,7 @@ public class TabManager {
             instance = new TabManager();
         }
         return instance;
-      }
+    }
 
     public ShuffleboardTab accessTab(SubsystemTab tabs) {
         switch (tabs) {
@@ -55,36 +51,38 @@ public class TabManager {
                 return Shuffleboard.getTab("VISION");
             case AUTON:
                 return Shuffleboard.getTab("AUTON");
-            case DEBUG:
-                return Shuffleboard.getTab("DEBUG");
             default:
-                return Shuffleboard.getTab("DEBUG");
+                return Shuffleboard.getTab("DRIVETRAIN");
         }
     }
 
     public NetworkTableEntry addWidget(ShuffleboardTab tab, BuiltInWidgets widgetType, String name, Object defaultValue,
             int[] position, int[] size) {
-        NetworkTableEntry entry = tab.add(name, defaultValue)
+        return tab.add(name, defaultValue)
                 .withPosition(position[0], position[1])
                 .withSize(size[0], size[1])
                 .withWidget(widgetType)
                 .getEntry();
-        return entry;
     }
 
-    public ComplexWidget addFieldWidget(ShuffleboardTab tab, BuiltInWidgets widgetType, String name, Field2d defaultValue,
+    public ComplexWidget addFieldWidget(ShuffleboardTab tab, BuiltInWidgets widgetType, String name,
+            Field2d defaultValue,
             int[] position, int[] size) {
-        ComplexWidget entry = tab.add(name, defaultValue)
+        return tab.add(name, defaultValue)
                 .withPosition(position[0], position[1])
                 .withSize(size[0], size[1])
                 .withWidget(widgetType);
-        return entry;
     }
 
-    /** Puts all NT Data for DriveBase into a CSV */
-    public void logOdometry() {
-        ShuffleboardTab dt = Shuffleboard.getTab("DRIVETRAIN");
-        System.out.println(dt.getComponents());
+    /** Puts all NT Data into a wpilog */
+    public void logDriveOdometry(boolean beginLog) {
+        if (beginLog) {
+            DataLogManager.start();
+        } else {
+            DataLog log = DataLogManager.getLog();
+            System.out.println(log);
+        }
+
     }
 
 }

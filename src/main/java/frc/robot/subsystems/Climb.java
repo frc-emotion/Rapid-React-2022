@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -23,7 +22,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
  */
 
 public class Climb extends SubsystemBase {
-
     public static final PowerDistribution PDP = new PowerDistribution();
     
     public static DoubleSolenoid ActuatorR, ActuatorL;
@@ -132,7 +130,7 @@ public class Climb extends SubsystemBase {
         return PDP.getCurrent(channel);
     }
 
-    public void initShuffleboard(){
+    private void initShuffleboard(){
         ShuffleboardTab climbData = TabManager.getInstance().accessTab(SubsystemTab.CLIMB);
         climbEncoderPosition = TabManager.getInstance().addWidget(climbData, BuiltInWidgets.kTextView, "Climb: Encoder Position", 0, new int[]{0,0}, new int[]{2,2});
         climbCurrentDraw = TabManager.getInstance().addWidget(climbData, BuiltInWidgets.kVoltageView, "Climb: Current Draw", 0, new int[]{2,0}, new int[]{2,2});
@@ -141,7 +139,7 @@ public class Climb extends SubsystemBase {
 
     }
 
-    public void updateShuffleboard() {
+    private void updateShuffleboard() {
         climbEncoderPosition.setDouble(returnRevs());
         climbCurrentDraw.setDouble(getCurrentDraw(14));
         climbMaxPosition.setBoolean(atMax);
