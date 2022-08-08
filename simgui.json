@@ -664,6 +664,13 @@
         "Robot": {
           "style": "Box/Image"
         },
+        "bottom": 900,
+        "height": 8.229599952697754,
+        "image": "C:\\Users\\Karan\\Documents\\2022-field.png",
+        "left": 74,
+        "right": 1774,
+        "top": 50,
+        "width": 16.459199905395508,
         "window": {
           "visible": true
         }
@@ -721,8 +728,7 @@
         },
         "width": 16.459199905395508,
         "window": {
-          "name": "Rapid React Field",
-          "visible": true
+          "name": "Rapid React Field"
         }
       }
     }
@@ -746,8 +752,5 @@
       },
       "open": true
     }
-  },
-  "NetworkTables View": {
-    "visible": false
   }
 }

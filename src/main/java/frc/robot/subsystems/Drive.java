@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.util.Align;
 import frc.robot.util.dashboard.TabManager;
 import frc.robot.util.dashboard.TabManager.SubsystemTab;
@@ -50,7 +51,7 @@ public class Drive extends SubsystemBase {
     // USEFUL FOR NEW ROBOT (IF NOT CHARACTERIZED)
     private final DifferentialDrivetrainSim driveSim = new DifferentialDrivetrainSim(
             DCMotor.getNEO(3),
-            Constants.kDriveGearRatio,
+            AutoConstants.kDriveGearRatio,
             6.9,
             55.9,
             Units.inchesToMeters(3),
@@ -93,8 +94,8 @@ public class Drive extends SubsystemBase {
     public static final Field2d m_field = new Field2d();
     
 
-    public static final PIDController drivepid = new PIDController(Constants.DRIVE_KP, Constants.DRIVE_KI,
-            Constants.DRIVE_KD);
+    public static final PIDController drivepid = new PIDController(AutoConstants.DRIVE_KP, AutoConstants.DRIVE_KI,
+            AutoConstants.DRIVE_KD);
 
     public static final Align alignment = new Align();
 
@@ -132,15 +133,15 @@ public class Drive extends SubsystemBase {
 
         // Velocity Conversions
         leftEncoder.setVelocityConversionFactor(
-                (1 / Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
+                (1 / AutoConstants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
         rightEncoder.setVelocityConversionFactor(
-                (1 / Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
+                (1 / AutoConstants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
 
         // Position Conversions
         leftEncoder
-                .setPositionConversionFactor((1 / Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0));
+                .setPositionConversionFactor((1 / AutoConstants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0));
         rightEncoder
-                .setPositionConversionFactor((1 / Constants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0));
+                .setPositionConversionFactor((1 / AutoConstants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0));
 
         gyro.calibrate();
 

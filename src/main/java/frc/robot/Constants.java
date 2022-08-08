@@ -4,32 +4,34 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
 public class Constants {
 
-  public static final double DRIVE_KD = 0.05;
-  public static final double DRIVE_KP = 0.5;
-  public static final double DRIVE_KI = 0;
 
-  public static final double ksVolts = 0.19735;
-  public static final double kvVoltSeconds = 2.513;// 2.4936;
-  public static final double kaVoltSecondsSquaredPerMeter = 0.38003;
+  public static class AutoConstants{
+    public static final double DRIVE_KD = 0.05;
+    public static final double DRIVE_KP = 0.5;
+    public static final double DRIVE_KI = 0;
 
-  // Tuned kP valeue for 2022
-  public static final double kPDriveVel = 0;// 3.3077;
-  public static final double kDDriveVel = 0;
+    public static final double ksVolts = 0.19735;
+    public static final double kvVoltSeconds = 2.513;// 2.4936;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.38003;
 
-  // Kinematics
-  public static final double TrackWidthMeters = 0.6928;// TORPEDO: 0.5369051588705906;
-  public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(TrackWidthMeters);
+    // Tuned kP valeue for 2022
+    public static final double kPDriveVel = 0;// 3.3077;
+    public static final double kDDriveVel = 0;
 
-  // Max Trajectory Velocity/Acceleration
-  public static final double maxSpeedMPS = 0.4;
-  public static final double maxAccelerationMPSsq = 1;
+    // Kinematics
+    public static final double TrackWidthMeters = 0.6928;// TORPEDO: 0.5369051588705906;
+    public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(TrackWidthMeters);
 
-  // Ramsete Parameters
+    // Max Trajectory Velocity/Acceleration
+    public static final double maxSpeedMPS = 0.4;
+    public static final double maxAccelerationMPSsq = 1;
 
-  public static final double RamseteB = 2.0;
-  public static final double RamseteZeta = 0.7;
+    // Ramsete Parameters
 
-  public static final double kDriveGearRatio = 9.642;// 10.3846;
+    public static final double RamseteB = 2.0;
+    public static final double RamseteZeta = 0.7;
+    public static final double kDriveGearRatio = 9.642;// 10.3846;
+  }
 
   // GENERAL CONSTANTS
 
@@ -189,5 +191,10 @@ public class Constants {
   // public static final Distance DISTANCE = new Distance(MOUNTING_HEIGHT,
   // MOUNTING_ANGLE, REFERENCE_HEIGHT);
   public static final int PORT_PIPELINE = 1;
+
+  public static class VisionConstants{
+    public static final double LIMELIGHT_ANGLE = 0; //to change
+    public static final double LIMELIGHT_MOUNTING_HEIGHT = 0;
+  }
 
 }
