@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.vision.Vision;
 import frc.robot.util.*;
 
 /**
@@ -93,6 +94,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+
+
+    Vision.verifyDesiredRobotAngle(new double[]{0, 0}, new double[]{13, 4}, 30);
   }
 
   /**
@@ -172,7 +176,6 @@ public class Robot extends TimedRobot {
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
-
   }
 
   /** This function is called periodically when disabled. */

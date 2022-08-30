@@ -1,11 +1,13 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 
 public class Constants {
 
-
-  public static class AutoConstants{
+  public static class AutoConstants {
     public static final double DRIVE_KD = 0.05;
     public static final double DRIVE_KP = 0.5;
     public static final double DRIVE_KI = 0;
@@ -20,7 +22,8 @@ public class Constants {
 
     // Kinematics
     public static final double TrackWidthMeters = 0.6928;// TORPEDO: 0.5369051588705906;
-    public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(TrackWidthMeters);
+    public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(
+        TrackWidthMeters);
 
     // Max Trajectory Velocity/Acceleration
     public static final double maxSpeedMPS = 0.4;
@@ -165,6 +168,8 @@ public class Constants {
    * public static final double SHOOTER_KP = 0.00056201;
    * public static final double SHOOTER_KD = 0;
    */
+
+
   // NEED TO GET WITH SYS ID
   public static final double SHOOTER_HOOD_KP = 0.65;
   public static final double SHOOTER_HOOD_KD = 0;
@@ -187,14 +192,24 @@ public class Constants {
   public static final double MOUNTING_HEIGHT = 0.381; // tochange
   public static final double MOUNTING_ANGLE = 0.5759; // tochange
   public static final double REFERENCE_HEIGHT = 2.64;
+ 
+  public static final Translation2d HUB_POSE = new Translation2d(8.2296, 4.1148);
+
 
   // public static final Distance DISTANCE = new Distance(MOUNTING_HEIGHT,
   // MOUNTING_ANGLE, REFERENCE_HEIGHT);
   public static final int PORT_PIPELINE = 1;
 
-  public static class VisionConstants{
-    public static final double LIMELIGHT_ANGLE = 0; //to change
-    public static final double LIMELIGHT_MOUNTING_HEIGHT = 0;
+  public static class VisionConstants {
+    public static final Rotation2d LIMELIGHT_ANGLE = Rotation2d.fromDegrees(0); // to change
+    public static final double LIMELIGHT_MOUNTING_HEIGHT = Units.inchesToMeters(0);
+    public static final double LIMELIGHT_VPW = 2.0 * Math.tan(Math.toRadians(59.6 / 2.0));
+    public static final double LIMELIGHT_VPH = 2.0 * Math.tan(Math.toRadians(49.7 / 2.0));
+    public static final int LIMELIGHT_WIDTH_PIXELS = 960;
+    public static final int LIMELIGHT_HEIGHT_PIXELS = 720;
+    public static final double TARGET_HEIGHT_LOWER = Units.inchesToMeters(8.0 * 12 + 5.625);
+    public static final double TARGET_HEIGHT_UPPER = TARGET_HEIGHT_LOWER + Units.inchesToMeters(2.0);
+    public static final double TARGET_DIAMETER = Units.inchesToMeters(4.0 * 12.0 + 5.375);
   }
 
 }

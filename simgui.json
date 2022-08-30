@@ -728,7 +728,8 @@
         },
         "width": 16.459199905395508,
         "window": {
-          "name": "Rapid React Field"
+          "name": "Rapid React Field",
+          "visible": true
         }
       }
     }

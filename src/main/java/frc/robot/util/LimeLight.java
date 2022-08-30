@@ -1,5 +1,6 @@
 package frc.robot.util;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class LimeLight {
@@ -15,6 +16,10 @@ public class LimeLight {
 
     public double GetMode(){
         return GetEntry("ledMode");
+    }
+
+    public NetworkTableEntry getLed(){
+        return NetworkTableInstance.getDefault().getTable(table).getEntry("ledMode");
     }
 
     public double getTv() {
@@ -59,6 +64,10 @@ public class LimeLight {
 
     public double getPipeline() {
         return GetEntry("getpipe");
+    }
+
+    public NetworkTableEntry getCorners(){
+        return NetworkTableInstance.getDefault().getTable(table).getEntry("tcornxy");
     }
 
     public double getCamtran() {
