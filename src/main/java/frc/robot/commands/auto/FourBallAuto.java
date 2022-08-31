@@ -39,8 +39,7 @@ public class FourBallAuto extends SequentialCommandGroup {
                                 new StartEndCommand(() -> index.autoIndex(x), () -> index.indexStop(), index).withTimeout(0.8),       
                                 Ramsete.followPath(drive, traj3),
                                 new ShooterSequence(intake, shot, index, 4, 4))));
-        addCommands(
-                auto);
+        addCommands(auto);
 
     }
 }

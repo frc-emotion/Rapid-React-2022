@@ -4,8 +4,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -178,11 +176,14 @@ public class Indexer extends SubsystemBase {
     }
 
     private void updateShuffleboard() {
+    /*
         SmartDashboard.putBoolean("Top Triggered", atTop());
         SmartDashboard.putBoolean("Bottom Triggered", atBottom());
         SmartDashboard.putBoolean("Intake Triggered", atIntake());
         SmartDashboard.putBoolean("First Ball?", firstBall);
-        SmartDashboard.putNumber("Ball Count", ballcount);
+        SmartDashboard.putNumber("Ball Count", ballcount); 
+        
+    */
     }
 
 }

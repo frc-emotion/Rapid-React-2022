@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.vision.Vision;
 import frc.robot.util.*;
 
 /**
@@ -54,8 +53,7 @@ public class Robot extends TimedRobot {
     creator = new TrajectoryCreator();
 
     // All Two Ball Paths
-    twoBallOne = creator.generateTrajectory("2ballSmooth.wpilib.json", "Smooth 2 Ball Auto"); // TODO: Switch to
-                                                                                              // Pathplanner
+    twoBallOne = creator.generateTrajectory("2ballSmooth.wpilib.json", "Smooth 2 Ball Auto"); // TODO: Switch to Pathplanner
 
     twoBallEject = creator.generateTrajectory("2BallEject.wpilib.json", " TwoBall Eject Red"); // Build seperate path
                                                                                                // with lower accel
@@ -96,7 +94,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
 
-    Vision.verifyDesiredRobotAngle(new double[]{0, 0}, new double[]{13, 4}, 30);
+   // Vision.verifyDesiredRobotAngle(new double[]{0, 0}, new double[]{13, 4}, 30);
   }
 
   /**

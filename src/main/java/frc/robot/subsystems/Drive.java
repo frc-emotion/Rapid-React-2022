@@ -14,14 +14,19 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
+import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.geometry.Rotation2d;
+//import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
@@ -31,7 +36,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.subsystems.vision.Vision;
 import frc.robot.util.Align;
+import frc.robot.util.LimeLight;
 import frc.robot.util.dashboard.TabManager;
 import frc.robot.util.dashboard.TabManager.SubsystemTab;
 
@@ -67,6 +74,17 @@ public class Drive extends SubsystemBase {
     private final RelativeEncoder leftEncoder = lsparkA.getEncoder();
     private final RelativeEncoder rightEncoder = rsparkA.getEncoder();
 
+    private final LimeLight limeLight = new LimeLight();
+    private final AHRS gyro = new AHRS();
+
+    public static final Align alignment = new Align();
+    public static final Field2d m_field = new Field2d();
+
+    private final Vision visionSystem = new Vision(limeLight, gyro);
+
+    // private final DifferentialDriveOdometry odometry;
+    private final DifferentialDrivePoseEstimator poseEstimator;
+
     // Custom Devices Include CANSparkMax Integrated Encoders
     int m1 = SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [1]");
 
@@ -79,28 +97,15 @@ public class Drive extends SubsystemBase {
     SimDouble m2_encoderVel = new SimDouble(SimDeviceDataJNI.getSimValueHandle(m1, "Velocity"));
 
     // For inital sim testing
-    private final AHRS gyro = new AHRS();
-
     int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
     SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
 
-    // private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-    // private ADXRS450_GyroSim gyroSim = new ADXRS450_GyroSim(gyro);
-
-    private final DifferentialDriveOdometry odometry;
-
     private boolean invert;
 
-    public static final Field2d m_field = new Field2d();
-    
-
-    public static final PIDController drivepid = new PIDController(AutoConstants.DRIVE_KP, AutoConstants.DRIVE_KI,
-            AutoConstants.DRIVE_KD);
-
-    public static final Align alignment = new Align();
+    public static final PIDController drivepid = new PIDController(AutoConstants.DRIVE_KP, AutoConstants.DRIVE_KI,AutoConstants.DRIVE_KD);
 
     private NetworkTableEntry gyroAngle;
-    // private static final Alignment alignment;
+
     public Drive() {
 
         drivepid.setTolerance(0.5);
@@ -143,14 +148,27 @@ public class Drive extends SubsystemBase {
         rightEncoder
                 .setPositionConversionFactor((1 / AutoConstants.kDriveGearRatio) * 2 * Math.PI * Units.inchesToMeters(3.0));
 
-        gyro.calibrate();
+        
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+                zeroHeading();
+            } catch (Exception e) {
+            }
+         }).start();
 
         // Zero Encoders
         resetEncoders();
-        // Sets the robot Position in a 2D Space
-        odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
 
-        
+        // odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
+
+        poseEstimator = new DifferentialDrivePoseEstimator(new Rotation2d(0), new Pose2d(),
+        new MatBuilder<>(Nat.N5(), Nat.N1()).fill(0.02, 0.02, 0.01, 0.02, 0.02), // State measurement standard deviations. X, Y, theta.
+        new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, 0.01), // Local measurement standard deviations. Left encoder, right encoder, gyro.
+        new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.01)); // Global measurement standard deviations. X, Y, and theta.
+
+
+        poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.01));
 
         //Shuffleboard Data
         ShuffleboardTab driveData = TabManager.getInstance().accessTab(SubsystemTab.DRIVETRAIN);
@@ -163,19 +181,26 @@ public class Drive extends SubsystemBase {
 
     @Override
     public void periodic() {
-        odometry.update(gyro.getRotation2d(),
-                leftEncoder.getPosition(),
-                rightEncoder.getPosition());
+        // odometry.update(gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
+
+        poseEstimator.update(gyro.getRotation2d(), getWheelSpeeds(), leftEncoder.getPosition(), rightEncoder.getPosition());
+
+        if (limeLight.getTv() == 1.0){
+            poseEstimator.addVisionMeasurement(visionSystem.getVisionPose(), Timer.getFPGATimestamp());
+        }
+
         updateShuffleboard();
         simPeriodic();
     }
 
-    public void updateTab() {
-
-    }
-
+    /*
     public Pose2d getPose() {
         return odometry.getPoseMeters();
+    }
+    */
+
+    public Pose2d getPoseEstimate(){
+        return poseEstimator.getEstimatedPosition();
     }
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
@@ -189,7 +214,12 @@ public class Drive extends SubsystemBase {
 
     public void resetOdometry(Pose2d pose) {
         resetEncoders();
-        odometry.resetPosition(pose, gyro.getRotation2d());
+        // odometry.resetPosition(pose, gyro.getRotation2d());
+    }
+
+    public void resetPoseEstimator(Pose2d pose) {
+        resetEncoders();
+        poseEstimator.resetPosition(pose, gyro.getRotation2d());
     }
 
     public void resetEncoders() {
@@ -396,7 +426,7 @@ public class Drive extends SubsystemBase {
 
     private void updateShuffleboard(){
         gyroAngle.setDouble(gyro.getYaw());        
-        m_field.setRobotPose(odometry.getPoseMeters());
+        m_field.setRobotPose(getPoseEstimate());
     }
 
     // simulation code for differential drive sim
