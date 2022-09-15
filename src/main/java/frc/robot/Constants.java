@@ -65,10 +65,10 @@ public class Constants {
     public static final int[] DRIVE_RIGHT_PORTS = { 1, 2, 3 };
     public static final int[] DRIVE_LEFT_PORTS = { 4, 5, 6 };
 
-    public static final double DRIVE_FORWARD_SPEED = 0.65;
-    public static final double DRIVE_REGULAR_POWER = 0.65;
+    public static final double DRIVE_FORWARD_SPEED = 0.4; //all slow mode  
+    public static final double DRIVE_REGULAR_POWER = 0.4;
     public static final double DRIVE_SLOW_POWER = 0.4;
-    public static final double DRIVE_TURBO_POWER = 0.9;
+    public static final double DRIVE_TURBO_POWER = 0.4;
 
     // Climb Constants
     public static final int[] CLIMB_MOTORS_ID = { 11, 12 };
