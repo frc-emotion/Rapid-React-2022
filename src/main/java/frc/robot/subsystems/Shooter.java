@@ -187,11 +187,13 @@ public class Shooter extends SubsystemBase {
      */
     public void spinUp() {
         // TESTING ONLY COMMENT OUT DURING COMPETITION
-        if (target_macro == Macro.Testing) {
+       /* if (target_macro == Macro.Testing) {
             spinAt(SmartDashboard.getNumber("ShooterTestRPM", 1600));
         } else {
             spinAt(target_macro.target_rpm);
         }
+        */
+        spinAt(600);
     }
 
     /**
