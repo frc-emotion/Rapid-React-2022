@@ -36,7 +36,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.Constants.AutoConstants;
-import frc.robot.subsystems.vision.Vision;
+// import frc.robot.subsystems.vision.Vision;
 import frc.robot.util.Align;
 import frc.robot.util.LimeLight;
 import frc.robot.util.dashboard.TabManager;
@@ -80,7 +80,7 @@ public class Drive extends SubsystemBase {
     public static final Align alignment = new Align();
     public static final Field2d m_field = new Field2d();
 
-    private final Vision visionSystem = new Vision(limeLight, gyro);
+    // private final Vision visionSystem = new Vision(limeLight, gyro);
 
     // private final DifferentialDriveOdometry odometry;
     private final DifferentialDrivePoseEstimator poseEstimator;
@@ -185,9 +185,9 @@ public class Drive extends SubsystemBase {
 
         poseEstimator.update(gyro.getRotation2d(), getWheelSpeeds(), leftEncoder.getPosition(), rightEncoder.getPosition());
 
-        if (limeLight.getTv() == 1.0){
-            poseEstimator.addVisionMeasurement(visionSystem.getVisionPose(), Timer.getFPGATimestamp());
-        }
+        // if (limeLight.getTv() == 1.0){
+        //     poseEstimator.addVisionMeasurement(visionSystem.getVisionPose(), Timer.getFPGATimestamp());
+        // }
 
         updateShuffleboard();
         simPeriodic();
@@ -417,7 +417,7 @@ public class Drive extends SubsystemBase {
         // Our drivers prefer tankDrive
         // invert will switch R and L
         if (invert) {
-            drive.tankDrive(-driveR, -driveL);
+            drive.tankDrive(driveR, driveL);
         } else {
             drive.tankDrive(driveL, driveR);
 

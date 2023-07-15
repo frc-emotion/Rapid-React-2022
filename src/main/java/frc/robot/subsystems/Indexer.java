@@ -11,13 +11,15 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.util.dashboard.TabManager;
 import frc.robot.util.dashboard.TabManager.SubsystemTab;
-
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class Indexer extends SubsystemBase {
 
-    private WPI_TalonFX mIndexer;
+    private CANSparkMax mIndexer;
     private DigitalInput bottomsensor, topsensor, intakesensorR, intakesensorL;
     boolean indexerStat; // true means indexer is enabled, false is disabled
     boolean firstBall;
@@ -31,10 +33,13 @@ public class Indexer extends SubsystemBase {
     NetworkTableEntry ballCount;
 
     public Indexer() {
-        mIndexer = new WPI_TalonFX(Constants.INDEXERFALCON);
-        mIndexer.configFactoryDefault();
-        mIndexer.setInverted(InvertType.None);
-        mIndexer.setNeutralMode(NeutralMode.Brake);
+        mIndexer = new CANSparkMax(Constants.INDEXERFALCON, MotorType.kBrushless);
+        // mIndexer.configFactoryDefault();
+        // mIndexer.setInverted(InvertType.None);
+        // mIndexer.setNeutralMode(NeutralMode.Brake);
+        mIndexer.setIdleMode(IdleMode.kBrake);
+        mIndexer.setSmartCurrentLimit(45);
+        mIndexer.setSecondaryCurrentLimit(45);
 
         intakesensorR = new DigitalInput(Constants.INTAKESENSORR);
         intakesensorL = new DigitalInput(Constants.INTAKESENSORL);

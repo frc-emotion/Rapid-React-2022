@@ -33,7 +33,8 @@ import frc.robot.util.dashboard.TabManager.SubsystemTab;
 
 public class Shooter extends SubsystemBase {
     private CANSparkMax mHood;
-    private WPI_TalonFX mL, mR;
+    // private CANSparkMax mL, mR;
+    private CANSparkMax shooter;
     private DigitalInput mLimit;
     private LimeLight LL;
     private Distance distance;
@@ -72,8 +73,9 @@ public class Shooter extends SubsystemBase {
     }
 
     public Shooter() {
-        mL = new WPI_TalonFX(Constants.SHOOTER_LEFT_PORT);
-        mR = new WPI_TalonFX(Constants.SHOOTER_RIGHT_PORT);
+        // mL = new CANSparkMax(Constants.SHOOTER_LEFT_PORT, MotorType.kBrushless);
+        shooter = new CANSparkMax(Constants.SHOOTER_PORT, MotorType.kBrushless);
+        // mR = new CANSparkMax(Constants.SHOOTER_RIGHT_PORT, MotorType.kBrushless);
 
         distance = new Distance(Constants.MOUNTING_HEIGHT, Constants.MOUNTING_ANGLE, Constants.REFERENCE_HEIGHT);
         LL = new LimeLight();
@@ -85,24 +87,36 @@ public class Shooter extends SubsystemBase {
         ShooterTable = new InterpolatingTreeMap(MacroTable);
         ShooterTable.interpolate(1);
 
-        mL.configFactoryDefault();
-        mR.configFactoryDefault();
+        // shooter.configFactoryDefault();
+        // mR.configFactoryDefault();
 
-        mL.setInverted(InvertType.InvertMotorOutput);
-        mR.setInverted(InvertType.None);
+        // shooter.setInverted(InvertType.InvertMotorOutput);
+        // mR.setInverted(InvertType.None);
 
-        mL.setNeutralMode(NeutralMode.Coast);
-        mR.setNeutralMode(NeutralMode.Coast);
+        // shooter.setInverted(true);
+        // mR.setInverted(false);
 
-        mL.configVoltageCompSaturation(Constants.SHOOTER_NOMINAL_VOLTAGE);
-        mL.enableVoltageCompensation(true);
-        mR.configVoltageCompSaturation(Constants.SHOOTER_NOMINAL_VOLTAGE);
-        mR.enableVoltageCompensation(true);
+        // shooter.setNeutralMode(NeutralMode.Coast);
+        // mR.setNeutralMode(NeutralMode.Coast);
 
-        mR.follow(mL); // Inversion set before
+        shooter.setIdleMode(IdleMode.kBrake);
+        // mR.setIdleMode(IdleMode.kBrake);
 
-        mL.config_kP(0, Constants.SHOOTER_KP);
-        mL.config_kD(0, Constants.SHOOTER_KD);
+        // shooter.configVoltageCompSaturation(Constants.SHOOTER_NOMINAL_VOLTAGE);
+        // shooter.enableVoltageCompensation(true);
+        // mR.configVoltageCompSaturation(Constants.SHOOTER_NOMINAL_VOLTAGE);
+        // mR.enableVoltageCompensation(true);
+
+        // shooter.enableVoltageCompensation(Constants.SHOOTER_NOMINAL_VOLTAGE);
+        // mR.enableVoltageCompensation(Constants.SHOOTER_NOMINAL_VOLTAGE);
+
+        // mR.follow(mL); // Inversion set before
+
+        // shooter.config_kP(0, Constants.SHOOTER_KP);
+        // shooter.config_kD(0, Constants.SHOOTER_KD);
+
+        shooter.getPIDController().setP(Constants.SHOOTER_KP);
+        shooter.getPIDController().setD(Constants.SHOOTER_KD);
 
         mHood = new CANSparkMax(Constants.SHOOTER_HOOD_PORT, MotorType.kBrushless);
 
@@ -154,7 +168,7 @@ public class Shooter extends SubsystemBase {
         } else if (Math.abs(Robot.operatorController.getLeftY()) >= Constants.JOYSTICK_THRESHOLD) {
             teleopHood();
         } else if (Robot.operatorController.getBButton()) {
-            mL.set(-0.1);
+            shooter.set(-0.1);
         } else if (Robot.operatorController.getPOV() != -1) {
             switch (Robot.operatorController.getPOV()) {
                 case 0:
@@ -194,7 +208,7 @@ public class Shooter extends SubsystemBase {
      */
     public void stop() {
         mHood.stopMotor();
-        mL.stopMotor();
+        shooter.stopMotor();
     }
 
     /**
@@ -230,7 +244,7 @@ public class Shooter extends SubsystemBase {
         if (target_macro == Macro.Testing) {
             spinAt(SmartDashboard.getNumber("ShooterTestRPM", 1600));
         } else {
-            spinAt(target_macro.target_rpm);
+            spinAt(-target_macro.target_rpm);
         }
     }
 
@@ -247,9 +261,10 @@ public class Shooter extends SubsystemBase {
      * @param rpm target rpm
      */
     private void spinAt(double rpm) {
-        mL.set(ControlMode.Velocity, toNative(rpm),
-                DemandType.ArbitraryFeedForward,
-                mFeedForward.calculate(rpm / 60) / Constants.SHOOTER_NOMINAL_VOLTAGE);
+        // shooter.set(ControlMode.Velocity, toNative(rpm),
+        //         DemandType.ArbitraryFeedForward,
+        //         mFeedForward.calculate(rpm / 60) / Constants.SHOOTER_NOMINAL_VOLTAGE);
+        shooter.getPIDController().setReference(rpm, ControlType.kVelocity);
     }
 
     /**
@@ -365,7 +380,7 @@ public class Shooter extends SubsystemBase {
      * @return
      */
     public double getRPM() {
-        return toRPM(mL.getSelectedSensorVelocity());
+        return toRPM(shooter.getEncoder().getPosition());
     }
 
     /**

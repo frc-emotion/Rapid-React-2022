@@ -49,13 +49,13 @@ public class Constants {
   public static final int TALON_MAX_CURRENT = 40;
 
   // intake
-  public static final int INTAKE_PORT = 7;
+  public static final int INTAKE_PORT = 10;
   public static final int[] PNEUMATIC_INTAKE_PORTS = { 7, 3 }; // 0, 6 };
   public static final double INTAKE_SPEED = 0.50;
   public static final double REVERSE_INTAKE_SPEED = 0.65;
 
   // indexer
-  public static final int INDEXERFALCON = 13;
+  public static final int INDEXERFALCON = 20;
   public static final int BOTTOMSENSOR = 0;
   public static final int TOPSENSOR = 1;
   public static final int INTAKESENSORR = 3;
@@ -64,8 +64,8 @@ public class Constants {
   public static final double SHOOTINDEXINGSPEED = 0.6;
 
   // drivetrain
-  public static final int[] DRIVE_RIGHT_PORTS = { 1, 2, 3 };
-  public static final int[] DRIVE_LEFT_PORTS = { 4, 5, 6 };
+  public static final int[] DRIVE_RIGHT_PORTS = { 4, 5, 6 };
+  public static final int[] DRIVE_LEFT_PORTS = { 1, 9, 3 };
 
   public static final double DRIVE_FORWARD_SPEED = 0.65;
   public static final double DRIVE_REGULAR_POWER = 0.65;
@@ -93,8 +93,8 @@ public class Constants {
 
   // Shooter Constants
   public static final int SHOOTER_HOOD_PORT = 8;
-  public static final int SHOOTER_LEFT_PORT = 9;
-  public static final int SHOOTER_RIGHT_PORT = 10;
+  public static final int SHOOTER_PORT = 12;
+  // public static final int SHOOTER_RIGHT_PORT = 10;
 
   public static final int SHOOTER_LIMIT_PORT = 2;
 
@@ -132,7 +132,7 @@ public class Constants {
   public static final double SHOOTER_KV = 0.12235;
   public static final double SHOOTER_KA = 0.062135;
 
-  public static final double SHOOTER_KP = 0.003793;
+  public static final double SHOOTER_KP = 0.7;
   public static final double SHOOTER_KD = 0;
 
   // FOR STEALTH WHEELS
