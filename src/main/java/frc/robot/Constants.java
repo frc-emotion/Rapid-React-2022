@@ -49,7 +49,7 @@ public class Constants {
   public static final int TALON_MAX_CURRENT = 40;
 
   // intake
-  public static final int INTAKE_PORT = 10;
+  public static final int INTAKE_PORT = 12;
   public static final int[] PNEUMATIC_INTAKE_PORTS = { 7, 3 }; // 0, 6 };
   public static final double INTAKE_SPEED = 0.50;
   public static final double REVERSE_INTAKE_SPEED = 0.65;
@@ -93,7 +93,7 @@ public class Constants {
 
   // Shooter Constants
   public static final int SHOOTER_HOOD_PORT = 8;
-  public static final int SHOOTER_PORT = 12;
+  public static final int SHOOTER_PORT = 10;
   // public static final int SHOOTER_RIGHT_PORT = 10;
 
   public static final int SHOOTER_LIMIT_PORT = 2;

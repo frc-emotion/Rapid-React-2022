@@ -24,7 +24,7 @@ public class RobotContainer {
   private final Shooter shoot = new Shooter();
   private final Indexer index = new Indexer();
   private final Intake intaker = new Intake();
-  private final Climb climb = new Climb();
+  //private final Climb climb = new Climb();
 
 
   //Define a command to match trajectories to auton routines
@@ -47,7 +47,8 @@ public class RobotContainer {
   }
 
   public Command getTeleopCommand() {
-    return new TeleopCommand(drive, index, intaker, shoot, climb);
+    //return new TeleopCommand(drive, index, intaker, shoot, climb);
+    return new TeleopCommand(drive, index, intaker, shoot);
   }
 
   public Command runOne() {

@@ -9,15 +9,14 @@ import frc.robot.subsystems.Shooter;
 
 public class TeleopCommand extends ParallelCommandGroup{
 
-    public TeleopCommand(Drive drive, Indexer index, Intake intake, Shooter shoot, Climb climb){
+    public TeleopCommand(Drive drive, Indexer index, Intake intake, Shooter shoot){
 
 
         addCommands(
             new DriveCommand(drive),
             new ShooterTeleop(shoot),
             new IntakeTeleop(intake),
-            new IndexTeleop(index),
-            new ClimbTeleop(climb)
+            new IndexTeleop(index)
         );
     }
     

@@ -100,6 +100,8 @@ public class Shooter extends SubsystemBase {
         // mR.setNeutralMode(NeutralMode.Coast);
 
         shooter.setIdleMode(IdleMode.kBrake);
+        shooter.setSecondaryCurrentLimit(Constants.NEO_MAX_CURRENT);
+        shooter.setSmartCurrentLimit(Constants.NEO_MAX_CURRENT);
         // mR.setIdleMode(IdleMode.kBrake);
 
         // shooter.configVoltageCompSaturation(Constants.SHOOTER_NOMINAL_VOLTAGE);
@@ -157,7 +159,8 @@ public class Shooter extends SubsystemBase {
      */
     public void run() {
         if (Robot.operatorController.getRightTriggerAxis() >= Constants.TRIGGER_THRESHOLD) {
-            shoot();
+            shooter.set(0.2);
+            //shoot();
             /**
              * if (Robot.operatorController.getPOV() == -1){
              * spinUpTable();
@@ -264,7 +267,8 @@ public class Shooter extends SubsystemBase {
         // shooter.set(ControlMode.Velocity, toNative(rpm),
         //         DemandType.ArbitraryFeedForward,
         //         mFeedForward.calculate(rpm / 60) / Constants.SHOOTER_NOMINAL_VOLTAGE);
-        shooter.getPIDController().setReference(rpm, ControlType.kVelocity);
+        //shooter.getPIDController().setReference(rpm, ControlType.kVelocity);
+        shooter.set(0.1);
     }
 
     /**
